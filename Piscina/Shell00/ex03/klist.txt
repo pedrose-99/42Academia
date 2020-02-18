@@ -1,0 +1,6 @@
+Credentials cache: API:4730
+        Principal: pserrano@42MADRID.COM
+
+  Issued                Expires               Principal
+Sep 30 14:29:26 2019  Oct  1 00:29:26 2019  krbtgt/42MADRID.COM@42MADRID.COM
+Sep 30 14:29:27 2019  Oct  1 00:29:26 2019  HTTP/student-storage.42madrid.com@42MADRID.COM
