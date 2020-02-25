@@ -47,7 +47,7 @@ int main ()
 		// Estos ejemplos de flags no influyen en la cadena
 	ft_printf("X%-sFIN\n", "hola");
 	ft_printf("X%0sFIN\n", "hola");
-	ft_printf("X%-0sFIN\n", "hola");
+	ft_printf("X%-0sFIN\n", "hola"); // no mirar el printf no funcions con -0
 	ft_printf("X%0.7sFIN\n", "hola");
 	ft_printf("X%-.7sFIN\n", "hola");
 ​
