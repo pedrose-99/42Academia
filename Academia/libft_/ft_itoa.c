@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 12:15:51 by pserrano          #+#    #+#             */
-/*   Updated: 2019/12/10 10:39:07 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/02/27 10:32:33 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ char	*ft_itoa(int n)
 	if (new == 0)
 		return (NULL);
 	ft_putnum(new, n, l);
+	free(new);
 	return (new);
 }

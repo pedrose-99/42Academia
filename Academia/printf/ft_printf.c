@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 07:47:45 by pserrano          #+#    #+#             */
-/*   Updated: 2020/02/25 12:46:39 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/02/27 12:05:25 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@ void	ft_putchar(char c)
 	write(1, &c, 1);
 }
 
-/* int		ft_typeflag(char c)
+ int		ft_typeflag(char c)
 {
-	if (c == 'd')
-
+	if (cosa[i] == 'd')
+	{
+		i++;
+		p = va_arg(ap, int);
+	}
 	if (c == 'c')
 
 	if (c == 'e')
@@ -45,36 +48,70 @@ void	ft_putchar(char c)
 
 	if (ft_isnum(c))
 	
-}*/
+}
 
+
+int		ft_case_first_num(va_list ap)
+{
+	va_list next;
+	int		num; // hacer un tipo de variable que englobe a todos los numeros (esperar a Mi niño)
+	int		tam;
+	char	*numdef;
+
+
+	va_copy(next, ap);
+	if (cosa[f->pos++] == '0')
+	{
+		num = va_arg(next, int) //hacer un tipo de variable que englobe a todos los numeros (esperar a Mi niño)
+		tam = ft_strlen(num);
+		res = tam - cosa[f->pos];
+		if (ft_isneg(num));
+		{
+			ft_putchar('-');
+			res--;
+		}
+		while (res > 0)
+		{
+			ft_putchar('0');
+			res--;
+		}
+		numfef = itoa((num);
+		ft_putstr(numdef);
+	}
+	if (cosa[f->pos] == '-')
+	{
+		
+	}
+}
+
+ 
 int		ft_printf(const char *cosa, ...)
 {
 	va_list ap;
-	int i;
-	int p;
-	int n;
+	t_list	*f;
+	int		i;
 
-	n = 0;
 	i = 0;
+	//if(!(f = malloc(sizeof(t_list) *  )))
+		return (-1);
 	va_start(ap, cosa);
-	if (cosa[i] == '%')
+	while (cosa[i])
 	{
-		i++;
-		if (cosa[i] == 'd')
+		if (cosa[i] == '%')
 		{
-			i++;
-			p = va_arg(ap, int);
+			ft_alm_datos(&cosa[i]);
+			i = f->numdespec + i;
 		}
-	write(1, &p, 1);
-	n++;
+		else
+		{
+			ft_putchar(cosa[i]);
+			i++;
+			f->cont++;
+		}
 	}
-	va_end(ap);
-	return (n);
-
-}
-
+}*/
 int		main(void)
 {
-	printf("hola a todos %-0qd hola'\n", 3);
-	ft_printf("%d", 3);
+	printf("hola %0-7d holabuenosdoas", 89);
+	//ft_printf("%f",);
 }
