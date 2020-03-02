@@ -26,7 +26,7 @@ typedef struct		s_list
 	int			cont; //contar el numero de "letras"
 	int			pos; //posicion del string
 
-	int			spec; //el tipo de letra que sea(s, d, u)
+	char		spec; //el tipo de letra que sea(s, d, u)
 
 	int			space; //' '
 	int			zero; 

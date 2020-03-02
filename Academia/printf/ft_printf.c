@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
+/*
 void	ft_putchar(char c)
 {
 	write(1, &c, 1);
@@ -84,18 +84,18 @@ int		ft_printf(const char *cosa, ...)
 	va_start(f->ap, cosa);
 	while (cosa[f->pos])
 	{
-		if (cosa[f->pos] == '%')
+		if (*cosa == '%')
 			ft_store_data(cosa, f);
 		else
 		{
-			ft_putchar(cosa[f->pos]);
-			f->pos++;
+			ft_putchar(*cosa);
+			cosa++;
 			f->cont++;
 		}
 	}
 }*/
 int		main(void)
 {
-	printf("hola %0*.*f holabuenosdoas",100,4, 89.24567);
+	printf("hola %-*.2d holabuenosdoas",100, 89);
 	//ft_printf("f",);
 }
