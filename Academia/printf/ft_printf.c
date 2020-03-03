@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 07:47:45 by pserrano          #+#    #+#             */
-/*   Updated: 2020/02/28 10:43:21 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/03/03 14:46:23 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,6 @@ int		ft_printf(const char *cosa, ...)
 }*/
 int		main(void)
 {
-	printf("hola %-*.2d holabuenosdoas",100, 89);
+	printf("%d", printf("%-0d", 22));
 	//ft_printf("f",);
 }
