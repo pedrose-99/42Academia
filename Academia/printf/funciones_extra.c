@@ -6,11 +6,24 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 10:04:18 by pserrano          #+#    #+#             */
-/*   Updated: 2020/02/28 10:05:28 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/03/05 16:27:15 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+int	ft_strlen(char *str)
+{
+	int size;
+
+	size = 0;
+	while (*str)
+	{
+		str++;
+		size++;
+	}
+	return (size);
+}
 
 int		ft_count_nb(int nb)
 {
@@ -70,7 +83,6 @@ char	*ft_itoa(int n)
 	if (new == 0)
 		return (NULL);
 	ft_putnum(new, n, l);
-	free(new);
 	return (new);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 09:12:57 by pserrano          #+#    #+#             */
-/*   Updated: 2020/03/03 14:04:35 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/03/06 07:22:17 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void init_struct(t_list *f)
 {
-	f->cont = -1;
+	f->cont = 0;
 	f->spec = -1;
-	f->len = -1;
+	f->len = 0;
 	f->minus = -1;
 	f->precision = -1;
 	f->width = -1;
@@ -25,7 +25,7 @@ void init_struct(t_list *f)
 
 int is_specifier(char c)
 {
-	if (c == 'c' || c == 'd' || c == 'i' || c == 'o' || c == 's' ||
+	if (c == 'c' || c == 'd' || c == 'i' || c == 's' ||
 		c == 'u' || c == 'x' || c == '%' || c == 'X' || c == 'p')
 		return (1);
 	else
@@ -83,9 +83,8 @@ int ft_printf(const char *cosa, ...)
 		}
 		else
 		{
-			ft_putchar(*cosa);
+			ft_putchar(*cosa, &f);
 			cosa++;
-			f.cont++;
 		}
 	}
 	return (1);
@@ -98,7 +97,7 @@ int main(void)
 }
 
 /*
-			printf("%d\n", f.minus);
+			printf("%d\n", f.minus
 			printf("%d\n", f.zero);
 			printf("%d\n", f.width);;
 			printf("%d\n", f.precision);

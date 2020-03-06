@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 09:54:27 by pserrano          #+#    #+#             */
-/*   Updated: 2020/03/03 12:03:09 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/03/05 11:38:29 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ typedef struct		s_list
 	int			minus; //'-'
 	int			width; //ancho 0 10000
 	int			precision; // para la precision
-	int			len; // tamaño del string/num
+	int			len; // tamaño del string/num?
 }					t_list;
 #endif
