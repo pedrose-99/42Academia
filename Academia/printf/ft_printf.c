@@ -233,7 +233,49 @@ int		main(void)
 	//ft_printf("f",);
 }
 
-/*
+/*void	print_int(t_list *f)
+{
+	int		i;
+	int		tam_num;
+	char	*p;
+
+	i = va_arg(f->ap, int);
+	p = ft_itoa(i);
+	tam_num = ft_strlen(p);
+	if (f->zero && f->precision && (!(f->minus)))
+		print_spozero(p, tam_num, f);
+	else if ((f->minus > 0) && (f->precision > 0) || (f->zero > 0))
+	{
+		print_zero((f->precision - tam_num), f);
+		print_cosita(p, f);
+		print_space((f->width - f->precision), f);
+	}
+	else if (f->minus > 0)
+	{
+		print_cosita(p, f);
+		print_space((f->width - tam_num), f);
+	}
+	else if (f->zero > 0)
+	{
+		print_zero((f->width - tam_num), f);
+		print_cosita(p, f);
+	}
+	else if (f->precision  > 0)
+	{
+		print_zero((f->precision - tam_num), f);
+		print_cosita(p, f);
+	}
+	else if ((f->zero < 0) && ((f->minus < 0)) && (f->width > 0))
+	{
+		print_space((f->width - tam_num), f);
+		print_cosita(p, f);
+	}
+	else if ((f->zero < 0) && ((f->minus < 0)) && (f->precision > 0))
+	{
+		print_zero((f->precision - tam_num), f);
+		print_cosita(p, f);
+	}
+}
 si un unsigned int es negativo resta el mayor unsigned int 4,294,967,295+1 -(el numero que has puesto)
 ej = %u, -1 ==== 4,294,967,295.
 si 05.0d, 22 === (   22)
