@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 08:59:54 by pserrano          #+#    #+#             */
-/*   Updated: 2020/03/06 09:09:00 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/03/10 13:08:49 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,28 +171,51 @@ void	print_cosita(char *p, t_list *f)
 	//free(p);
 }
 
-char	*print_menos(int	num, char *p, t_list *f)
+char	*print_menos(int num, char *p, t_list *f)
 {
 	if (num < 0)
 	{
 		ft_putchar('-', f);
-		*p++;
+		p++;
 	}
 	return (p);
 }
-void	print_spozero(char *p, int tam_num, t_list *f) //num de espacios o zeros
+
+void	case_zero_prec(char *p, int tam_num, t_list *f)
 {
-	int		zeros;
-	int		spaces;
-
-
 	if (f->precision < tam_num)
-		spaces = f->width - tam_num;
-	else 
-		spaces = f->width - f->precision;
-	print_space(spaces, f);
-	zeros = f->precision - tam_num;
-	print_zero(zeros, f);
+		print_space(f->width - tam_num, f);
+	else
+		print_space(f->width - f->precision, f);
+	print_zero(f->precision - tam_num, f);
+	print_cosita(p, f);
+}
+
+void	case_minus_prec(char *p, int i, int tam_num, t_list *f)
+{
+	p = print_menos(i, p, f);
+	if (i < 0)
+		tam_num--;
+	print_zero(f->precision - tam_num, f);
+	print_cosita(p, f);
+	if (i < 0 && f->precision > tam_num)
+		print_space(f->width - f->precision - 1, f);
+	else if (i > 0 && f->precision > tam_num)
+		print_space(f->width - f->precision, f);
+	else if (f->precision < tam_num)
+		print_space((f->width - tam_num), f);
+}
+
+void	case_width_prec(char *p, int i, int tam_num, t_list *f)
+{
+	if (i < 0)
+		print_space(f->width - f->precision - 1, f);
+	else
+		print_space(f->width - f->precision, f);
+	p = print_menos(i, p, f);
+	if (i < 0)
+		tam_num--;
+	print_zero(f->precision - tam_num, f);
 	print_cosita(p, f);
 }
 
@@ -205,53 +228,25 @@ void	print_int(t_list *f)
 	i = va_arg(f->ap, int);
 	p = ft_itoa(i);
 	tam_num = ft_strlen(p);
-	if ((f->zero > 0) && (f->precision > 0) && (f->minus < 0))
-		print_spozero(p, tam_num, f);
-	else if ((f->minus > 0) && (f->precision > 0) && (f->zero > 0))
-	{
-		p = print_menos(i, p, f);
-		print_zero((f->precision - tam_num), f);
-		print_cosita(p, f);
-		if (f->precision > tam_num)
-			print_space((f->width - f->precision), f);
-		else
-			print_space((f->width - tam_num), f);
-	}
-		else if ((f->minus > 0) && (f->precision > 0))
-	{
-		print_zero((f->precision - tam_num), f);
-		print_cosita(p, f);
-		if (f->precision > tam_num)
-			print_space((f->width - f->precision), f);
-		else
-			print_space((f->width - tam_num), f);
-	}
-	else if (f->minus > 0)
+	if ((f->zero > 0) && (f->precision > 0))
+		case_zero_prec(p, tam_num, f);
+	else if (f->minus > 0 && f->precision <= 0)
 	{
 		print_cosita(p, f);
 		print_space((f->width - tam_num), f);
 	}
-	else if (f->zero > 0)
-	{
-		p = print_menos(i, p, f);
-		print_zero((f->width - tam_num), f);
-		print_cosita(p, f);
-	}
-	else if (f->precision > 0)
-	{
-		print_zero((f->precision - tam_num), f);
-		print_cosita(p, f);
-	}
-	else if ((f->zero < 0) && (f->minus < 0) && f->width)
+	else if ((f->zero > 0 && f->precision < 0)
+		|| (f->zero < 0 && f->precision > 0 && f->minus < 0))
+		case_zero_o_prec(p, tam_num, f);
+	else if ((f->minus < 0) && f->width > 0 && f->precision <= 0)
 	{
 		print_space((f->width - tam_num), f);
 		print_cosita(p, f);
 	}
-		else if ((f->zero < 0) && (f->minus < 0) && f->precision)
-	{
-		print_zero((f->precision - tam_num), f);
-		print_cosita(p, f);
-	}
+	else if (f->minus > 0 && f->precision > 0)
+		case_minus_prec(p, i, tam_num, f);
+	else if (f->minus < 0 && f->width > 0 && f->precision > 0)
+		case_width_prec(p, i, tam_num, f);
 }
 void init_struct(t_list *f)
 {
@@ -303,6 +298,17 @@ char 	*ft_store_data(char *cosa, t_list *f)
 	return (cosa);
 }
 
+void	ft_store_data_def(t_list *f)
+{
+	if (f->width < 0)
+	{
+		f->minus = 1;
+		f->width = f->width * (-1);
+	}
+	if (f->minus > 0)
+		f->zero = -1;
+}
+
 int ft_printf(const char *cosa, ...)
 {
 	t_list f;
@@ -316,6 +322,7 @@ int ft_printf(const char *cosa, ...)
 		if (*cosa == '%')
 		{
 			cosa = ft_store_data((char*)(cosa + 1), &f);
+			ft_store_data_def(&f);
 			f.spec = *(cosa++);
 		/*	printf("%d\n", f.minus);
 			printf("%d\n", f.zero);
@@ -348,14 +355,14 @@ int		main(void)
 	//printf("%0-6.3dg\n", 22);
 	//print_spozero(22, 6, 6);
 	//ft_printf("%0-6.3d", 22);
-/*	ft_printf("%-0*.3dFIN\n", 4, 42);
+	ft_printf("%-0*.3dFIN\n", 4, 42);
 	ft_printf("%0*.1dFIN\n", 4, -42);
 	ft_printf("%-2.3dFIN\n", 42);
 	ft_printf("%*dFIN\n", 4, -42);
 	ft_printf("%-04.1dFIN\n", 42);
-*/	ft_printf("%-*.5dFIN\n", 7, -42);//
+	ft_printf("%-*.5dFIN\n", 7, -42);//
 	ft_printf("%*.5dFIN\n", 7, -42);//
-/*	ft_printf("%*.7dFIN\n", 5, 42);
+	ft_printf("%*.7dFIN\n", 5, 42);
 	ft_printf("%0*dFIN\n", 4, -42);
 	ft_printf("%-dFIN\n", 42);
 	ft_printf("%-0dFIN\n", 42);
@@ -381,5 +388,5 @@ int		main(void)
 	printf("%0*dFIN\n", 1, 42);
 	printf("%.1dFIN\n", 42);
 	printf("%-.1dFIN\n", 42);
-	printf("%-*.2dFIN\n", 2, 42);*/
+	printf("%-*.2dFIN\n", 2, 42);
 }

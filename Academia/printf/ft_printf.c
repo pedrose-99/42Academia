@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 07:47:45 by pserrano          #+#    #+#             */
-/*   Updated: 2020/03/06 09:08:21 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/03/10 12:30:34 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,7 @@ void	print_spozero(int i, int width, int precision) //num de espacios o zeros
 
 int		main(void)
 {
-	printf("%.5d", 22);
+	printf("%.3d", 22);
 	//print_spozero(22, 6, 6);
 	//ft_printf("f",);
 }
