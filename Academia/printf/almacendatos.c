@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   almacendatos.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 09:12:57 by pserrano          #+#    #+#             */
-/*   Updated: 2020/03/06 07:22:17 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/03/14 13:55:43 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,17 @@ char 	*ft_store_data(char *cosa, t_list *f)
 	return (cosa);
 }
 
+void	ft_store_data_def(t_list *f)
+{
+	if (f->width < 0)
+	{
+		f->minus = 1;
+		f->width = f->width * (-1);
+	}
+	if (f->minus > 0)
+		f->zero = -1;
+}
+
 int ft_printf(const char *cosa, ...)
 {
 	t_list f;
@@ -75,6 +86,7 @@ int ft_printf(const char *cosa, ...)
 		if (*cosa == '%')
 		{
 			cosa = ft_store_data((char*)(cosa + 1), &f);
+			ft_store_data_def(&f);
 			f.spec = *(cosa++);
 			printf("%d\n", f.minus);
 			printf("%d\n", f.zero);
