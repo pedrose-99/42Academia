@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   funciones_extra.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 10:04:18 by pserrano          #+#    #+#             */
-/*   Updated: 2020/03/05 16:27:15 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/03/21 12:11:27 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	ft_strlen(char *str)
 	return (size);
 }
 
-int		ft_count_nb(int nb)
+int		ft_count_nb(long int nb)
 {
-	int				count;
+	long int		count;
 	unsigned int	c;
 
 	c = 0;
@@ -49,7 +49,7 @@ int		ft_count_nb(int nb)
 	return (count);
 }
 
-void	ft_putnum(char *s, int n, int l)
+void	ft_putnum(char *s, long int n, long int l)
 {
 	unsigned int c;
 
@@ -71,10 +71,10 @@ void	ft_putnum(char *s, int n, int l)
 	}
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa(long int n)
 {
 	char	*new;
-	int		l;
+	long int	l;
 
 	if (n < -2147483648)
 		return (NULL);
@@ -85,7 +85,6 @@ char	*ft_itoa(int n)
 	ft_putnum(new, n, l);
 	return (new);
 }
-
 
 static int	ft_is_space(char str)
 {

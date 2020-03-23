@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 07:47:45 by pserrano          #+#    #+#             */
-/*   Updated: 2020/03/10 12:30:34 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/03/23 21:54:49 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,95 +18,90 @@ void	ft_putchar(char c, t_list *f)
 	f->cont++;
 }
 
-int		ft_printf(const char *cosa, ...)
+int ft_printf(const char *cosa, ...)
 {
-	t_list	*f;
+	t_list f;
 
 	//if(!(f = malloc(sizeof(t_list) *  )))
 	//	return (-1);
-	init_struct(f);
-	va_start(f->ap, cosa);
-	while (cosa[f->pos])
+	init_struct(&f);
+	va_start(f.ap, cosa);
+	while (*cosa)
 	{
 		if (*cosa == '%')
-			ft_store_data(cosa, f);
+		{
+			cosa = ft_store_data((char*)(cosa + 1), &f);
+			ft_store_data_def(&f);
+			f.spec = *(cosa++);
+			printf("%d\n", f.minus);
+			printf("%d\n", f.zero);
+			printf("%d\n", f.width);;
+			printf("%d\n", f.precision);
+		}
 		else
 		{
-			ft_putchar(*cosa);
+			ft_putchar(*cosa, &f);
 			cosa++;
-			f->cont++;
 		}
 	}
-
+	return (1);
 }*/
-void	ft_putchar(char c)
+long int	trans_neg(long int i)
 {
-	write(1, &c, 1);
+	if (i < 0)
+		i = 4294967295 + i + 1;
+	return (i);
+}
+char	*type_p(char *def)
+{
+	int	p;
+	
+	p = 0;
+	def[p] = '0';
+	p++;
+	def[p] = 'x';
+	p++;
+	return (def);
 }
 
-void	print_cosita(char *p)
+char	 *trans_hexp(long int i, char c)
 {
-	while (*p)
+	long int			i_copy;
+	char				*hex_char;
+	char				*def;
+	int					count;
+
+	count = 3;
+	hex_char = "0123456789abcdef";
+	i_copy = trans_neg(i);
+	while (i_copy >= 16 && (i_copy /= 16))
+		count++;
+	i_copy = trans_neg(i);
+	if (!(def = (char*)malloc(sizeof(char) * (count + 1))))
+		return (NULL);
+	def[count] = '\0';
+	while (i_copy > 15)
 	{
-		ft_putchar(*p);
-		p++;
+		--count;
+		def[count] = hex_char[i_copy % 16];
+		i_copy /= 16;
 	}
-	//free(p);
+	def[--count] = hex_char[i_copy % 16];
+	def = type_p(def);
+	return (def);
 }
-
 int		main(void)
 {
-	printf("%03d", 22);
+	char	*f;
+	
+	f = trans_hexp(429, 'x');
+	printf("%p", 429);
+	printf("%s", f);
+	//printf("%x", -1);
 	//print_spozero(22, 6, 6);
 	//ft_printf("f",);
+
 }
 
-/*void	print_int(t_list *f)
-{
-	int		i;
-	int		tam_num;
-	char	*p;
-
-	i = va_arg(f->ap, int);
-	p = ft_itoa(i);
-	tam_num = ft_strlen(p);
-	if (f->zero && f->precision && (!(f->minus)))
-		print_spozero(p, tam_num, f);
-	else if ((f->minus > 0) && (f->precision > 0) || (f->zero > 0))
-	{
-		print_zero((f->precision - tam_num), f);
-		print_cosita(p, f);
-		print_space((f->width - f->precision), f);
-	}
-	else if (f->minus > 0)
-	{
-		print_cosita(p, f);
-		print_space((f->width - tam_num), f);
-	}
-	else if (f->zero > 0)
-	{
-		print_zero((f->width - tam_num), f);
-		print_cosita(p, f);
-	}
-	else if (f->precision  > 0)
-	{
-		print_zero((f->precision - tam_num), f);
-		print_cosita(p, f);
-	}
-	else if ((f->zero < 0) && ((f->minus < 0)) && (f->width > 0))
-	{
-		print_space((f->width - tam_num), f);
-		print_cosita(p, f);
-	}
-	else if ((f->zero < 0) && ((f->minus < 0)) && (f->precision > 0))
-	{
-		print_zero((f->precision - tam_num), f);
-		print_cosita(p, f);
-	}
-}
-si un unsigned int es negativo resta el mayor unsigned int 4,294,967,295+1 -(el numero que has puesto)
-ej = %u, -1 ==== 4,294,967,295.
-si 05.0d, 22 === (   22)
-si 05.1d, 22 === (   22) si precision < long(num) te rellena con espacios print num
-si 05.3d, 22 === (  022) si precision > long(num) pero precision < width == (espacios = width -(precision -long(num)) zeros = precision - long(num) print num
-si 05.10d, 22 === (0000000022) si precision > width y > long(num) zeros = precision - long num*/
+//si un unsigned int es negativo resta el mayor unsigned int 4,294,967,295+1 -(el numero que has puesto)
+//ej = %u, -1 ==== 4,294,967,295

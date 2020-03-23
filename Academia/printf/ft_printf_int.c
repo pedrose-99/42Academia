@@ -6,7 +6,7 @@
 /*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 08:59:54 by pserrano          #+#    #+#             */
-/*   Updated: 2020/03/14 13:57:14 by pedro            ###   ########.fr       */
+/*   Updated: 2020/03/21 12:01:22 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	case_zero_o_prec(int i, char *p, int tam_num, t_list *f)
 	print_cosita(p, f);
 }
 
-void	case_zero_prec(char *p, int tam_num, t_list *f)
+void	case_zero_prec(int i, int tam_num, char *p, t_list *f)
 {
 	if (f->precision < tam_num)
 		print_space(f->width - tam_num, f);
@@ -32,7 +32,7 @@ void	case_zero_prec(char *p, int tam_num, t_list *f)
 	print_cosita(p, f);
 }
 
-void	case_minus_prec(char *p, int i, int tam_num, t_list *f)
+void	case_minus_prec(int i, int tam_num, char *p, t_list *f)
 {
 	p = print_menos(i, p, f);
 	if (i < 0)
@@ -47,7 +47,7 @@ void	case_minus_prec(char *p, int i, int tam_num, t_list *f)
 		print_space((f->width - tam_num), f);
 }
 
-void	case_width_prec(char *p, int i, int tam_num, t_list *f)
+void	case_width_prec(int i, int tam_num, char*p, t_list *f)
 {
 	if (i < 0)
 		print_space(f->width - f->precision - 1, f);
@@ -70,7 +70,7 @@ void	print_int(t_list *f)
 	p = ft_itoa(i);
 	tam_num = ft_strlen(p);
 	if ((f->zero > 0) && (f->precision > 0))
-		case_zero_prec(p, tam_num, f);
+		case_zero_prec(i, tam_num, p, f);
 	else if (f->minus > 0 && f->precision <= 0)
 	{
 		print_cosita(p, f);
@@ -78,16 +78,16 @@ void	print_int(t_list *f)
 	}
 	else if ((f->zero > 0 && f->precision < 0)
 		|| (f->zero < 0 && f->precision > 0 && f->minus < 0 && f->width < 0))
-			case_zero_o_prec(i, p, tam_num, f);
+			case_zero_o_prec(i, tam_num, p, f);
 	else if ((f->minus < 0) && f->width > 0 && f->precision <= 0)
 	{
 		print_space((f->width - tam_num), f);
 		print_cosita(p, f);
 	}
 	else if (f->minus > 0 && f->precision > 0)
-		case_minus_prec(p, i, tam_num, f);
+		case_minus_prec(i, tam_num, p, f);
 	else if (f->minus < 0 && f->width > 0 && f->precision > 0)
-		case_width_prec(p, i, tam_num, f);
+		case_width_prec(i, tam_num, p, f);
 }
 
 /*
@@ -111,10 +111,10 @@ int		main(void)
 	ft_printf("%-2.3dFIN\n", 42);
 	ft_printf("%*dFIN\n", 4, -42);
 	ft_printf("%-04.1dFIN\n", 42);
-	ft_printf("%-*.5dFIN\n", 7, -42);//
-	ft_printf("%*.5dFIN\n", 7, -42);//
+	ft_printf("%-*.5dFIN\n", 7, -42);
+	ft_printf("%*.5dFIN\n", 7, -42);
 	ft_printf("%*.7dFIN\n", 5, 42);
-	ft_printf("%0*dFIN\n", 4, -42);//
+	ft_printf("%0*dFIN\n", 4, -42);
 	ft_printf("%-dFIN\n", 42);
 	ft_printf("%-0dFIN\n", 42);
 	ft_printf("%0dFIN\n", 42);
@@ -128,10 +128,10 @@ int		main(void)
 	printf("%-2.3dFIN\n", 42);			
 	printf("%*dFIN\n", 4, -42);		
 	printf("%-04.1dFIN\n", 42);			
-	printf("%-*.5dFIN\n", 7, -42);//
-	printf("%*.5dFIN\n", 7, -42);//
+	printf("%-*.5dFIN\n", 7, -42);
+	printf("%*.5dFIN\n", 7, -42);
 	printf("%*.7dFIN\n", 5, 42);
-	printf("%0*dFIN\n", 4, -42);//
+	printf("%0*dFIN\n", 4, -42);
 	printf("%-dFIN\n", 42);
 	printf("%-0dFIN\n", 42);
 	printf("%0dFIN\n", 42);
