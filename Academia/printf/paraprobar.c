@@ -568,6 +568,102 @@ void	print_hexap(t_list *f)
 	else if (f->minus < 0 && f->width > 0 && f->precision > 0)
 		caseh_width_prec(p, i, tam_num, f);
 }
+
+void	print_char(t_list *f)
+{
+	char	i;
+
+	i = va_arg(f->ap, int);
+	if ((f->zero > 0 && f->precision < 0) || (f->width > 0 && f->precision < 0 && f->minus < 0))
+	{
+		print_space(f->width - 1, f);
+		print_cosita(&i, f);
+	}
+	else if (f->minus > 0)
+	{
+		print_cosita(&i, f);
+		print_space((f->width - 1), f);
+	}
+}
+
+void	print_string(char *i, int tam_str, t_list *f)
+{
+	int p;
+
+	p = 0;
+	while (p < tam_str)
+	{
+		ft_putchar(i[p], f);
+		p++;
+	}
+}
+void	minus_precs(int tam_str, char *i, t_list *f)
+{
+	int tam_def;
+
+	if (tam_str <= f->precision || f->precision < 0)
+		tam_def = tam_str;
+	else
+		tam_def = f->precision;
+	print_string(i, tam_def, f);
+	print_space(f->width - tam_def, f);
+}
+void	zero_precs(int tam_str, char *i, t_list *f)
+{
+	int tam_def;
+
+	if (tam_str <= f->precision || f->precision < 0)
+		tam_def = tam_str;
+	else
+		tam_def = f->precision;
+	print_space(f->width - tam_def, f);
+	print_string(i, tam_def, f);
+}
+
+void	print_str(t_list *f)
+{
+	char	*i;	
+	int		tam_str;
+
+	i = va_arg(f->ap, char*);
+	tam_str = ft_strlen(i);
+	if ((f->zero > 0 && f->precision < 0) || (f->width > 0 && f->precision < 0 && f->minus < 0))
+	{
+		print_space(f->width - tam_str, f);
+		print_cosita(i, f);
+	}
+	else if (f->minus > 0 && f->precision < 0)
+	{
+		print_cosita(i, f);
+		print_space((f->width - tam_str), f);
+	}
+	else if ((f->zero > 0 && f->precision > 0) || (f->width > 0 && f->precision > 0 && f->minus < 0))
+		zero_precs(tam_str, i, f);
+	else if (f->minus > 0 && f->precision > 0)
+		minus_precs(tam_str, i, f);
+}
+
+void	print_todos(t_list *f)
+{
+	char c;
+	c = f->spec;
+
+	if (c == 'd' || c == 'i')
+		print_int(f);
+	else if (c == 'u')
+		print_unsigned(f);
+	else if (c == 'x' || c == 'X')
+		print_hexa(f);
+	else if (c == 'p')
+		print_hexap(f);
+	else if (c == 'c')
+		print_char(f);
+	else if (c == 's')
+		print_str(f);
+	else if (c == '%')
+		ft_putchar('%', f);
+}
+
 int ft_printf(const char *cosa, ...)
 {
 	t_list f;
@@ -583,7 +679,7 @@ int ft_printf(const char *cosa, ...)
 			cosa = ft_store_data((char*)(cosa + 1), &f);
 			ft_store_data_def(&f);
 			f.spec = *(cosa++);
-			print_hexap(&f);
+			print_todos(&f);
 		
 		}
 		else
@@ -597,8 +693,36 @@ int ft_printf(const char *cosa, ...)
 
 int		main(void)
 {
+	char *ptr = ft_strdup("prueba puntero");
 	//printf("%0-6.3dg\n", 22);
 	//print_spozero(22, 6, 6);
-	ft_printf("%p", 20000);
-	printf("%p", 20000);
+/*	ft_printf("%0*cFIN\n", 4, 'x');	
+	ft_printf("%-*.2sFIN\n", 4, "hola");
+	ft_printf("%*.5dFIN\n", 7, -42);
+	ft_printf("%04.1uFIN\n", 42);
+	ft_printf("%-*.3xFIN\n", 4, 42);
+	ft_printf("%*XFIN\n", 4, 42); */
+	ft_printf("%-.3pFIN\n", ptr);
+	printf("\n");
+/*	printf("%0*cFIN\n", 4, 'x');	
+	printf("%-*.2sFIN\n", 4, "hola");
+	printf("%*.5dFIN\n", 7, -42);
+	printf("%04.1uFIN\n", 42);
+	printf("%-*.3xFIN\n", 4, 42);
+	printf("%*XFIN\n", 4, 42); */
+	printf("%-.3pFIN\n", ptr);
+/*	printf("\n");
+	printf("\n");
+	printf("\n");
+	ft_printf("%-0*.3%FIN\n", 4); 			// añade un nº (*) - 1(tamaño char %) de espacios a la dcha
+	ft_printf("%0*.3%\n", 4); 				// añade un nº (*) - 1(tamaño char %) de 0s a la izq
+	ft_printf("%-04.3%FIN\n"); 			// añade un nº (*) - 1(tamaño char %) de espacios a la dcha
+	ft_printf("%4.3%\n");					// añade un nº (*) - 1(tamaño char %) de espacios a la izq
+	ft_printf("%10%\n");
+	printf("\n");
+	printf("%-0*.3%FIN\n", 4); 			// añade un nº (*) - 1(tamaño char %) de espacios a la dcha
+	printf("%0*.3%\n", 4); 				// añade un nº (*) - 1(tamaño char %) de 0s a la izq
+	printf("%-04.3%FIN\n"); 			// añade un nº (*) - 1(tamaño char %) de espacios a la dcha
+	printf("%4.3%\n");					// añade un nº (*) - 1(tamaño char %) de espacios a la izq
+	printf("%10%\n"); */
 }

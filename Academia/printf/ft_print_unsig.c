@@ -31,7 +31,7 @@ void	caseu_minus_prec(char *p, unsigned int i, int tam_num, t_list *f)
 		print_space((f->width - tam_num), f);
 }
 
-void	caseu_width_prec(char *p, unsigned int i, int tam_num, t_list *f)
+void	caseu_width_prec(unsigned int i, int tam_num, char *p, t_list *f)
 {
 	if (i < 0)
 		print_space(f->width - f->precision - 1, f);
@@ -68,7 +68,7 @@ void	print_unsigned(t_list *f)
 	else if (f->minus > 0 && f->precision > 0)
 		caseu_minus_prec(p, i, tam_num, f);
 	else if (f->minus < 0 && f->width > 0 && f->precision > 0)
-		caseu_width_prec(p, i, tam_num, f);
+		caseu_width_prec(i, tam_num, p, f);
 }
 /*
 int		main(void)
@@ -81,6 +81,7 @@ int		main(void)
 	ft_printf("%-4.3uFIN\n", 42);
 	ft_printf("%*uFIN\n", 4, 42);
 	ft_printf("%04.1uFIN\n", 42);
+	printf("hasta aqui\n");
 
 	printf("%0-*.3uFIN\n", 4, 42);		// El orden en presentar los flags 0 y - es indiferente
 	printf("%0*.3uFIN\n", 4, -42);
