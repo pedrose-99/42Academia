@@ -6,7 +6,7 @@
 /*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 09:12:57 by pserrano          #+#    #+#             */
-/*   Updated: 2020/03/21 12:00:43 by pedro            ###   ########.fr       */
+/*   Updated: 2020/03/24 23:16:33 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void init_struct(t_list *f)
 {
 	f->cont = 0;
 	f->spec = -1;
-	f->len = 0;
 	f->minus = -1;
 	f->precision = -1;
 	f->width = -1;
@@ -72,45 +71,3 @@ void	ft_store_data_def(t_list *f)
 	if (f->minus > 0)
 		f->zero = -1;
 }
-
-int ft_printf(const char *cosa, ...)
-{
-	t_list f;
-
-	//if(!(f = malloc(sizeof(t_list) *  )))
-	//	return (-1);
-	init_struct(&f);
-	va_start(f.ap, cosa);
-	while (*cosa)
-	{
-		if (*cosa == '%')
-		{
-			cosa = ft_store_data((char*)(cosa + 1), &f);
-			ft_store_data_def(&f);
-			f.spec = *(cosa++);
-			printf("%d\n", f.minus);
-			printf("%d\n", f.zero);
-			printf("%d\n", f.width);;
-			printf("%d\n", f.precision);
-		}
-		else
-		{
-			ft_putchar(*cosa, &f);
-			cosa++;
-		}
-	}
-	return (1);
-}
-
-int main(void)
-{
-	//printf("hola %0*.f holabuenosdoas",100, 89.24567);
-	ft_printf("%0-0.*f", 11);
-}
-
-/*
-			printf("%d\n", f.minus
-			printf("%d\n", f.zero);
-			printf("%d\n", f.width);;
-			printf("%d\n", f.precision);
-*/

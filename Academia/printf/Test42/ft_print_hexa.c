@@ -10,7 +10,7 @@ void	caseh_zero_prec(char *p, int tam_num, t_list *f)
 	print_cosita(p, f);
 }
 
-void	caseh_minus_prec(char *p, unsigned int i, int tam_num, t_list *f)
+void	caseh_minus_prec(char *p, int i, int tam_num, t_list *f)
 {
 	print_zero(f->precision - tam_num, f);
 	print_cosita(p, f);
@@ -22,7 +22,7 @@ void	caseh_minus_prec(char *p, unsigned int i, int tam_num, t_list *f)
 		print_space((f->width - tam_num), f);
 }
 
-void	caseh_width_prec(char *p, unsigned int i, int tam_num, t_list *f)
+void	caseh_width_prec(char *p, int i, int tam_num, t_list *f)
 {
 	if (i < 0)
 		print_space(f->width - f->precision - 1, f);
@@ -44,10 +44,10 @@ char	 *trans_hex(long int i, char c)
 		hex_char = "0123456789abcdef";
 	else
 		hex_char = "0123456789ABCDEF";
-	i_copy = trans_neg(i);
+	i_copy = i;
 	while (i_copy >= 16 && (i_copy /= 16))
 		count++;
-	i_copy = trans_neg(i);
+	i_copy = i;
 	if (!(def = (char*)malloc(sizeof(char) * (count + 1))))
 		return (NULL);
 	def[count] = '\0';
@@ -79,7 +79,7 @@ void	print_hexa(t_list *f)
 	}
 	else if ((f->zero > 0 && f->precision < 0)
 		|| (f->zero < 0 && f->precision > 0 && f->minus < 0 && f->width < 0))
-			caseh_zero_o_prec(i, p, tam_num, f);
+			caseh_zero_o_prec(p, tam_num, f);
 	else if ((f->minus < 0) && f->width > 0 && f->precision <= 0)
 	{
 		print_space((f->width - tam_num), f);

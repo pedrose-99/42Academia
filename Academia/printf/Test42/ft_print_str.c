@@ -22,6 +22,7 @@ void	minus_precs(int tam_str, char *i, t_list *f)
 	print_string(i, tam_def, f);
 	print_space(f->width - tam_def, f);
 }
+
 void	zero_precs(int tam_str, char *i, t_list *f)
 {
 	int tam_def;

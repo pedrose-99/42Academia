@@ -6,48 +6,11 @@
 /*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 10:04:18 by pserrano          #+#    #+#             */
-/*   Updated: 2020/03/21 12:11:27 by pedro            ###   ########.fr       */
+/*   Updated: 2020/04/08 19:27:10 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-int	ft_strlen(char *str)
-{
-	int size;
-
-	size = 0;
-	while (*str)
-	{
-		str++;
-		size++;
-	}
-	return (size);
-}
-
-int		ft_count_nb(long int nb)
-{
-	long int		count;
-	unsigned int	c;
-
-	c = 0;
-	count = 0;
-	if (nb < 0)
-	{
-		c = nb * -1;
-		count++;
-	}
-	if (nb > 0)
-		c = nb;
-	while (c >= 10)
-	{
-		c = c / 10;
-		count++;
-	}
-	if (c < 10)
-		count++;
-	return (count);
-}
 
 void	ft_putnum(char *s, long int n, long int l)
 {
@@ -86,13 +49,13 @@ char	*ft_itoa(long int n)
 	return (new);
 }
 
-static int	ft_is_space(char str)
+int	ft_is_space(char str)
 {
 	return (str == '\t' || str == '\v' || str == '\f' || str == '\r' ||
 			str == '\n' || str == ' ') ? (1) : (0);
 }
 
-static int	ft_is_num(char str)
+int		ft_is_num(char str)
 {
 	return (str >= '0' && str <= '9') ? (1) : (0);
 }

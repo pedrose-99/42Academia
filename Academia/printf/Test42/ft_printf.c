@@ -6,24 +6,74 @@
 /*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 07:47:45 by pserrano          #+#    #+#             */
-/*   Updated: 2020/03/24 11:56:26 by pedro            ###   ########.fr       */
+/*   Updated: 2020/04/08 20:28:09 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-/*
-void	ft_putchar(char c, t_list *f)
+
+int	ft_strlen(char *str)
 {
-	write(1, &c, 1);
-	f->cont++;
+	int size;
+
+	size = 0;
+	while (*str)
+	{
+		str++;
+		size++;
+	}
+	return (size);
+}
+
+int		ft_count_nb(long int nb)
+{
+	long int		count;
+	unsigned int	c;
+
+	c = 0;
+	count = 0;
+	if (nb < 0)
+	{
+		c = nb * -1;
+		count++;
+	}
+	if (nb > 0)
+		c = nb;
+	while (c >= 10)
+	{
+		c = c / 10;
+		count++;
+	}
+	if (c < 10)
+		count++;
+	return (count);
+}
+
+void	print_todos(t_list *f)
+{
+	char c;
+	c = f->spec;
+
+	if (c == 'd' || c == 'i')
+		print_int(f);
+	else if (c == 'u')
+		print_unsigned(f);
+	else if (c == 'x' || c == 'X')
+		print_hexa(f);
+	else if (c == 'p')
+		print_hexap(f);
+	else if (c == 'c')
+		print_char(f);
+	else if (c == 's')
+		print_str(f);
+	else if (c == '%')
+		ft_putchar('%', f);
 }
 
 int ft_printf(const char *cosa, ...)
 {
 	t_list f;
 
-	//if(!(f = malloc(sizeof(t_list) *  )))
-	//	return (-1);
 	init_struct(&f);
 	va_start(f.ap, cosa);
 	while (*cosa)
@@ -33,10 +83,8 @@ int ft_printf(const char *cosa, ...)
 			cosa = ft_store_data((char*)(cosa + 1), &f);
 			ft_store_data_def(&f);
 			f.spec = *(cosa++);
-			printf("%d\n", f.minus);
-			printf("%d\n", f.zero);
-			printf("%d\n", f.width);;
-			printf("%d\n", f.precision);
+			print_todos(&f);
+		
 		}
 		else
 		{
@@ -44,26 +92,5 @@ int ft_printf(const char *cosa, ...)
 			cosa++;
 		}
 	}
-	return (1);
-}*/
-long int	trans_neg(long int i)
-{
-	if (i < 0)
-		i = 4294967295 + i + 1;
-	return (i);
+	return (f.cont);
 }
-
-int		main(void)
-{
-	char c;
-
-	c = 'a';
-	printf("%05%", 'o');
-	//printf("%x", -1);
-	//print_spozero(22, 6, 6);
-	//ft_printf("f",);
-
-}
-
-//si un unsigned int es negativo resta el mayor unsigned int 4,294,967,295+1 -(el numero que has puesto)
-//ej = %u, -1 ==== 4,294,967,295

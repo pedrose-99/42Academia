@@ -6,7 +6,7 @@
 /*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 08:59:54 by pserrano          #+#    #+#             */
-/*   Updated: 2020/03/24 11:35:09 by pedro            ###   ########.fr       */
+/*   Updated: 2020/04/08 20:52:29 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	case_zero_o_prec(int i, char *p, int tam_num, t_list *f)
 	print_cosita(p, f);
 }
 
-void	case_zero_prec(int i, int tam_num, char *p, t_list *f)
+void	case_zero_prec(int tam_num, char *p, t_list *f)
 {
 	if (f->precision < tam_num)
 		print_space(f->width - tam_num, f);
@@ -70,7 +70,7 @@ void	print_int(t_list *f)
 	p = ft_itoa(i);
 	tam_num = ft_strlen(p);
 	if ((f->zero > 0) && (f->precision > 0))
-		case_zero_prec(i, tam_num, p, f);
+		case_zero_prec(tam_num, p, f);
 	else if (f->minus > 0 && f->precision <= 0)
 	{
 		print_cosita(p, f);
@@ -78,7 +78,7 @@ void	print_int(t_list *f)
 	}
 	else if ((f->zero > 0 && f->precision < 0)
 		|| (f->zero < 0 && f->precision > 0 && f->minus < 0 && f->width < 0))
-			case_zero_o_prec(i, tam_num, p, f);
+			case_zero_o_prec(i, p, tam_num, f);
 	else if ((f->minus < 0) && f->width > 0 && f->precision <= 0)
 	{
 		print_space((f->width - tam_num), f);
@@ -142,4 +142,3 @@ int		main(void)
 	printf("%.1dFIN\n", 42);
 	printf("%-.1dFIN\n", 42);
 	printf("%-*.2dFIN\n", 2, 42);*/
-}

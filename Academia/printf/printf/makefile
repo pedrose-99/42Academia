@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+         #
+#    By: pedro <pedro@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/25 09:57:57 by pserrano          #+#    #+#              #
-#    Updated: 2020/02/25 10:04:50 by pserrano         ###   ########.fr        #
+#    Updated: 2020/03/24 23:10:52 by pedro            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@ NAME = ft_printf.a
 
 CC = gcc -c
 
-FUNC = 
+FUNC = *.c
 
-OBJTS = 
+OBJTS = *.o
 
 CFLAGS = -Wall -Wextra -Werror
 

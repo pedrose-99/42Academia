@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-void	caseh_zero_o_prec(unsigned int i, char *p, int tam_num, t_list *f)
+void	caseh_zero_o_prec(char *p, int tam_num, t_list *f)
 {
 	if (f->precision > 0)
 		print_zero(f->precision - tam_num, f);
@@ -21,7 +21,7 @@ char	*type_p(char *def)
 	return (def);
 }
 
-char	 *trans_hexp(long long int i, char c)
+char	 *trans_hexp(long long int i)
 {
 	long long int		i_copy;
 	char				*hex_char;
@@ -30,10 +30,10 @@ char	 *trans_hexp(long long int i, char c)
 
 	count = 3;
 	hex_char = "0123456789abcdef";
-	i_copy = trans_neg(i);
+	i_copy = i;
 	while (i_copy >= 16 && (i_copy /= 16))
 		count++;
-	i_copy = trans_neg(i);
+	i_copy = i;
 	if (!(def = (char*)malloc(sizeof(char) * (count + 1))))
 		return (NULL);
 	def[count] = '\0';
@@ -55,7 +55,7 @@ void	print_hexap(t_list *f)
 	char					*p;
 
 	i = va_arg(f->ap, unsigned long long int);
-	p = trans_hexp(i, f->spec);
+	p = trans_hexp(i);
 	tam_num = ft_strlen(p);
 	if ((f->zero > 0) && (f->precision > 0))
 		caseh_zero_prec(p, tam_num, f);
@@ -66,7 +66,7 @@ void	print_hexap(t_list *f)
 	}
 	else if ((f->zero > 0 && f->precision < 0)
 		|| (f->zero < 0 && f->precision > 0 && f->minus < 0 && f->width < 0))
-			caseh_zero_o_prec(i, p, tam_num, f);
+			caseh_zero_o_prec(p, tam_num, f);
 	else if ((f->minus < 0) && f->width > 0 && f->precision <= 0)
 	{
 		print_space((f->width - tam_num), f);

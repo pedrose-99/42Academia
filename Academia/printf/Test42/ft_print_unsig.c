@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-void	caseu_zero_o_prec(unsigned int i, char *p, int tam_num, t_list *f)
+void	caseu_zero_o_prec(char *p, int tam_num, t_list *f)
 {
 	if (f->precision > 0)
 		print_zero(f->precision - tam_num, f);
@@ -19,7 +19,7 @@ void	caseu_zero_prec(char *p, int tam_num, t_list *f)
 	print_cosita(p, f);
 }
 
-void	caseu_minus_prec(char *p, unsigned int i, int tam_num, t_list *f)
+void	caseu_minus_prec(char *p, int i, int tam_num, t_list *f)
 {
 	print_zero(f->precision - tam_num, f);
 	print_cosita(p, f);
@@ -31,7 +31,7 @@ void	caseu_minus_prec(char *p, unsigned int i, int tam_num, t_list *f)
 		print_space((f->width - tam_num), f);
 }
 
-void	caseu_width_prec(unsigned int i, int tam_num, char *p, t_list *f)
+void	caseu_width_prec(int i, int tam_num, char *p, t_list *f)
 {
 	if (i < 0)
 		print_space(f->width - f->precision - 1, f);
@@ -43,7 +43,7 @@ void	caseu_width_prec(unsigned int i, int tam_num, char *p, t_list *f)
 
 void	print_unsigned(t_list *f)
 {
-	unsigned int	i;
+	int				i;
 	int				tam_num;
 	char			*p;
 
@@ -59,7 +59,7 @@ void	print_unsigned(t_list *f)
 	}
 	else if ((f->zero > 0 && f->precision < 0)
 		|| (f->zero < 0 && f->precision > 0 && f->minus < 0 && f->width < 0))
-			caseu_zero_o_prec(i, p, tam_num, f);
+			caseu_zero_o_prec(p, tam_num, f);
 	else if ((f->minus < 0) && f->width > 0 && f->precision <= 0)
 	{
 		print_space((f->width - tam_num), f);

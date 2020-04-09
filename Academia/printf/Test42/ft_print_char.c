@@ -16,7 +16,6 @@ void	print_char(t_list *f)
 		print_space((f->width - 1), f);
 	}
 }
-	ft_putchar()
 /*	ft_printf("%-0*cFIN\n", 4, 'x');		// añade (width - 1(char)) espacios a la dcha (ignora el 0)
 	ft_printf("%0*cFIN\n", 4, 'x');		// añade (width - 1(char)) 0s a la izq
 	ft_printf("%-*cFIN\n", 4, 'x');		// añade (width - 1(char)) espacios a la dcha

@@ -1,24 +1,5 @@
 #include "ft_printf.h"
 
-char	*ft_strdup(const char *s1)
-{
-	char	*s2;
-	size_t	i;
-	size_t	j;
-
-	j = 0;
-	i = ft_strlen(s1);
-	if (!(s2 = (char*)malloc(sizeof(char) * (i + 1))))
-		return (0);
-	while (s1[j])
-	{
-		s2[j] = s1[j];
-		j++;
-	}
-	s2[j] = '\0';
-	return ((char*)s2);
-}
-
 int	ft_strlen(char *str)
 {
 	int size;
@@ -188,7 +169,6 @@ void init_struct(t_list *f)
 {
 	f->cont = 0;
 	f->spec = -1;
-	f->len = 0;
 	f->minus = -1;
 	f->precision = -1;
 	f->width = -1;
@@ -668,8 +648,6 @@ int ft_printf(const char *cosa, ...)
 {
 	t_list f;
 
-	//if(!(f = malloc(sizeof(t_list) *  )))
-	//	return (-1);
 	init_struct(&f);
 	va_start(f.ap, cosa);
 	while (*cosa)
@@ -688,41 +666,10 @@ int ft_printf(const char *cosa, ...)
 			cosa++;
 		}
 	}
-	return (1);
+	return (f.cont);
 }
 
 int		main(void)
 {
-	char *ptr = ft_strdup("prueba puntero");
-	//printf("%0-6.3dg\n", 22);
-	//print_spozero(22, 6, 6);
-/*	ft_printf("%0*cFIN\n", 4, 'x');	
-	ft_printf("%-*.2sFIN\n", 4, "hola");
-	ft_printf("%*.5dFIN\n", 7, -42);
-	ft_printf("%04.1uFIN\n", 42);
-	ft_printf("%-*.3xFIN\n", 4, 42);
-	ft_printf("%*XFIN\n", 4, 42); */
-	ft_printf("%-.3pFIN\n", ptr);
-	printf("\n");
-/*	printf("%0*cFIN\n", 4, 'x');	
-	printf("%-*.2sFIN\n", 4, "hola");
-	printf("%*.5dFIN\n", 7, -42);
-	printf("%04.1uFIN\n", 42);
-	printf("%-*.3xFIN\n", 4, 42);
-	printf("%*XFIN\n", 4, 42); */
-	printf("%-.3pFIN\n", ptr);
-/*	printf("\n");
-	printf("\n");
-	printf("\n");
-	ft_printf("%-0*.3%FIN\n", 4); 			// añade un nº (*) - 1(tamaño char %) de espacios a la dcha
-	ft_printf("%0*.3%\n", 4); 				// añade un nº (*) - 1(tamaño char %) de 0s a la izq
-	ft_printf("%-04.3%FIN\n"); 			// añade un nº (*) - 1(tamaño char %) de espacios a la dcha
-	ft_printf("%4.3%\n");					// añade un nº (*) - 1(tamaño char %) de espacios a la izq
-	ft_printf("%10%\n");
-	printf("\n");
-	printf("%-0*.3%FIN\n", 4); 			// añade un nº (*) - 1(tamaño char %) de espacios a la dcha
-	printf("%0*.3%\n", 4); 				// añade un nº (*) - 1(tamaño char %) de 0s a la izq
-	printf("%-04.3%FIN\n"); 			// añade un nº (*) - 1(tamaño char %) de espacios a la dcha
-	printf("%4.3%\n");					// añade un nº (*) - 1(tamaño char %) de espacios a la izq
-	printf("%10%\n"); */
+	
 }
