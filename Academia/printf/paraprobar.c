@@ -406,10 +406,10 @@ void	caseh_minus_prec(char *p, unsigned int i, int tam_num, t_list *f)
 
 void	caseh_width_prec(char *p, unsigned int i, int tam_num, t_list *f)
 {
-	if (i < 0)
-		print_space(f->width - f->precision - 1, f);
-	else
+	if (f->precision > tam_num)
 		print_space(f->width - f->precision, f);
+	else
+		print_space(f->width - tam_num, f);
 	print_zero(f->precision - tam_num, f);
 	print_cosita(p, f);
 }
@@ -671,5 +671,7 @@ int ft_printf(const char *cosa, ...)
 
 int		main(void)
 {
-	
+	ft_printf("%8.3x\n" , 8375);
+	printf("%8.3x" , 8375);
+
 }

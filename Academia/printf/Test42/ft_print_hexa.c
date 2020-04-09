@@ -22,12 +22,12 @@ void	caseh_minus_prec(char *p, int i, int tam_num, t_list *f)
 		print_space((f->width - tam_num), f);
 }
 
-void	caseh_width_prec(char *p, int i, int tam_num, t_list *f)
+void	caseh_width_prec(char *p, unsigned int i, int tam_num, t_list *f)
 {
-	if (i < 0)
-		print_space(f->width - f->precision - 1, f);
-	else
+	if (f->precision > tam_num)
 		print_space(f->width - f->precision, f);
+	else
+		print_space(f->width - tam_num, f);
 	print_zero(f->precision - tam_num, f);
 	print_cosita(p, f);
 }
