@@ -37,7 +37,6 @@ void	print_zero(int	tam, t_list *f)
 	{
 		ft_putchar('0', f);
 		i++;
-		f->cont++;
 	}
 }
 
@@ -50,7 +49,6 @@ void	print_space(int	tam, t_list *f)
 	{
 		ft_putchar(' ', f);
 		i++;
-		f->cont++;
 	}
 }
 void	print_cosita(char *p, t_list *f)

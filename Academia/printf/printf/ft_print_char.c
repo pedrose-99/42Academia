@@ -8,12 +8,25 @@ void	print_char(t_list *f)
 	if ((f->zero > 0 && f->precision < 0) || (f->width > 0 && f->precision < 0 && f->minus < 0))
 	{
 		print_space(f->width - 1, f);
-		print_cosita(&i, f);
+		if (i == 0)
+			ft_putchar('\0', f);
+		else
+			print_cosita(&i, f);
 	}
 	else if (f->minus > 0)
 	{
-		print_cosita(&i, f);
+		if (i == 0)
+			ft_putchar('\0', f);
+		else
+			print_cosita(&i, f);
 		print_space((f->width - 1), f);
+	}
+	else if (f->minus < 0 && f->width < 0)
+	{
+		if (i == 0)
+			ft_putchar('\0', f);
+		else
+			print_cosita(&i, f);
 	}
 }
 /*	ft_printf("%-0*cFIN\n", 4, 'x');		// añade (width - 1(char)) espacios a la dcha (ignora el 0)

@@ -27,6 +27,7 @@ typedef struct		s_list
 
 	char		spec; //el tipo de letra que sea(s, d, u)
 
+	int			argum;
 	int			zero; 
 	int			minus; //'-'
 	int			width; //ancho 0 10000
@@ -49,10 +50,12 @@ int 		is_specifier(char c);
 char 		*ft_store_data(char *cosa, t_list *f);
 void		ft_store_data_def(t_list *f);
 void		case_zero_o_prec(int i, char *p, int tam_num, t_list *f);
-void		case_zero_prec(int tam_num, char *p, t_list *f);
+void		case_zero_prec(int i, int tam_num, char *p, t_list *f);
 void		case_minus_prec(int i, int tam_num, char *p, t_list *f);
 void		case_width_prec(int i, int tam_num, char*p, t_list *f);
 void		print_int(t_list *f);
+void		casehp_width_prec(char *p, int i, int tam_num, t_list *f);
+char		*print_hexap_prec(char *p, t_list *f);
 void		caseu_zero_o_prec(char *p, int tam_num, t_list *f);
 void		caseu_zero_prec(char *p, int tam_num, t_list *f);
 void		caseu_minus_prec(char *p, int i, int tam_num, t_list *f);

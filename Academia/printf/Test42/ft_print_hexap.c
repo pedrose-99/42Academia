@@ -21,6 +21,36 @@ char	*type_p(char *def)
 	return (def);
 }
 
+char	*print_hexap_prec(char *p, t_list *f)
+{
+	int i;
+
+	i = 0;
+	while (i < 2)
+	{
+		ft_putchar(*p, f);
+		p++;
+		i++;
+	}
+	return (p);
+}
+
+void	casehp_width_prec(char *p, int i, int tam_num, t_list *f)
+{
+	if (i < 0)
+		print_space(f->width - f->precision - 1, f);
+	else
+	{
+		if(f->precision > tam_num) 
+			print_space(f->width - f->precision, f);
+		else
+			print_space(f->width - tam_num, f);
+	}
+	tam_num = tam_num -2;
+	p = print_hexap_prec(p, f);
+	print_zero(f->precision - tam_num, f);
+	print_cosita(p, f);
+}
 char	 *trans_hexp(long long int i)
 {
 	long long int		i_copy;
@@ -57,7 +87,9 @@ void	print_hexap(t_list *f)
 	i = va_arg(f->ap, unsigned long long int);
 	p = trans_hexp(i);
 	tam_num = ft_strlen(p);
-	if ((f->zero > 0) && (f->precision > 0))
+	if (i == 0)
+		print_cosita("(nil)", f);
+	else if ((f->zero > 0) && (f->precision > 0))
 		caseh_zero_prec(p, tam_num, f);
 	else if (f->minus > 0 && f->precision <= 0)
 	{
@@ -75,8 +107,13 @@ void	print_hexap(t_list *f)
 	else if (f->minus > 0 && f->precision > 0)
 		caseh_minus_prec(p, i, tam_num, f);
 	else if (f->minus < 0 && f->width > 0 && f->precision > 0)
-		caseh_width_prec(p, i, tam_num, f);
+		casehp_width_prec(p, i, tam_num, f);
+	else if (f->minus < 0 && f->width < 0 && f->precision < 0)
+		print_cosita(p, f);
+	else if (f->minus < 0 && f->width < 0 && f->precision < 0)
+		print_cosita(p, f);
 }
+
 /*
 char *ptr; 
 	ptr = ft_strdup("prueba puntero");
