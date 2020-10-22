@@ -304,7 +304,7 @@ void	minus_precs(int tam_str, char *i, t_list *f)
 
 	if (tam_str <= f->precision || f->precision < 0)
 		tam_def = tam_str;
-	else if (!(ft_strncmp(i, "(null)", 6)))
+	else
 		tam_def = 0;
 	else
 		tam_def = f->precision;
@@ -318,8 +318,6 @@ void	zero_precs(int tam_str, char *i, t_list *f)
 
 	if (tam_str <= f->precision || f->precision < 0)
 		tam_def = tam_str;
-	else if (!(ft_strncmp(i, "(null)", 6)))
-		tam_def = 0;
 	else
 		tam_def = f->precision;
 	print_space(f->width - tam_def, f);
@@ -394,7 +392,7 @@ void	print_str(t_list *f)
 	{
 		if (tam_str < f->precision)
 			print_string(i,tam_str, f);
-		else if ((ft_strncmp(i, "(null)", 6)))
+		else
 			print_string(i,f->precision, f);
 	}
 }
@@ -827,12 +825,12 @@ int		main(void)
 
 //	printf("%i\n",printf("%*d\n", -10, 4));
 	
-	printf("%i\n",ft_printf("%5c", '\0'));
+	printf("%i\n",ft_printf("%3.1s", NULL));
 //	ft_printf("%d", 2);
 //	ft_printf("%.s", "hello");
 	//printf("%i\n",printf("%.0s", "hello"));
-	printf("%i\n",printf("%5c", '\0'));
-//		printf("%i\n",printf("%06d", -3));
+//	printf("%i\n",printf("%5%);
+		printf("%i\n",printf("%3.1s", NULL));
 }
 // FIN\n;
 

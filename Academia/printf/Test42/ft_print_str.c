@@ -29,8 +29,6 @@ void	minus_precs(int tam_str, char *i, t_list *f)
 
 	if (tam_str <= f->precision || f->precision < 0)
 		tam_def = tam_str;
-	else if (!(ft_strncmp(i, "(null)", 6)))
-		tam_def = 0;
 	else
 		tam_def = f->precision;
 	print_string(i, tam_def, f);
@@ -43,8 +41,6 @@ void	zero_precs(int tam_str, char *i, t_list *f)
 
 	if (tam_str <= f->precision || f->precision < 0)
 		tam_def = tam_str;
-	else if (!(ft_strncmp(i, "(null)", 6)))
-		tam_def = 0;
 	else
 		tam_def = f->precision;
 	print_space(f->width - tam_def, f);
@@ -108,7 +104,7 @@ void	print_str(t_list *f)
 	{
 		if (tam_str < f->precision)
 			print_string(i,tam_str, f);
-		else if ((ft_strncmp(i, "(null)", 6)))
+		else
 			print_string(i,f->precision, f);
 	}
 }
