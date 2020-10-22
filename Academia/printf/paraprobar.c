@@ -305,8 +305,6 @@ void	minus_precs(int tam_str, char *i, t_list *f)
 	if (tam_str <= f->precision || f->precision < 0)
 		tam_def = tam_str;
 	else
-		tam_def = 0;
-	else
 		tam_def = f->precision;
 	print_string(i, tam_def, f);
 	print_space(f->width - tam_def, f);
@@ -825,12 +823,12 @@ int		main(void)
 
 //	printf("%i\n",printf("%*d\n", -10, 4));
 	
-	printf("%i\n",ft_printf("%3.1s", NULL));
+	printf("%i\n",ft_printf("%09s", "hola"));
 //	ft_printf("%d", 2);
 //	ft_printf("%.s", "hello");
 	//printf("%i\n",printf("%.0s", "hello"));
 //	printf("%i\n",printf("%5%);
-		printf("%i\n",printf("%3.1s", NULL));
+		printf("%i\n",printf("%09s", "hola"));
 }
 // FIN\n;
 
