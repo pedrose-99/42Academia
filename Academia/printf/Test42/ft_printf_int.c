@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 08:59:54 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/23 18:09:01 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/23 19:05:31 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,9 @@ void	print_int(t_list *f)
 	i = va_arg(f->ap, int);
 	p = ft_itoa(i);
 	tam_num = ft_strlen(p);
-	if ((f->zero > 0) && (f->precision > 0))
+	if (f->precision == 0 && i == 0 && f->width < 0 && f->minus < 0)
+		ft_printf("%s", "");
+	else if ((f->zero > 0) && (f->precision > 0))
 		caseint_zero_prec(i, tam_num, p, f);
 	else if (f->minus > 0 && f->precision <= 0)
 		caseint_minus(i, tam_num, p, f);
