@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pedro <pedro@student.42.fr>                +#+  +:+       +#+         #
+#    By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/25 09:57:57 by pserrano          #+#    #+#              #
-#    Updated: 2020/04/09 10:25:15 by pedro            ###   ########.fr        #
+#    Updated: 2020/10/23 14:53:47 by pserrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_printf.a
+NAME = libftprintf.a
 
 CC = gcc -c
 

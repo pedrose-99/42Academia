@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 11:36:24 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/23 14:38:17 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/23 18:06:24 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,4 +138,5 @@ void	print_hexa(t_list *f)
 		caseh_width_prec(p, i, tam_num, f);
 	else if (f->minus < 0 && f->width < 0 && f->precision <= 0)
 		print_cosita(p, f);
+	free(p);
 }
