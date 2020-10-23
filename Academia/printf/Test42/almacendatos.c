@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 09:12:57 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/23 17:44:29 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/23 19:35:42 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*ft_store_data(char *cosa, t_list *f)
 			f->argum = 1;
 		}
 		else if (*(cosa++) == '.')
-			ft_case_point(cosa, f);
+			cosa = ft_case_point(cosa, f);
 		if (!is_specifier(*cosa))
 			cosa++;
 	}
