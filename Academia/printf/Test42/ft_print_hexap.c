@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 11:30:37 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/23 18:01:07 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/23 19:52:08 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,11 @@ char	*trans_hexp(long long int i)
 
 void	print_hexap(t_list *f)
 {
-	unsigned int	i;
+	unsigned long int	i;
 	int				tam_num;
 	char			*p;
 
-	i = va_arg(f->ap, unsigned int);
+	i = va_arg(f->ap, unsigned long int);
 	p = trans_hexp(i);
 	tam_num = ft_strlen(p);
 	if (i == 0)
