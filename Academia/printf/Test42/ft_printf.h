@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 09:54:27 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/23 17:40:08 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/23 20:04:51 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ char	*print_hexap_prec(char *p, t_list *f);
 void	casehp_width_prec(char *p, int i, int tam_num, t_list *f);
 char	*trans_hexp(long long int i);
 void	print_hexap(t_list *f);
+char	*handle_hexa(char *s);
 //ft_print_str.c
 void	print_string(char *i, int tam_str, t_list *f);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
