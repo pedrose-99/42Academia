@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 11:30:37 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/23 19:53:25 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/23 20:03:27 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,14 @@ void	casehp_width_prec(char *p, int i, int tam_num, t_list *f)
 	print_cosita(p, f);
 }
 
+char	*handle_hexa(char *s)
+{
+	if (s)
+		return (ft_strdup(s));
+	else
+		return (ft_strdup("0x0"));
+}
+
 char	*trans_hexp(long long int i)
 {
 	long long int		i_copy;
@@ -110,11 +118,12 @@ void	print_hexap(t_list *f)
 	char			*p;
 
 	i = va_arg(f->ap, long int);
-	p = trans_hexp(i);
-	tam_num = ft_strlen(p);
 	if (i == 0)
-		print_cosita("(nil)", f);
-	else if ((f->zero > 0) && (f->precision > 0))
+		p = handle_hexa(i);
+	else
+		p = trans_hexp(i);
+	tam_num = ft_strlen(p);
+	if ((f->zero > 0) && (f->precision > 0))
 		caseh_zero_prec(p, tam_num, f);
 	else if (f->minus > 0 && f->precision <= 0)
 		casehp_minus(p, tam_num, f);
