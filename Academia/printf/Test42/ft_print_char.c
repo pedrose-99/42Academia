@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 11:22:20 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/23 14:44:23 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/23 18:34:37 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void	print_char(t_list *f)
 		if (i == 0)
 			ft_putchar('\0', f);
 		else
-			print_cosita(&i, f);
+			ft_putchar(i, f);
 	}
 	else if (f->minus > 0)
 	{
 		if (i == 0)
 			ft_putchar('\0', f);
 		else
-			print_cosita(&i, f);
+			ft_putchar(i, f);
 		print_space((f->width - 1), f);
 	}
 	else if (f->minus < 0 && f->width < 0)
@@ -38,6 +38,6 @@ void	print_char(t_list *f)
 		if (i == 0)
 			ft_putchar('\0', f);
 		else
-			print_cosita(&i, f);
+			ft_putchar(i, f);
 	}
 }
