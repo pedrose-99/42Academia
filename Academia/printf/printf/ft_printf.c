@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 07:47:45 by pserrano          #+#    #+#             */
-/*   Updated: 2020/04/08 20:28:09 by pedro            ###   ########.fr       */
+/*   Updated: 2020/10/23 13:19:25 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-
-int	ft_strlen(char *str)
+int		ft_strlen(char *str)
 {
 	int size;
 
@@ -53,8 +52,8 @@ int		ft_count_nb(long int nb)
 void	print_todos(t_list *f)
 {
 	char c;
-	c = f->spec;
 
+	c = f->spec;
 	if (c == 'd' || c == 'i')
 		print_int(f);
 	else if (c == 'u')
@@ -71,7 +70,7 @@ void	print_todos(t_list *f)
 		ft_putchar('%', f);
 }
 
-int ft_printf(const char *cosa, ...)
+int		ft_printf(const char *cosa, ...)
 {
 	t_list f;
 
@@ -85,7 +84,6 @@ int ft_printf(const char *cosa, ...)
 			ft_store_data_def(&f);
 			f.spec = *(cosa++);
 			print_todos(&f);
-		
 		}
 		else
 		{

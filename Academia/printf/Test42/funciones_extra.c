@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   funciones_extra.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 10:04:18 by pserrano          #+#    #+#             */
-/*   Updated: 2020/04/08 19:27:10 by pedro            ###   ########.fr       */
+/*   Updated: 2020/10/23 13:59:33 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_putnum(char *s, long int n, long int l)
 
 char	*ft_itoa(long int n)
 {
-	char	*new;
+	char		*new;
 	long int	l;
 
 	if (n < -2147483648)
@@ -49,7 +49,7 @@ char	*ft_itoa(long int n)
 	return (new);
 }
 
-int	ft_is_space(char str)
+int		ft_is_space(char str)
 {
 	return (str == '\t' || str == '\v' || str == '\f' || str == '\r' ||
 			str == '\n' || str == ' ') ? (1) : (0);
@@ -60,7 +60,7 @@ int		ft_is_num(char str)
 	return (str >= '0' && str <= '9') ? (1) : (0);
 }
 
-int			ft_atoi(const char *str)
+int		ft_atoi(const char *str)
 {
 	long int i;
 	long int nb;

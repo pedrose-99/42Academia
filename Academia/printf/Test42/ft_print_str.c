@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_print_str.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 12:22:31 by pserrano          #+#    #+#             */
+/*   Updated: 2020/10/23 12:58:08 by pserrano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 void	print_string(char *i, int tam_str, t_list *f)
@@ -11,6 +23,7 @@ void	print_string(char *i, int tam_str, t_list *f)
 		p++;
 	}
 }
+
 int		ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t i;
@@ -23,7 +36,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-void	minus_precs(int tam_str, char *i, t_list *f)
+void	casestr_minus_precs(char *i, int tam_str, t_list *f)
 {
 	int tam_def;
 
@@ -35,7 +48,7 @@ void	minus_precs(int tam_str, char *i, t_list *f)
 	print_space(f->width - tam_def, f);
 }
 
-void	zero_precs(int tam_str, char *i, t_list *f)
+void	casestr_zero_precs(char *i, int tam_str, t_list *f)
 {
 	int tam_def;
 
@@ -74,73 +87,48 @@ char	*handle_string(char *s)
 		return (ft_strdup("(null)"));
 }
 
+void	casestr_zero_o_width(char *i, int tam_str, t_list *f)
+{
+	print_space(f->width - tam_str, f);
+	print_cosita(i, f);
+}
+
+void	casestr_minus(char *i, int tam_str, t_list *f)
+{
+	print_cosita(i, f);
+	print_space((f->width - tam_str), f);
+}
+
+void	casestr_precision(char *i, int tam_str, t_list *f)
+{
+	if (tam_str < f->precision)
+		print_string(i, tam_str, f);
+	else
+		print_string(i, f->precision, f);
+}
+
 void	print_str(t_list *f)
 {
-	char	*i;	
+	char	*i;
 	int		tam_str;
 
 	i = va_arg(f->ap, char*);
 	i = handle_string(i);
 	tam_str = ft_strlen(i);
-	if ((f->zero > 0 && f->precision < 0) || (f->width > 0 && f->precision < 0 && f->minus < 0))
-	{
-		print_space(f->width - tam_str, f);
-		print_cosita(i, f);
-	}
+	if ((f->zero > 0 && f->precision < 0)
+		|| (f->width > 0 && f->precision < 0 && f->minus < 0))
+		casestr_zero_o_width(i, tam_str, f);
 	else if (f->precision == 0)
 		print_space(f->width, f);
 	else if (f->minus > 0 && f->precision < 0)
-	{
-		print_cosita(i, f);
-		print_space((f->width - tam_str), f);
-	}
-	else if ((f->zero > 0 && f->precision > 0) || (f->width > 0 && f->precision > 0 && f->minus < 0))
-		zero_precs(tam_str, i, f);
+		casestr_minus(i, tam_str, f);
+	else if ((f->zero > 0 && f->precision > 0)
+		|| (f->width > 0 && f->precision > 0 && f->minus < 0))
+		casestr_zero_precs(i, tam_str, f);
 	else if (f->minus > 0 && f->precision > 0)
-		minus_precs(tam_str, i, f);
+		casestr_minus_precs(i, tam_str, f);
 	else if (f->minus < 0 && f->width < 0 && f->precision < 0)
 		print_cosita(i, f);
 	else if (f->minus < 0 && f->width < 0 && f->precision > 0)
-	{
-		if (tam_str < f->precision)
-			print_string(i,tam_str, f);
-		else
-			print_string(i,f->precision, f);
-	}
+		casestr_precision(i, tam_str, f);
 }
-
-/*
-	ft_printf("%0*.7sFIN\n", 10, "hola");		// La precisión escoge solo los x primeros caracteres y el * añade el width
-										// sobrante a la izq en forma de 0s
-	ft_printf("%-0*.2sFIN\n", 4, "hola");		// La precisión escoge solo los x primeros caracteres y el * añade el width
-										// sobrante a la dcha en forma de espacios
-	ft_printf("%-*sFIN\n", 6, "hola");		// añade (width - len(char *)) a la dcha
-	ft_printf("%-*.2sFIN\n", 4, "hola");	// . coge los 2 primeros char y añade (width - len(char *)) espacios a dcha
-	ft_printf("%*.2sFIN\n", 4, "hola");	// . coge los 2 primeros char y añade (width - len(char *)) espacios a izq
-	ft_printf("%*sFIN\n", 6, "hola");			// añade (width - len(char *)) espacios a la izq
-	ft_printf("%-.2sFIN\n", "hola");
-	ft_printf("%0.2sFIN\n", "hola");
-		// Estos ejemplos de flags no influyen en la cadena
-	ft_printf("X%-sFIN\n", "hola");
-	ft_printf("X%0sFIN\n", "hola");
-	ft_printf("X%-0sFIN\n", "hola"); // no mirar el printf no funcions con -0
-	ft_printf("X%0.7sFIN\n", "hola");
-	ft_printf("X%-.7sFIN\n", "hola");
-	printf("hasta aqui\n");
-	printf("%0*.7sFIN\n", 10, "hola");		// La precisión escoge solo los x primeros caracteres y el * añade el width
-										// sobrante a la izq en forma de 0s
-	printf("%-0*.2sFIN\n", 4, "hola");		// La precisión escoge solo los x primeros caracteres y el * añade el width
-										// sobrante a la dcha en forma de espacios
-	printf("%-*sFIN\n", 6, "hola");		// añade (width - len(char *)) a la dcha
-	printf("%-*.2sFIN\n", 4, "hola");	// . coge los 2 primeros char y añade (width - len(char *)) espacios a dcha
-	printf("%*.2sFIN\n", 4, "hola");	// . coge los 2 primeros char y añade (width - len(char *)) espacios a izq
-	printf("%*sFIN\n", 6, "hola");			// añade (width - len(char *)) espacios a la izq
-	printf("%-.2sFIN\n", "hola");
-	printf("%0.2sFIN\n", "hola");
-		// Estos ejemplos de flags no influyen en la cadena
-	printf("X%-sFIN\n", "hola");
-	printf("X%0sFIN\n", "hola");
-	printf("X%-0sFIN\n", "hola"); // no mirar el printf no funcions con -0
-	printf("X%0.7sFIN\n", "hola");
-	printf("X%-.7sFIN\n", "hola");
-	*/

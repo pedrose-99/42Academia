@@ -1,5 +1,5 @@
 #include "ft_printf.h"
-
+#include <limits.h>
 void init_struct(t_list *f)
 {
 	f->cont = 0;
@@ -90,6 +90,8 @@ void	print_char(t_list *f)
 		print_cosita(&i, f);
 		print_space((f->width - 1), f);
 	}
+	else if (f->precision <= 0)
+		print_cosita(&i, f);
 }
 
 void	caseh_zero_prec(char *p, int tam_num, t_list *f)
@@ -201,7 +203,7 @@ void	print_hexa(t_list *f)
 		caseh_minus_prec(p, i, tam_num, f);
 	else if (f->minus < 0 && f->width > 0 && f->precision > 0)
 		caseh_width_prec(p, i, tam_num, f);
-	else if (f->minus < 0 && f->width < 0 && f->precision < 0)
+	else if (f->minus < 0 && f->width < 0 && f->precision <= 0)
 		print_cosita(p, f);
 }
 
@@ -626,7 +628,7 @@ void	print_int(t_list *f)
 	int		tam_num;
 	char	*p;
 
-	i = va_arg(f->ap, int);
+	i = va_arg(f->ap, long long int);
 	p = ft_itoa(i);
 	tam_num = ft_strlen(p);
 	if ((f->zero > 0) && (f->precision > 0))
@@ -658,7 +660,7 @@ void	print_int(t_list *f)
 		case_minus_prec(i, tam_num, p, f);
 	else if (f->minus < 0 && f->width > 0 && f->precision > 0)
 		case_width_prec(i, tam_num, p, f);
-	else if (f->minus < 0 && f->width < 0 && f->precision < 0)
+	else if (f->minus < 0 && f->width < 0 && f->precision <= 0)
 		print_cosita(p, f);
 
 }
@@ -816,19 +818,20 @@ int		main(void)
 //	printf("%i\n",ft_printf("this %s is empty\n", ""));
 	static char *s_hidden = "hi low\0don't print me lol\0";
 //	printf("%i\n",printf("this %s is empty\n", ""));
-	long int INT_MAX;
-
-	INT_MAX = 2147483648;
-//	printf("%i\n",ft_printf("%*d\n", -10, 4));
+	//	printf("%i\n",ft_printf("%*d\n", -10, 4));
 
 //	printf("%i\n",printf("%*d\n", -10, 4));
 	
-	printf("%i\n",ft_printf("%09s", "hola"));
+//	printf("%i\n",ft_printf("%09s", "hola"));
 //	ft_printf("%d", 2);
 //	ft_printf("%.s", "hello");
 	//printf("%i\n",printf("%.0s", "hello"));
 //	printf("%i\n",printf("%5%);
-		printf("%i\n",printf("%09s", "hola"));
+		//printf("%i\n",printf("%09s", "hola"));
+
+          printf("%0.0i%0.0s%0.0x%0.0c%0.0d\n", 5, " Hola ", (short int)-1, ' ', INT_MIN);
+        ft_printf("%0.0i%0.0s%0.0x%0.0c%0.0d\n", 5, " Hola ", (short int)-1, ' ', INT_MIN);
+//
 }
 // FIN\n;
 

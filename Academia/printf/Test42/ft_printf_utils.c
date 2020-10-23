@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 07:47:45 by pserrano          #+#    #+#             */
-/*   Updated: 2020/03/24 11:35:22 by pedro            ###   ########.fr       */
+/*   Updated: 2020/10/23 13:35:14 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*print_menos(int num, char *p, t_list *f)
 	return (p);
 }
 
-void	print_zero(int	tam, t_list *f)
+void	print_zero(int tam, t_list *f)
 {
 	int i;
 
@@ -40,7 +40,7 @@ void	print_zero(int	tam, t_list *f)
 	}
 }
 
-void	print_space(int	tam, t_list *f)
+void	print_space(int tam, t_list *f)
 {
 	int i;
 
@@ -51,6 +51,7 @@ void	print_space(int	tam, t_list *f)
 		i++;
 	}
 }
+
 void	print_cosita(char *p, t_list *f)
 {
 	while (*p)
