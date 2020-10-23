@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 12:22:31 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/23 18:09:43 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/23 19:46:07 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ char	*handle_string(char *s)
 
 void	casestr_zero_o_width(char *i, int tam_str, t_list *f)
 {
-	print_space(f->width - tam_str, f);
+	if (f->zero > 0)
+		print_zero(f->width - tam_str, f);
+	else	
+		print_space(f->width - tam_str, f);
 	print_cosita(i, f);
 }
 
