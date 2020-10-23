@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 11:36:24 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/23 18:06:24 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/23 19:10:02 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,9 @@ void	print_hexa(t_list *f)
 	i = va_arg(f->ap, unsigned int);
 	p = trans_hex(i, f->spec);
 	tam_num = ft_strlen(p);
-	if ((f->zero > 0) && (f->precision > 0))
+	if (f->precision == 0 && i == 0 && f->width < 0 && f->minus < 0)
+		ft_printf("%s", "");
+	else if ((f->zero > 0) && (f->precision > 0))
 		caseh_zero_prec(p, tam_num, f);
 	else if (f->minus > 0 && f->precision <= 0)
 		caseh_minus(p, i, tam_num, f);
