@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 07:47:45 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/23 14:44:36 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/26 11:23:51 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	print_todos(t_list *f)
 	else if (c == 's')
 		print_str(f);
 	else if (c == '%')
-		ft_putchar('%', f);
+		print_char(f);
 }
 
 int		ft_printf(const char *cosa, ...)
