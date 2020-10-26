@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 11:22:20 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/26 11:31:47 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/26 12:46:29 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	print_char(t_list *f)
 		if (f->zero > 0 && f->spec != '%')
 			print_space(f->width - 1, f);
 		else 
-			print_space(f->width -1, f);
+			print_zero(f->width -1, f);
 		if (i == 0)
 			ft_putchar('\0', f);
 		else
