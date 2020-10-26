@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 11:30:37 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/26 20:26:21 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/26 20:28:50 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ void	casep_null(t_list *f)
 		if (f->width > 2)
 			print_space(f->width - 3, f);
 		print_cosita("0x0", f);
+		if (f->precision > 3)
+			print_zero (f->precision, f);
 	}	
 }
 
