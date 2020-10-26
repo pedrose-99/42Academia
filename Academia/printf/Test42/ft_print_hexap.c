@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 11:30:37 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/26 11:13:55 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/26 19:40:00 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	print_hexap(t_list *f)
 
 	i = va_arg(f->ap, long int);
 	if (i == 0)
-		p = ft_strdup("0x0");
+		p = ft_strdup("0x");
 	else
 		p = trans_hexp(i);
 	tam_num = ft_strlen(p);
