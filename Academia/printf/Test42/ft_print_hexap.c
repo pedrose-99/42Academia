@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 11:30:37 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/26 20:17:13 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/10/26 20:25:41 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,27 @@ char	*trans_hexp(long long int i)
 
 void	casep_null(t_list *f)
 {
-	if (f->precision > 0 && f->width < 2)
+/*	if (f->precision < 0 && f->width < 0)
+		print_cosita("0x0")
+	else if (f->precision > 0 && f->width < 0)
+	{
+
+	}
+	else if (f->precision < 0 && f->width > 0)
+	{
+
+	}
+	else (f->precision > 0 && f->width > 0)
+	{
+
+	} */
+	(f->precision == 0 && f->width < 2)
 	{	
 		print_cosita("0x", f);
 		if (f->precision > 2)
 			print_zero(f->precision, f);
 	}
-	else if (f->precision > 0)
+	else if (f->precision == 0)
 	{
 		print_space(f->width - 2, f);
 		print_cosita("0x", f);
