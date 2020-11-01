@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 07:47:45 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/26 11:23:51 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/11/01 13:42:41 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int		ft_count_nb(long int nb)
 	return (count);
 }
 
-void	print_todos(t_list *f)
+void	print_all(t_list *f)
 {
 	char c;
 
@@ -70,26 +70,27 @@ void	print_todos(t_list *f)
 		print_char(f);
 }
 
-int		ft_printf(const char *cosa, ...)
+int		ft_printf(const char *format_string, ...)
 {
 	t_list f;
 
 	init_struct(&f);
-	va_start(f.ap, cosa);
-	while (*cosa)
+	va_start(f.ap, format_string);
+	while (*format_string)
 	{
-		if (*cosa == '%')
+		if (*format_string == '%')
 		{
-			cosa = ft_store_data((char*)(cosa + 1), &f);
+			format_string = ft_store_data((char*)(format_string + 1), &f);
 			ft_store_data_def(&f);
-			f.spec = *(cosa++);
-			print_todos(&f);
+			f.spec = *(format_string++);
+			print_all(&f);
 		}
 		else
 		{
-			ft_putchar(*cosa, &f);
-			cosa++;
+			ft_putchar(*format_string, &f);
+			format_string++;
 		}
 	}
+	va_end(f.ap);
 	return (f.cont);
 }

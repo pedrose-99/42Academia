@@ -6,58 +6,11 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 11:30:37 by pserrano          #+#    #+#             */
-/*   Updated: 2020/10/26 20:39:46 by pserrano         ###   ########.fr       */
+/*   Updated: 2020/11/01 14:19:58 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-void	casehp_minus(char *p, int tam_num, t_list *f)
-{
-	print_cosita(p, f);
-	print_space((f->width - tam_num), f);
-}
-
-void	casehp_width(char *p, int tam_num, t_list *f)
-{
-	print_space((f->width - tam_num), f);
-	print_cosita(p, f);
-}
-
-void	caseh_zero_o_prec(char *p, int tam_num, t_list *f)
-{
-	if (f->precision > 0)
-		print_zero(f->precision - tam_num, f);
-	else
-		print_zero(f->width - tam_num, f);
-	print_cosita(p, f);
-}
-
-char	*type_p(char *def)
-{
-	int	p;
-
-	p = 0;
-	def[p] = '0';
-	p++;
-	def[p] = 'x';
-	p++;
-	return (def);
-}
-
-char	*print_hexap_prec(char *p, t_list *f)
-{
-	int i;
-
-	i = 0;
-	while (i < 2)
-	{
-		ft_putchar(*p, f);
-		p++;
-		i++;
-	}
-	return (p);
-}
 
 void	casehp_width_prec(char *p, int i, int tam_num, t_list *f)
 {
@@ -73,7 +26,7 @@ void	casehp_width_prec(char *p, int i, int tam_num, t_list *f)
 	tam_num = tam_num - 2;
 	p = print_hexap_prec(p, f);
 	print_zero(f->precision - tam_num, f);
-	print_cosita(p, f);
+	print_conversion_str(p, f);
 }
 
 char	*trans_hexp(long long int i)
@@ -106,24 +59,24 @@ char	*trans_hexp(long long int i)
 void	casep_null(t_list *f)
 {
 	if (f->precision == 0 && f->width < 2)
-	{	
-		print_cosita("0x", f);
+	{
+		print_conversion_str("0x", f);
 		if (f->precision > 2)
 			print_zero(f->precision, f);
 	}
 	else if (f->precision == 0)
 	{
 		print_space(f->width - 2, f);
-		print_cosita("0x", f);
+		print_conversion_str("0x", f);
 	}
 	else
 	{
 		if (f->width > 2)
 			print_space(f->width - 3, f);
-		print_cosita("0x0", f);
+		print_conversion_str("0x0", f);
 		if (f->precision >= 2)
-			print_zero (f->precision - 1, f);
-	}	
+			print_zero(f->precision - 1, f);
+	}
 }
 
 void	print_hexap(t_list *f)
@@ -135,9 +88,9 @@ void	print_hexap(t_list *f)
 	i = va_arg(f->ap, long int);
 	p = trans_hexp(i);
 	tam_num = ft_strlen(p);
-	if	(i == 0)
+	if (i == 0)
 		casep_null(f);
-	else if	((f->zero > 0) && (f->precision > 0))
+	else if ((f->zero > 0) && (f->precision > 0))
 		caseh_zero_prec(p, tam_num, f);
 	else if (f->minus > 0 && f->precision <= 0)
 		casehp_minus(p, tam_num, f);
@@ -151,6 +104,6 @@ void	print_hexap(t_list *f)
 	else if (f->minus < 0 && f->width > 0 && f->precision > 0)
 		casehp_width_prec(p, i, tam_num, f);
 	else if (f->minus < 0 && f->width < 0 && f->precision < 0)
-		print_cosita(p, f);
+		print_conversion_str(p, f);
 	free(p);
 }
