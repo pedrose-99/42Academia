@@ -23,6 +23,7 @@ void	get_map(t_list **map, char const *argv[])
 	}
 }
 
+
 int		save_map(t_list *map)
 {
 	int i;
