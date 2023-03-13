@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 // Esta funcion guarda el mapa con un malloc
+//prirue
 char** make_area(char** zone, t_point size)
 {
     char** new;
