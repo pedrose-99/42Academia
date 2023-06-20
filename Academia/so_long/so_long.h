@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:35:51 by pserrano          #+#    #+#             */
-/*   Updated: 2023/02/13 12:34:29 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:37:20 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 
 typedef struct  s_point
 {
-    int           x;
-    int           y;
-    int         lastx;
-    int         lasty;
-	int			collect;
-	int			exit;
-}               t_point;
+	int	x;
+	int	y;
+	int	lastx;
+	int	lasty;
+	int	collect;
+	int	exit;
+}	t_point;
 
 typedef struct s_render_images
 {

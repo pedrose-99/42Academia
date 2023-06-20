@@ -1,0 +1,1 @@
+//gcc main_prueba.c ../libft/libft.a -lmlx -framework OpenGL -framework AppKit

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_items.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/20 09:55:03 by pserrano          #+#    #+#             */
+/*   Updated: 2023/06/20 09:55:06 by pserrano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 // Esta función comprueba si el mapa contiene 1 en cada uno de sus bordes
 t_bool	check_map(t_list *map)
@@ -46,7 +58,7 @@ int	is_rectangle(t_list *map)
 {
 	int	aux;
 	int	i;
-	int y;
+	int	y;
 
 	i = 0;
 	y = 0;

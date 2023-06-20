@@ -1,62 +1,84 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_prueba.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/20 10:49:50 by pserrano          #+#    #+#             */
+/*   Updated: 2023/06/20 13:04:09 by pserrano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../so_long.h"
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
 
-// Esta funcion guarda el mapa con un malloc
+// Esta funcion guarda el mapa con un malloc No se si lo necesito
 //prirue eieueu
-char** make_area(char** zone, t_point size)
+char	**make_area(char **zone, t_point size)
 {
-    char** new;
+	char	**new;
+	int		i;
+	int		j;
 
-    new = malloc(sizeof(char*) * size.y);
-    for (int i = 0; i < size.y; ++i)
-    {
-        new[i] = malloc(size.x + 1);
-        for (int j = 0; j < size.x; ++j)
-            new[i][j] = zone[i][j];
-        new[i][size.x] = '\0';
-    }
-    return (new);
+	i = 0;
+	new = malloc(sizeof(char *) * size.y);
+	while (i < size.y)
+	{
+		new[i] = malloc (size.y + 1);
+		j = 0;
+		while (j < size.x)
+		{
+			new[i][j] = zone[i][j];
+			j++;
+		}
+		i++;
+	}
+	return (new);
 }
+
 // Esta funcion comprueba si la siguiente posición esta libre o no 
-int		check_condition(t_point cur, char **tab)
+int	check_condition(t_point cur, char **tab)
 {
-	if(tab[cur.y][cur.x -1] == 'R' || tab[cur.y][cur.x -1] == 'W')
-    {
+	if (tab[cur.y][cur.x -1] == 'R' || tab[cur.y][cur.x -1] == 'W')
+	{
 		cur.y = cur.y;
-   		cur.x = cur.x - 1;
-    }
-    else if (tab[cur.y][cur.x +1] == 'R' || tab[cur.y][cur.x+1] == 'W')
-    {
+		cur.x = cur.x - 1;
+	}
+	else if (tab[cur.y][cur.x +1] == 'R' || tab[cur.y][cur.x + 1] == 'W')
+	{
 		cur.y = cur.y;
-       	cur.x = cur.x + 1;
-    }
-    else if (tab[cur.y - 1][cur.x] == 'R' || tab[cur.y-1][cur.x] == 'W')
-    {
+		cur.x = cur.x + 1;
+	}
+	else if (tab[cur.y - 1][cur.x] == 'R' || tab[cur.y - 1][cur.x] == 'W')
+	{
 		cur.y = cur.y - 1;
-       	cur.x = cur.x;
-    }
-    else if (tab[cur.y + 1][cur.x] == 'R' || tab[cur.y+1][cur.x] == 'W')
-    {
+		cur.x = cur.x;
+	}
+	else if (tab[cur.y + 1][cur.x] == 'R' || tab[cur.y +1][cur.x] == 'W')
+	{
 		cur.y = cur.y + 1;
-       	cur.x = cur.x;
-    }
+		cur.x = cur.x;
+	}
 	else
 		return (0);
 	return (1);
 }
 
 // Esta funcion usa se usa cuando no se puede avanzar
-t_point		condicion_noexit(t_point cur, char **tab)
+t_point	condicion_noexit(t_point cur, char **tab)
 {
-    if ((tab[cur.y][cur.x - 1] == 'F' || tab[cur.y][cur.x - 1] == 'R' || tab[cur.y][cur.x -1] == 'W') 
-		&& (tab[cur.y][cur.x + 1] == 'F' || tab[cur.y][cur.x+1] == 'R' || tab[cur.y][cur.x +1] == 'W') 
-		&& (tab[cur.y - 1][cur.x] == 'F' || tab[cur.y-1][cur.x] == 'R' || tab[cur.y-1][cur.x] == 'W') 
-		&& (tab[cur.y + 1][cur.x] == 'F' || tab[cur.y+1][cur.x] == 'R' || tab[cur.y+1][cur.x] == 'W'))
-    {
+	if ((tab[cur.y][cur.x - 1] == 'F' || tab[cur.y][cur.x - 1] == 'R'
+		|| tab[cur.y][cur.x -1] == 'W') && (tab[cur.y][cur.x + 1] == 'F'
+		|| tab[cur.y][cur.x + 1] == 'R' || tab[cur.y][cur.x +1] == 'W')
+		&& (tab[cur.y - 1][cur.x] == 'F' || tab[cur.y - 1][cur.x] == 'R'
+		|| tab[cur.y - 1][cur.x] == 'W') && (tab[cur.y + 1][cur.x] == 'F'
+		|| tab[cur.y + 1][cur.x] == 'R' || tab[cur.y + 1][cur.x] == 'W'))
+	{
 		tab[cur.y][cur.x] = 'F';
-    	if (!check_condition(cur, tab))
+		if (!check_condition(cur, tab))
 			exit(1);
 		else
 		{
@@ -71,8 +93,8 @@ t_point		condicion_noexit(t_point cur, char **tab)
 t_point	wall_condition(t_point cur, char **tab)
 {
 	tab[cur.y][cur.x] = 'F';
-    cur.y = cur.lasty;
-    cur.x = cur.lastx;
+	cur.y = cur.lasty;
+	cur.x = cur.lastx;
 	return (cur);
 }
 
@@ -82,57 +104,66 @@ t_point	condition_check_object(t_point cur, char **tab)
 	if (tab[cur.y][cur.x] == 'C' || tab[cur.y][cur.x] == 'W')
 		tab[cur.y][cur.x] = 'W';
 	else
-    	tab[cur.y][cur.x] = 'R';
-    cur.lastx = cur.x;
-    cur.lasty = cur.y;
+		tab[cur.y][cur.x] = 'R';
+	cur.lastx = cur.x;
+	cur.lasty = cur.y;
 	return (cur);
 }
 
 // Esta función recorre el mapa con recursividad y analiza cada posición
-void    fill(char **tab, t_point size, t_point cur, char to_fill)
+void	fill(char **tab, t_point size, t_point cur, char to_fill)
 {
-    if (cur.y < 0 || cur.y >= size.y || cur.x < 0 || cur.x >= size.x || tab[cur.y][cur.x] == 'E' 
-	|| tab[cur.y][cur.x] == 'X')
+	if (cur.y < 0 || cur.y >= size.y || cur.x < 0 || cur.x >= size.x
+		|| tab[cur.y][cur.x] == 'E' || tab[cur.y][cur.x] == 'X')
 	{
 		if (tab[cur.y][cur.x] == 'E')
 			tab[cur.y][cur.x] = 'X';
-    	return;
+		return ;
 	}
-    if (tab[cur.y][cur.x] == '1')
-        cur = wall_condition(cur, tab);
-    else if (tab[cur.y][cur.x] == '0' || tab[cur.y][cur.x] == 'P' || tab[cur.y][cur.x] == 'C')
+	if (tab[cur.y][cur.x] == '1')
+		cur = wall_condition(cur, tab);
+	else if (tab[cur.y][cur.x] == '0' || tab[cur.y][cur.x] == 'P'
+		|| tab[cur.y][cur.x] == 'C')
 		cur = condition_check_object(cur, tab);
-    else if (tab[cur.y][cur.x] == 'R')
+	else if (tab[cur.y][cur.x] == 'R')
 		cur = condicion_noexit(cur, tab);
-    if (tab[cur.y][cur.x - 1] != 'F' && tab[cur.y][cur.x -1] != 'R' && tab[cur.y][cur.x-1] != 'W')
-        fill(tab, size, (t_point){cur.x - 1, cur.y, cur.lastx, cur.lasty, cur.exit, cur.collect}, to_fill);
-    if (tab[cur.y][cur.x + 1] != 'F' && tab[cur.y][cur.x +1] != 'R' && tab[cur.y][cur.x+1] != 'W')
-        fill(tab, size, (t_point){cur.x + 1, cur.y, cur.lastx, cur.lasty, cur.exit, cur.collect}, to_fill);
-    if (tab[cur.y - 1][cur.x] != 'F' && tab[cur.y - 1][cur.x] != 'R' && tab[cur.y-1][cur.x] != 'W')
-        fill(tab, size, (t_point){cur.x, cur.y - 1, cur.lastx, cur.lasty, cur.exit, cur.collect}, to_fill);
-    if (tab[cur.y + 1][cur.x] != 'F' && tab[cur.y + 1][cur.x] != 'R' && tab[cur.y+1][cur.x] != 'W')
-        fill(tab, size, (t_point){cur.x, cur.y + 1, cur.lastx, cur.lasty, cur.exit, cur.collect}, to_fill);
+	if (tab[cur.y][cur.x - 1] != 'F' && tab[cur.y][cur.x -1] != 'R'
+		&& tab[cur.y][cur.x - 1] != 'W')
+		fill(tab, size, (t_point){cur.x - 1, cur.y,
+			cur.lastx, cur.lasty, cur.exit, cur.collect}, to_fill);
+	if (tab[cur.y][cur.x + 1] != 'F' && tab[cur.y][cur.x +1] != 'R'
+		&& tab[cur.y][cur.x + 1] != 'W')
+		fill(tab, size, (t_point){cur.x + 1, cur.y, cur.lastx,
+			cur.lasty, cur.exit, cur.collect}, to_fill);
+	if (tab[cur.y - 1][cur.x] != 'F' && tab[cur.y - 1][cur.x] != 'R'
+		&& tab[cur.y - 1][cur.x] != 'W')
+		fill(tab, size, (t_point){cur.x, cur.y - 1, cur.lastx,
+			cur.lasty, cur.exit, cur.collect}, to_fill);
+	if (tab[cur.y + 1][cur.x] != 'F' && tab[cur.y + 1][cur.x] != 'R'
+		&& tab[cur.y + 1][cur.x] != 'W')
+		fill(tab, size, (t_point){cur.x, cur.y + 1, cur.lastx,
+			cur.lasty, cur.exit, cur.collect}, to_fill);
 }
 
 // Esta función llama a la función anterior
-t_point   flood_fill(char **tab, t_point size, t_point begin)
+t_point		flood_fill(char **tab, t_point size, t_point begin)
 {
-    fill(tab, size, begin, tab[begin.y][begin.x]);
-	return(begin);
+	fill(tab, size, begin, tab[begin.y][begin.x]);
+	return (begin);
 }
 
 // Esta función escribe por pantalla el mapa
 t_point	check_components(char **area, t_point size, t_point begin)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	j = 0;
 	i = 0;
-	while(j < size.y)
+	while (j < size.y)
 	{
 		i = 0;
-		while(i <= size.x)
+		while (i <= size.x)
 		{
 			if (area[j][i] == 'W')
 				begin.collect++;
@@ -155,7 +186,7 @@ void	map_info_intializor(t_info_map *map_info, t_list *map)
 }
 
 // Esta función libera el malloc hecho anteriormente
-void	free_map(t_info_map *map_info)
+void	free_map_info(t_info_map *map_info)
 {
 	int	i;
 
@@ -174,7 +205,8 @@ void	saving_map_array(t_list *map_obsolete, t_info_map *map_info)
 	int	j;
 
 	j = 0;
-	map_info->map = ft_calloc(ft_lstsize(map_obsolete) + 1, sizeof(char *));
+	if (!map_info->map)
+		map_info->map = ft_calloc(ft_lstsize(map_obsolete) + 1, sizeof(char *));
 	while (map_obsolete)
 	{
 		map_info->map[j] = ((char *)map_obsolete->content);
@@ -215,20 +247,20 @@ t_bool	check_map(t_list *map)
 // Esta función obtiene el tamaño vertical del mapa
 int		get_size_y(char **map)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(map[i])
+	while (map[i])
 		i++;
 	return (i);
 }
 // Esta función obtiene el tamaño horizontal del mapa
 int		get_size_x(char **map)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(map[0][i])
+	while (map[0][i])
 		i++;
 	return (i);
 }
@@ -290,7 +322,7 @@ int	is_rectangle(t_list *map)
 {
 	int	aux;
 	int	i;
-	int y;
+	int	y;
 
 	i = 0;
 	y = 0;
@@ -313,11 +345,11 @@ int	is_rectangle(t_list *map)
 // Esta función comprueba y obtiene la posición inicial
 t_point	check_start(char **map, t_point begin)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	j = 0;
-	while(map[j])
+	while (map[j])
 	{
 		i = 0;
 		while (map[j][i])
@@ -333,15 +365,15 @@ t_point	check_start(char **map, t_point begin)
 		}
 		j++;
 	}
-	return(begin);
+	return (begin);
 }
 
 // Esta función cuenta los objetos
 int		get_coins(char **map)
 {
-	int i;
-	int j;
-	int z;
+	int	i;
+	int	j;
+	int	z;
 
 	j = 0;
 	z = 0;
@@ -358,13 +390,25 @@ int		get_coins(char **map)
 	}
 	return (z);
 }
+void	free_map(char **map)
+{
+	int	k;
+
+	k = 0;
+	while (map[k])
+	{
+		free(map[k]);
+		k++;
+	}
+}
 int		check_laberinto(char **map, t_info_map *map_info)
 {
-	t_point begin;
-	t_point size;
-	int z;
-	int i = 0;
-	//meter aqui el chechear laberinto
+	t_point	begin;
+	t_point	size;
+	int		z;
+	int		i;
+
+	i = 0;
 	size.x = get_size_x(map);
 	size.y = get_size_y(map);
 	z = get_coins(map);
@@ -376,24 +420,43 @@ int		check_laberinto(char **map, t_info_map *map_info)
 	if (begin.collect != z)
 	{
 		printf("No se recogen tos los coins\n");
+		free_map(map);
 		return (0);
 	}
 	if (begin.exit != 1)
 	{
 		printf("No se puede llegar a la salida\n");
+		free_map(map);
 		return (0);
 	}
+	free_map(map);
 	return (1);
+}
+
+void	free_lst(t_list *map)
+{
+	t_list *aux;
+	t_list *aux2;
+
+	aux = map;
+	aux2 = NULL;
+	while (aux)
+	{
+		aux2 = aux->next;
+		free(aux);
+		aux = aux2;
+	}
+	map = NULL;
 }
 
 // Esta función inicializa y comprueba el mapa
 t_bool	initialize_andcheck_map(char const *argv[], t_info_map *map_info)
 {
-	t_list	*map;
-	t_point begin;
-	t_point	size;
-	char **map_aux;
-	int y;
+	t_list		*map;
+	t_point		begin;
+	t_point		size;
+	char		**map_aux;
+	int			y;
 
 	y = 0;
 	map = NULL;
@@ -407,11 +470,11 @@ t_bool	initialize_andcheck_map(char const *argv[], t_info_map *map_info)
 	else if (!check_objects(map))
 		return (0);
 	map_info_intializor(map_info, map);
-	//meter aqui el chechear laberinto
 	if (!check_laberinto(map_info->map, map_info))
 		return (0);
 	initialize_map(&map, argv);
 	saving_map_array(map, map_info);
+	free_lst(map);
 	return (1);
 }
 
@@ -421,7 +484,7 @@ void	print_error_exit(int exception, t_info_map *map_info)
 	if (exception == 1)
 	{
 		printf("Error\nNOT A VALID MAP FORMAT\n");
-		free_map(map_info);
+		free_map_info(map_info);
 		exit (1);
 	}
 	else if (exception == 2)
@@ -429,7 +492,7 @@ void	print_error_exit(int exception, t_info_map *map_info)
 		printf("Error\nIMAGE NOT FOUND\n");
 		free(map_info->mlx);
 		free(map_info->window);
-		free_map(map_info);
+		free_map_info(map_info);
 		exit (1);
 	}
 	else if (exception == 3)
@@ -473,32 +536,37 @@ int	load_images(t_info_map *map_info)
 void	fill_map_conditional(t_info_map *map_info, int x, int y)
 {
 	if (map_info->map[y][x] == '1')
-		mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.wall, x * 64, y* 64);
+		mlx_put_image_to_window(map_info->mlx, map_info->window,
+			map_info->images.wall, x * 64, y * 64);
 	else if (map_info->map[y][x] == 'C')
-		mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.objects, x * 64, y* 64);
+		mlx_put_image_to_window(map_info->mlx, map_info->window,
+			map_info->images.objects, x * 64, y * 64);
 	else if (map_info->map[y][x] == '0')
-		mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.grass,  x * 64, y* 64);
+		mlx_put_image_to_window(map_info->mlx, map_info->window,
+			map_info->images.grass, x * 64, y * 64);
 	else if (map_info->map[y][x] == 'P')
 	{
-		mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.player, x * 64, y * 64);
+		mlx_put_image_to_window(map_info->mlx, map_info->window,
+			map_info->images.player, x * 64, y * 64);
 		map_info->pos_y = y;
 		map_info->pos_x = x;
 	}
 	else if (map_info->map[y][x] == 'E')
-		mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.exit, x * 64, y* 64);
+		mlx_put_image_to_window(map_info->mlx, map_info->window,
+			map_info->images.exit, x * 64, y * 64);
 }
 
 // Esta funcion analiza si hay un objeto
 void	fill_map(t_info_map *map_info)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	y = 0;
-	while(map_info->map[y])
+	while (map_info->map[y])
 	{
 		x = 0;
-		while(map_info->map[y][x] != '\0')
+		while (map_info->map[y][x] != '\0')
 		{
 			if (map_info->map[y][x] == 'C')
 				map_info->objects++;
@@ -526,35 +594,48 @@ void draw_collect(t_info_map *map_info, int x, int y)
 {
 	if (map_info->map[map_info->pos_y][map_info->pos_x] == 'E')
 	{
-		mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.exit, map_info->pos_x * 64, map_info->pos_y * 64);
+		mlx_put_image_to_window(map_info->mlx, map_info->window,
+			map_info->images.exit, map_info->pos_x * 64, map_info->pos_y * 64);
 		map_info->map[map_info->pos_y][map_info->pos_x] = 'E';
 	}
 	else
 	{
-		mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.grass, map_info->pos_x * 64, map_info->pos_y * 64);
+		mlx_put_image_to_window(map_info->mlx, map_info->window,
+			map_info->images.grass, map_info->pos_x * 64, map_info->pos_y * 64);
 		map_info->map[map_info->pos_y][map_info->pos_x] = '0';
 	}
-	mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.grass, (map_info->pos_x + x) * 64, (map_info->pos_y + y)* 64);
-	mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.player, (map_info->pos_x + x) * 64, (map_info->pos_y + y)* 64);
+	mlx_put_image_to_window(map_info->mlx, map_info->window,
+		map_info->images.grass, (map_info->pos_x + x) * 64,
+		(map_info->pos_y + y) * 64);
+	mlx_put_image_to_window(map_info->mlx, map_info->window,
+		map_info->images.player, (map_info->pos_x + x) * 64,
+		(map_info->pos_y + y) * 64);
 	map_info->pos_x += x;
 	map_info->pos_y += y;
 	map_info->objects--;
 }
+
 // Esta funcion dibuja el personaje
 void draw_character(t_info_map *map_info, int x, int y)
 {
 	if (map_info->map[map_info->pos_y][map_info->pos_x] == 'E')
 	{
-		mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.exit, map_info->pos_x * 64, map_info->pos_y * 64);
+		mlx_put_image_to_window(map_info->mlx, map_info->window,
+			map_info->images.exit, map_info->pos_x * 64, map_info->pos_y * 64);
 		map_info->map[map_info->pos_y][map_info->pos_x] = 'E';
 	}
 	else
 	{
-		mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.grass, map_info->pos_x * 64, map_info->pos_y * 64);
+		mlx_put_image_to_window(map_info->mlx, map_info->window,
+			map_info->images.grass, map_info->pos_x * 64, map_info->pos_y * 64);
 		map_info->map[map_info->pos_y][map_info->pos_x] = '0';
 	}
-	mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.grass, (map_info->pos_x + x) * 64, (map_info->pos_y + y)* 64);
-	mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.player, (map_info->pos_x + x) * 64, (map_info->pos_y + y)* 64);
+	mlx_put_image_to_window(map_info->mlx, map_info->window,
+		map_info->images.grass, (map_info->pos_x + x) * 64,
+		(map_info->pos_y + y) * 64);
+	mlx_put_image_to_window(map_info->mlx, map_info->window,
+		map_info->images.player, (map_info->pos_x + x) * 64,
+		(map_info->pos_y + y) * 64);
 	map_info->pos_x += x;
 	map_info->pos_y += y;
 }
@@ -569,7 +650,7 @@ int		close_window(t_info_map *map_info)
 	mlx_destroy_image(map_info->mlx, map_info->images.wall);
 	mlx_destroy_image(map_info->mlx, map_info->images.grass);
 	mlx_destroy_window(map_info->mlx, map_info->window);
-	free_map(map_info);
+	free_map_info(map_info);
 	exit (0);
 	return (0);
 }
@@ -579,16 +660,23 @@ void draw_exit(t_info_map *map_info, int x, int y)
 {
 	if (map_info->map[map_info->pos_y][map_info->pos_x] == 'E')
 	{
-		mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.exit, map_info->pos_x * 64, map_info->pos_y * 64);
+		mlx_put_image_to_window(map_info->mlx, map_info->window,
+			map_info->images.exit, map_info->pos_x * 64,
+			map_info->pos_y * 64);
 		map_info->map[map_info->pos_y][map_info->pos_x] = 'E';
 	}
 	else
 	{
-		mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.grass, map_info->pos_x * 64, map_info->pos_y * 64);
+		mlx_put_image_to_window(map_info->mlx, map_info->window,
+			map_info->images.grass, map_info->pos_x * 64, map_info->pos_y * 64);
 		map_info->map[map_info->pos_y][map_info->pos_x] = '0';
 	}
-	mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.exit, (map_info->pos_x + x) * 64, (map_info->pos_y + y) *64);
-	mlx_put_image_to_window(map_info->mlx, map_info->window, map_info->images.player_goal, (map_info->pos_x + x)*64 , (map_info->pos_y + y)*64);
+	mlx_put_image_to_window(map_info->mlx, map_info->window,
+		map_info->images.exit, (map_info->pos_x + x) * 64,
+		(map_info->pos_y + y) * 64);
+	mlx_put_image_to_window(map_info->mlx, map_info->window,
+		map_info->images.player_goal, (map_info->pos_x + x) * 64,
+		(map_info->pos_y + y) * 64);
 	map_info->pos_x += x;
 	map_info->pos_y += y;
 	if (map_info->objects == 0)
@@ -598,8 +686,8 @@ void draw_exit(t_info_map *map_info, int x, int y)
 // Esta funcion mueve al personaje
 void	player_movement(t_info_map *map_info, int x, int y)
 {
-	int pos_y;
-	int pos_x;
+	int	pos_y;
+	int	pos_x;
 
 	pos_y = map_info->pos_y;
 	pos_x = map_info->pos_x;
@@ -607,7 +695,7 @@ void	player_movement(t_info_map *map_info, int x, int y)
 	{
 		map_info->moves++;
 		printf("Movements: %i\n", map_info->moves);
-		if(map_info->map[pos_y + y][pos_x + x] == '0')
+		if (map_info->map[pos_y + y][pos_x + x] == '0')
 			draw_character(map_info, x, y);
 		else if (map_info->map[pos_y + y][pos_x + x] == 'C')
 			draw_collect(map_info, x, y);
@@ -636,23 +724,25 @@ int		key_hook(int key, t_info_map *map_info)
 		close_window(map_info);
 	return (0);
 }
+
 // Esta funcion espera a que se reciba una tecla
 void	waiting_events(t_info_map *map_info)
 {
 	mlx_key_hook(map_info->window, *key_hook, map_info);
-	mlx_hook(map_info->window, 17, (1L<<8), close_window, map_info);
+	mlx_hook(map_info->window, 17, (1L << 8), close_window, map_info);
 }
 
 // Esta funcion inicializa la ventana y hace un bucle infinito
 void	map_render(t_info_map *map_info)
 {
-	int screen_w;
-	int screen_h;
+	int	screen_w;
+	int	screen_h;
 
 	screen_w = map_info->lenght * 64;
 	screen_h = map_info->height * 64;
 	map_info->mlx = mlx_init();
-	map_info->window = mlx_new_window(map_info->mlx, screen_w, screen_h, "so_long");
+	map_info->window = mlx_new_window (map_info->mlx,
+		screen_w, screen_h, "so_long");
 	if (!load_images(map_info))
 		print_error_exit(2, map_info);
 	fill_map(map_info);
@@ -663,10 +753,13 @@ void	map_render(t_info_map *map_info)
 int main(int argc, char const *argv[])
 {
 	t_info_map	map_info;
-	int i;
+	int			i;
+	int			k;
 
 	if (!initialize_andcheck_map(argv, &map_info))
+	{
 		printf("mal");
+	}
 	else
 	{
 		printf("bien\n");

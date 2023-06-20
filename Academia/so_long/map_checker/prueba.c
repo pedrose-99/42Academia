@@ -241,6 +241,13 @@ int main(void)
 	begin = check_components(area, size, begin);
 	printf("%d\n", begin.collect);
 	printf("%d\n", begin.exit);
-    free(area);
+	int k;
+	k = 0;
+    while (area[k])
+	{
+		free(area[k]);
+		k++;
+	}
+	system("leaks -q a.out");
     return (0);
 }
