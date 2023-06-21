@@ -3,7 +3,7 @@
 
 int main()
 {
-	ft_printf("%05s\n");
+	ft_printf("holaaaa\n");
 	ft_printf("%05i\n");
 	ft_printf("%05d\n");
 	ft_printf("%05u\n");

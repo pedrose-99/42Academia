@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_prueba.c                                      :+:      :+:    :+:   */
+/*   copia_seguridad.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 10:49:50 by pserrano          #+#    #+#             */
-/*   Updated: 2023/06/21 15:39:27 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/21 14:09:51 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,30 @@
 #include <fcntl.h>
 #include <stdio.h>
 
+// Esta funcion guarda el mapa con un malloc No se si lo necesito
+//CHECKEADO
+char	**make_area(char **zone, t_point size)
+{
+	char	**new;
+	int		i;
+	int		j;
 
+	i = 0;
+	new = malloc(sizeof(char *) * size.y);
+	while (i < size.y)
+	{
+		new[i] = malloc (size.y + 1);
+		j = 0;
+		while (j < size.x)
+		{
+			new[i][j] = zone[i][j];
+			j++;
+		}
+		i++;
+	}
+	return (new);
+}
+//CHECKEADO
 // Esta funcion comprueba si la siguiente posición esta libre o no 
 int	check_condition(t_point cur, char **tab)
 {
@@ -88,23 +111,15 @@ t_point	condition_check_object(t_point cur, char **tab)
 }
 //PASAR NORMINET PERO CHECKEADO
 // Esta función recorre el mapa con recursividad y analiza cada posición
-int first_condition_fill(char **tab, t_point size, t_point cur, char to_fill)
+void	fill(char **tab, t_point size, t_point cur, char to_fill)
 {
 	if (cur.y < 0 || cur.y >= size.y || cur.x < 0 || cur.x >= size.x
 		|| tab[cur.y][cur.x] == 'E' || tab[cur.y][cur.x] == 'X')
 	{
 		if (tab[cur.y][cur.x] == 'E')
 			tab[cur.y][cur.x] = 'X';
-		return (0);
-	}
-	return (1);
-}
-
-
-void	fill(char **tab, t_point size, t_point cur, char to_fill)
-{
-	if (first_condition(tab, size, cur, to_fill) == 0)
 		return ;
+	}
 	if (tab[cur.y][cur.x] == '1')
 		cur = wall_condition(cur, tab);
 	else if (tab[cur.y][cur.x] == '0' || tab[cur.y][cur.x] == 'P'
@@ -162,9 +177,8 @@ t_point	check_components(char **area, t_point size, t_point begin)
 	}
 	return (begin);
 }
-//CHECKEADO
-// Esta función inicializa las variables de map_info
-void	map_info_intializor(t_info_map *map_info, char **map)
+
+void	map_info_intializor_version2(t_info_map *map_info, char **map)
 {
 	int	i;
 	int	j;
@@ -177,7 +191,20 @@ void	map_info_intializor(t_info_map *map_info, char **map)
 		j++;
 	map_info->height = i;
 	map_info->lenght = j;
+	printf("MAP_ lenght = %d\n", j);
+	printf("MAP_ heigh = %d\n", i);
 	map_info->moves = 0;
+}
+//CAMBIAR UN POQUITO
+// Esta función inicializa las variables de map_info
+void	map_info_intializor(t_info_map *map_info, t_list *map)
+{
+	printf("MAP_ SIZE = %d\n", ft_lstsize(map));
+	map_info->height = ft_lstsize(map);
+	map_info->lenght = ft_strlen(map->content);
+	printf("MAP_ lenght = %d\n", ft_strlen(map->content));
+	map_info->moves = 0;
+	ft_lstclear(&map, NULL);
 }
 
 //CHECKEADO MAS MENOS
@@ -194,20 +221,44 @@ void	free_map_info(t_info_map *map_info)
 	}
 	free(map_info->map);
 }
-//CHECKEADO
-void	free_map(char **map)
-{
-	int	k;
+//CAMBIAR
+// Esta función guarda el mapa en un array
 
-	k = 0;
-	while (map[k])
-	{
-		free(map[k]);
-		k++;
-	}
-	free(map);
+
+
+
+
+
+
+
+
+void	save_map_array(char **map, t_info_map *map_info)
+{
+	int	j;
+	int	i;
+
+	i = 0;
+	j = 0;
 }
-//CHECKEADO
+
+
+
+void	saving_map_array(t_list *map_obsolete, t_info_map *map_info)
+{
+	int	j;
+
+	j = 0;
+	if (!map_info->map)
+		map_info->map = ft_calloc(ft_lstsize(map_obsolete) + 1, sizeof(char *));
+	while (map_obsolete)
+	{
+		map_info->map[j] = ((char *)map_obsolete->content);
+		map_obsolete = map_obsolete->next;
+		j++;
+	}
+	map_info->map[j] = NULL;
+}
+
 int check_map_init_and_end(char **map, int i, int j)
 {
 	while (map[i][j])
@@ -219,7 +270,7 @@ int check_map_init_and_end(char **map, int i, int j)
 	}
 	return (1);
 }
-//CHECKEADO
+
 int	check_map_body(char **map, int size_columns, int size_line)
 {
 	int	i;
@@ -235,8 +286,8 @@ int	check_map_body(char **map, int size_columns, int size_line)
 	return (1);
 }
 
-//CHECKEADO
-int		check_map(char **map)
+
+int		check_map_version2(char **map)
 {
 	int		i;
 	int		j;
@@ -262,6 +313,41 @@ int		check_map(char **map)
 	return (1);
 }
 
+
+
+
+
+
+//CAMBIAR
+// Esta función comprueba si el mapa contiene 1 en cada uno de sus bordes 
+int	check_map(t_list *map)
+{
+	int			i;
+	int			j;
+	const int	endofmap = ft_lstsize(map) - 1;
+
+	j = 0;
+	i = 0;
+	while (map)
+	{
+		if (((char *)map->content)[0] != '1' ||
+			((char *)map->content)[ft_strlen(map->content) - 1] != '1')
+			return (0);
+		while (((char *)map->content)[i])
+		{
+			if ((((char *)map->content)[i] != '1' && j == 0) ||
+				(((char *)map->content)[i] != '1' && j == endofmap))
+				return (0);
+			else if (!ft_strchr("10CEP", ((char *)map->content)[i]))
+				return (0);
+			i++;
+		}
+		i = 0;
+		j++;
+		map = map->next;
+	}
+	return (1);
+}
 //CHECKEADO
 // Esta función obtiene el tamaño vertical del mapa
 int		get_size_y(char **map)
@@ -283,6 +369,21 @@ int		get_size_x(char **map)
 	while (map[0][i])
 		i++;
 	return (i);
+}
+
+void	ft_line_in_map(char **map, char *buffer, int fila)
+{
+	int	i;
+	int	size;
+
+	size = 0;
+	i = 0;
+	while (buffer[size])
+		size++;
+	while (buffer[i])
+	{
+		i++;
+	}
 }
 //CAMBIAR
 // Esta función lee el mapa por primera vez e identifica si hay error o no
@@ -330,8 +431,8 @@ char	**alloc_columns(int line_count)
 	return (map);
 }
 
-//CHECKEADO
-char	**initialize_map(char const *argv[])
+
+char	**initialize_map_version2(char const *argv[])
 {
 	int		fd;
 	int		num_lines;
@@ -354,10 +455,51 @@ char	**initialize_map(char const *argv[])
 	return (new_map);
 }
 
+/*
+char	**read_map(char *file)
+{
+	char	**map;
+	int		fd;
+	int		i;
 
-//CHECKEADO
-// Esta función compruevaba si el contenido de los tokens del mapa es correcto
-int check_objects(char **map, t_info_map map_info)
+	map = alloc_columns(file);
+	if (map == NULL)
+		return (NULL);
+	fd = open(file, O_RDONLY);
+	i = 0;
+	while (get_next_line(fd, &map[i++]))
+		;
+	map[i] = NULL;
+	close(fd);
+	return (map);
+}*/
+
+void	initialize_map(t_list **map, char const *argv[])
+{
+	char	*buffer;
+	int		fd;
+	int		ctrl_line;
+	int		num_lines;
+
+	buffer = NULL;
+	*map = NULL;
+	fd = open(argv[1], O_RDONLY);
+	num_lines = count_lines(argv);
+	if (fd == -1)
+	{
+		printf("ERROR\n");
+		exit(1);
+	}
+	ctrl_line = get_next_line(fd, &buffer);
+	ft_lstadd_back(map, ft_lstnew(buffer));
+	while (ctrl_line == 1)
+	{
+		ctrl_line = get_next_line(fd, &buffer);
+		ft_lstadd_back(map, ft_lstnew(buffer));
+	}
+}
+
+int check_objects_version2(char **map, t_info_map map_info)
 {
 	int	i;
 	int	j;
@@ -386,9 +528,37 @@ int check_objects(char **map, t_info_map map_info)
 	return (0);
 }
 
-//CHECKEADO
-// Esta función comprueba si el mapa es un rectangulo o no
-int	is_rectangle(char **map)
+
+
+// Esta función compruevaba si el contenido de los tokens del mapa es correcto
+int	check_objects(t_list *map)
+{
+	int			i;
+	t_info_map	map_info;
+
+	ft_memset(&map_info, 0, sizeof(t_info_map));
+	i = 0;
+	while ((char *)map)
+	{
+		while (((char *)map->content)[i])
+		{
+			if (((char *)map->content)[i] == 'C')
+				map_info.objects++;
+			else if (((char *)map->content)[i] == 'E')
+				map_info.exit++;
+			else if (((char *)map->content)[i] == 'P')
+				map_info.init_poss++;
+			i++;
+		}
+		i = 0;
+		map = map->next;
+	}
+	if (map_info.objects >= 1 && map_info.exit == 1
+		&& map_info.init_poss == 1)
+		return (1);
+	return (0);
+}
+int	is_rectangle_version2(char **map)
 {
 	int	aux;
 	int	i;
@@ -410,6 +580,30 @@ int	is_rectangle(char **map)
 			return (0);
 	}
 	return (1);
+}
+// Esta función comprueba si el mapa es un rectangulo o no
+int	is_rectangle(t_list *map)
+{
+	int	aux;
+	int	i;
+	int	y;
+
+	i = 0;
+	y = 0;
+	while (((char *)map->content)[i])
+		i++;
+	aux = i;
+	while ((char *)map)
+	{
+		i = 0;
+		while (((char *)map->content)[i])
+			i++;
+		if (i != aux)
+			return (0);
+		map = map->next;
+		y++;
+	}
+	return (y);
 }
 
 //CHECKEADO
@@ -438,7 +632,7 @@ t_point	check_start(char **map, t_point begin)
 	}
 	return (begin);
 }
-//CHECKEADO
+
 // Esta función cuenta los objetos
 int		get_coins(char **map)
 {
@@ -461,7 +655,17 @@ int		get_coins(char **map)
 	}
 	return (z);
 }
-//CHECKEADO
+void	free_map(char **map)
+{
+	int	k;
+
+	k = 0;
+	while (map[k])
+	{
+		free(map[k]);
+		k++;
+	}
+}
 int		check_laberinto(char **map, t_info_map *map_info)
 {
 	t_point	begin;
@@ -481,37 +685,72 @@ int		check_laberinto(char **map, t_info_map *map_info)
 	if (begin.collect != z)
 	{
 		printf("No se recogen tos los coins\n");
+		free_map(map);
 		return (0);
 	}
 	if (begin.exit != 1)
 	{
 		printf("No se puede llegar a la salida\n");
+		free_map(map);
 		return (0);
 	}
+	free_map(map);
 	return (1);
 }
-//CHECKEADO
+
+void	free_lst(t_list *map)
+{
+	t_list *aux;
+	t_list *aux2;
+
+	aux = map;
+	aux2 = NULL;
+	while (aux)
+	{
+		aux2 = aux->next;
+		free(aux);
+		aux = aux2;
+	}
+	map = NULL;
+}
+void	printf_map(char **map)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (map[j])
+	{
+		i = 0;
+		while (map[j][i])
+		{
+			printf("%c", map[j][i]);
+			i++;
+		}
+		printf("\n");
+		j++;
+	}
+}
+
+
 // Esta función inicializa y comprueba el mapa
 int	initialize_andcheck_map(char const *argv[], t_info_map *map_info)
 {
 	char		**map_aux;
-	int			bad_exit;
 
-	bad_exit = 1;
-	map_aux = initialize_map(argv);
-	map_info->map = initialize_map(argv);
-	map_info_intializor(map_info, map_aux);
-	if (is_rectangle(map_aux) == 0)
-		bad_exit = 0;
-	else if (!check_map(map_aux))
-		bad_exit = 0;
-	else if (!check_objects(map_aux, *map_info))
-		bad_exit = 0;
-	if (!check_laberinto(map_aux, map_info))
-		bad_exit = 0;
-	free_map(map_aux);
-	if (!bad_exit)
+	map_aux = initialize_map_version2(argv);
+	map_info->map = initialize_map_version2(argv);
+	map_info_intializor_version2(map_info, map_aux);
+	if (is_rectangle_version2(map_aux) == 0)
 		return (0);
+	else if (!check_map_version2(map_aux))
+		return (0);
+	else if (!check_objects_version2(map_aux, *map_info))
+		return (0);
+	if (!check_laberinto(map_info->map, map_info))
+		return (0);
+	map_info->map = initialize_map_version2(argv);
 	return (1);
 }
 
@@ -688,7 +927,6 @@ int		close_window(t_info_map *map_info)
 	mlx_destroy_image(map_info->mlx, map_info->images.grass);
 	mlx_destroy_window(map_info->mlx, map_info->window);
 	free_map_info(map_info);
-	system("leaks -q a.out");
 	exit (0);
 	return (0);
 }
@@ -797,7 +1035,6 @@ int main(int argc, char const *argv[])
 	if (!initialize_andcheck_map(argv, &map_info))
 	{
 		printf("mal");
-		system("leaks -q a.out");
 	}
 	else
 	{
