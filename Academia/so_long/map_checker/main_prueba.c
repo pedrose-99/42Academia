@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 10:49:50 by pserrano          #+#    #+#             */
-/*   Updated: 2023/06/20 13:04:09 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/21 10:33:11 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdio.h>
 
 // Esta funcion guarda el mapa con un malloc No se si lo necesito
-//prirue eieueu
+//CHECKEADO
 char	**make_area(char **zone, t_point size)
 {
 	char	**new;
@@ -38,7 +38,7 @@ char	**make_area(char **zone, t_point size)
 	}
 	return (new);
 }
-
+//CHECKEADO
 // Esta funcion comprueba si la siguiente posición esta libre o no 
 int	check_condition(t_point cur, char **tab)
 {
@@ -66,7 +66,7 @@ int	check_condition(t_point cur, char **tab)
 		return (0);
 	return (1);
 }
-
+//CHECKEADO
 // Esta funcion usa se usa cuando no se puede avanzar
 t_point	condicion_noexit(t_point cur, char **tab)
 {
@@ -88,7 +88,7 @@ t_point	condicion_noexit(t_point cur, char **tab)
 	}
 	return (cur);
 }
-
+//CHECKEADO
 // Esta función se usa cuando hay un muro
 t_point	wall_condition(t_point cur, char **tab)
 {
@@ -97,7 +97,7 @@ t_point	wall_condition(t_point cur, char **tab)
 	cur.x = cur.lastx;
 	return (cur);
 }
-
+//CHECKEADO
 // Esta funcion se usa cuando hay un objeto
 t_point	condition_check_object(t_point cur, char **tab)
 {
@@ -109,7 +109,7 @@ t_point	condition_check_object(t_point cur, char **tab)
 	cur.lasty = cur.y;
 	return (cur);
 }
-
+//PASAR NORMINET PERO CHECKEADO
 // Esta función recorre el mapa con recursividad y analiza cada posición
 void	fill(char **tab, t_point size, t_point cur, char to_fill)
 {
@@ -145,6 +145,7 @@ void	fill(char **tab, t_point size, t_point cur, char to_fill)
 			cur.lasty, cur.exit, cur.collect}, to_fill);
 }
 
+//CHECKEADO
 // Esta función llama a la función anterior
 t_point		flood_fill(char **tab, t_point size, t_point begin)
 {
@@ -152,6 +153,7 @@ t_point		flood_fill(char **tab, t_point size, t_point begin)
 	return (begin);
 }
 
+//CHECKEADO
 // Esta función escribe por pantalla el mapa
 t_point	check_components(char **area, t_point size, t_point begin)
 {
@@ -176,6 +178,7 @@ t_point	check_components(char **area, t_point size, t_point begin)
 	return (begin);
 }
 
+//CAMBIAR UN POQUITO
 // Esta función inicializa las variables de map_info
 void	map_info_intializor(t_info_map *map_info, t_list *map)
 {
@@ -185,6 +188,7 @@ void	map_info_intializor(t_info_map *map_info, t_list *map)
 	ft_lstclear(&map, NULL);
 }
 
+//CHECKEADO MAS MENOS
 // Esta función libera el malloc hecho anteriormente
 void	free_map_info(t_info_map *map_info)
 {
@@ -198,8 +202,28 @@ void	free_map_info(t_info_map *map_info)
 	}
 	free(map_info->map);
 }
-
+//CAMBIAR
 // Esta función guarda el mapa en un array
+
+
+
+
+
+
+
+
+
+void	save_map_array(char **map, t_info_map *map_info)
+{
+	int	j;
+	int	i;
+
+	i = 0;
+	j = 0;
+}
+
+
+
 void	saving_map_array(t_list *map_obsolete, t_info_map *map_info)
 {
 	int	j;
@@ -215,8 +239,9 @@ void	saving_map_array(t_list *map_obsolete, t_info_map *map_info)
 	}
 	map_info->map[j] = NULL;
 }
-// Esta función comprueba si el mapa contiene 1 en cada uno de sus bordes
-t_bool	check_map(t_list *map)
+//CAMBIAR
+// Esta función comprueba si el mapa contiene 1 en cada uno de sus bordes 
+int	check_map(t_list *map)
 {
 	int			i;
 	int			j;
@@ -244,6 +269,7 @@ t_bool	check_map(t_list *map)
 	}
 	return (1);
 }
+//CHECKEADO
 // Esta función obtiene el tamaño vertical del mapa
 int		get_size_y(char **map)
 {
@@ -254,6 +280,7 @@ int		get_size_y(char **map)
 		i++;
 	return (i);
 }
+//CHECKEADO
 // Esta función obtiene el tamaño horizontal del mapa
 int		get_size_x(char **map)
 {
@@ -264,15 +291,62 @@ int		get_size_x(char **map)
 		i++;
 	return (i);
 }
+
+void	ft_line_in_map(char **map, char *buffer, int fila)
+{
+	int	i;
+	int	size;
+
+	size = 0;
+	i = 0;
+	while (buffer[size])
+		size++;
+	while (buffer[i])
+	{
+		i++;
+	}
+}
+//CAMBIAR
 // Esta función lee el mapa por primera vez e identifica si hay error o no
-void	initialize_map(t_list **map, char const *argv[])
+int	count_lines(char const *argv[])
+{
+	int		num_lines;
+	int		fd;
+	int		check_line;
+	char	buffer;
+
+	fd = open(argv[1], O_RDONLY);
+	if (!fd)
+		return (-1);
+	num_lines = 1;
+	while (1)
+	{
+		check_line = read(fd, &buffer, 1);
+		if (check_line == 0)
+			break ;
+		if (check_line < 0)
+			return (-1);
+		if (buffer == '\n')
+			num_lines++;
+	}
+	close(fd);
+	return (num_lines);
+}
+
+
+
+
+void	initialize_map_version2(t_list **map, char const *argv[])
 {
 	char	*buffer;
 	int		fd;
 	int		ctrl_line;
+	int		num_lines;
 
 	buffer = NULL;
 	*map = NULL;
+	num_lines = count_lines(argv);
+	printf("El numero de lineas es de %d", num);
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
@@ -280,6 +354,7 @@ void	initialize_map(t_list **map, char const *argv[])
 		exit(1);
 	}
 	ctrl_line = get_next_line(fd, &buffer);
+	printf("EL buffer es %s \n", buffer);
 	ft_lstadd_back(map, ft_lstnew(buffer));
 	while (ctrl_line == 1)
 	{
@@ -288,8 +363,79 @@ void	initialize_map(t_list **map, char const *argv[])
 	}
 }
 
+char	**alloc_columns(char *file)
+{
+	char	**map;
+	int		line_count;
+
+	line_count = file_linecount(file);
+	if (line_count <= 0)
+		return (null_error("open or reading error, the file may not exist"));
+	map = malloc(sizeof(char *) * line_count + 1);
+	if (map == NULL)
+		return (null_error("malloc error on alloc_map()"));
+	return (map);
+}
+
+
+void	initialize_map(t_list **map, char const *argv[])
+{
+	char	*buffer;
+	int		fd;
+	int		ctrl_line;
+	int		num_lines;
+	char	**new_map;
+
+	buffer = NULL;
+	*map = NULL;
+	fd = open(argv[1], O_RDONLY);
+	num_lines = count_lines(argv);
+	printf("El numero de lineas es de %d", num);
+	if (fd == -1)
+	{
+		printf("ERROR\n");
+		exit(1);
+	}
+	ctrl_line = get_next_line(fd, &buffer);
+	printf("EL buffer es %s \n", buffer);
+	ft_lstadd_back(map, ft_lstnew(buffer));
+	while (ctrl_line == 1)
+	{
+		ctrl_line = get_next_line(fd, &buffer);
+		ft_lstadd_back(map, ft_lstnew(buffer));
+	}
+}
+
+/*COPIA DE SEGURIDAD
+void	initialize_map(t_list **map, char const *argv[])
+{
+	char	*buffer;
+	int		fd;
+	int		ctrl_line;
+	int		num_lines;
+
+	buffer = NULL;
+	*map = NULL;
+	fd = open(argv[1], O_RDONLY);
+	num_lines = count_lines(argv);
+	printf("El numero de lineas es de %d", num);
+	if (fd == -1)
+	{
+		printf("ERROR\n");
+		exit(1);
+	}
+	ctrl_line = get_next_line(fd, &buffer);
+	printf("EL buffer es %s \n", buffer);
+	ft_lstadd_back(map, ft_lstnew(buffer));
+	while (ctrl_line == 1)
+	{
+		ctrl_line = get_next_line(fd, &buffer);
+		ft_lstadd_back(map, ft_lstnew(buffer));
+	}
+}*/
+
 // Esta función compruevaba si el contenido de los tokens del mapa es correcto
-t_bool	check_objects(t_list *map)
+int	check_objects(t_list *map)
 {
 	int			i;
 	t_info_map	map_info;
@@ -342,6 +488,7 @@ int	is_rectangle(t_list *map)
 	return (y);
 }
 
+//CHECKEADO
 // Esta función comprueba y obtiene la posición inicial
 t_point	check_start(char **map, t_point begin)
 {
@@ -450,7 +597,7 @@ void	free_lst(t_list *map)
 }
 
 // Esta función inicializa y comprueba el mapa
-t_bool	initialize_andcheck_map(char const *argv[], t_info_map *map_info)
+int	initialize_andcheck_map(char const *argv[], t_info_map *map_info)
 {
 	t_list		*map;
 	t_point		begin;
