@@ -6,7 +6,7 @@
 /*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:48:23 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/05/29 09:00:56 by pfuentes         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:54:15 by pfuentes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,4 @@ void	btree_add_right_node(t_btree **root, t_btree *new)
 {
 	(*root)->right = new;
 	new->up = *root;
-}
-
-void	parser_tree_print(t_btree *root)
-{
-	t_list		*tokens;
-
-	if (!root)
-		return ;
-	tokens = (t_list *)root->content;
-	while (tokens)
-	{
-		printf("%s\n", get_token(tokens)->str);
-		tokens = tokens->next;
-	}
-	parser_tree_print(root->left);
-	parser_tree_print(root->right);
 }

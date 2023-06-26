@@ -6,51 +6,34 @@
 /*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:19:48 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/05/29 11:27:13 by pfuentes         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:52:51 by pfuentes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "../libft/libft.h"
 
-void	new_pipe(t_executer *executer)
+void	new_pipes(t_mshell *mshell)
 {
 	t_dir	*dir;
-	int		*fd;
 
-	printf("Dentro de pipes_dir\n");
-	dir = get_dir(executer->ops->op_lst);
-	fd = malloc(sizeof(int) * 2);
-	pipe(fd);
-	printf("Input: %d y output: %d antes\n",
-		executer->dirs->input, executer->dirs->output);
-	ft_lstadd_back(&executer->ops->pipes_lst, ft_lstnew(fd));
+	pipe(mshell->data.pipes);
+	dir = get_dir(mshell->data.op_lst);
 	if (dir->input == PIPE_READ)
-		executer->dirs->input = fd[0];
+		mshell->data.input = mshell->data.pipes[0];
 	else
-	{
-		executer->dirs->input = executer->dirs->stdin;
-		//close(fd[0]);
-	}
+		mshell->data.input = mshell->data.stdin;
 	if (dir->output == PIPE_WRITE)
-		executer->dirs->output = fd[1];
+		mshell->data.output = mshell->data.pipes[1];
 	else
-	{
-		executer->dirs->output = executer->dirs->stdout;
-		//close(fd[1]);
-	}
-	printf("Input: %d y output: %d después\n",
-		executer->dirs->input, executer->dirs->output);
+		mshell->data.output = mshell->data.stdout;
 }
 
-void	close_pipe(t_executer *executer)
+void	close_pipes(t_mshell *mshell, int type)
 {
-	int	*fd;
-
-	perror("En close pipe\n");
-	printf("\n\n\n\n");
-	fd = (int *)executer->ops->pipes_lst->content;
-	close(fd[0]);
-	close(fd[1]);
-	perror("Después de cerrar pipe\n\n\n\n");
-	remove_head(&executer->ops->pipes_lst);
+	close(mshell->data.pipes[1]);
+	if (type == 1)
+		close(mshell->data.pipes[0]);
+	if (type == 0 && get_dir(mshell->data.op_lst)->output != PIPE_WRITE)
+		close(mshell->data.pipes[0]);
 }

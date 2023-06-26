@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/28 10:35:06 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/05/28 10:58:30 by pfuentes         ###   ########.fr       */
+/*   Created: 2023/06/05 09:31:39 by pfuentes          #+#    #+#             */
+/*   Updated: 2023/06/21 13:00:39 by pfuentes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "../libft/libft.h"
 
 static int	compare_here_doc(char *here_doc, char *lim)
 {
@@ -34,65 +35,81 @@ static int	compare_here_doc(char *here_doc, char *lim)
 	return (len);
 }
 
-char	*here_doc(char *lim, int num)
+static void	write_here_doc(char *lim, char *name, t_mshell *mshell)
 {
 	char	*line;
-	char	*here_doc_name;
-	int		here_doc;
-	char	*str_num;
-	int		len;
+	int		fd;
 
-	str_num = ft_itoa(num);
-	here_doc_name = ft_strjoin("here_doc", str_num);
-	free(str_num);
-	here_doc = open(here_doc_name, O_CREAT | O_RDWR
-			| O_APPEND | O_TRUNC, 0666);
-	if (here_doc < 0)
-	{
-		perror("Archivo here_doc no pudo crearse y abrirse\n");
+	fd = open(name, O_CREAT | O_RDWR | O_APPEND | O_TRUNC, 0666);
+	if (fd < 0)
 		exit(EXIT_FAILURE);
-	}
-	write(1, "pipe heredoc> ", 14);
-	line = get_next_line(0);
-	len = compare_here_doc(line, lim);
-	while (ft_strncmp(line, lim, len) != 0)
+	line = readline("pipe heredoc> ");
+	while (ft_strncmp(line, lim, longer_str(line, lim)) != 0)
 	{
-		write(here_doc, line, ft_strlen(line));
+		if (ft_strchr(line, '$'))
+			line = dollar_expansion(line, mshell);
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
 		free(line);
-		write(1, "pipe heredoc> ", 14);
-		line = get_next_line(0);
-		len = compare_here_doc(line, lim);
+		line = readline("pipe heredoc> ");
+		if (!*line)
+			break ;
 	}
 	free(line);
-	close(here_doc);
-	printf("Nombre de here_doc: %s\n", here_doc_name);
-	return (here_doc_name);
+	close(fd);
+	exit(EXIT_SUCCESS);
 }
 
-void	here_doc_initializer(t_btree *root, t_executer *executer)
+static char	*here_doc(char *lim, t_mshell *mshell)
+{
+	char	*name;
+	char	*str_num;
+	int		pid;
+	int		wstatus;
+
+	str_num = ft_itoa(mshell->data.here_docs);
+	name = ft_strjoin("here_doc", str_num);
+	free(str_num);
+	pid = fork();
+	if (pid == 0)
+	{
+		signals_child();
+		write_here_doc(lim, name, mshell);
+	}
+	signals_parent_wait();
+	waitpid(pid, &wstatus, 0);
+	signals_parent();
+	cmd_return(mshell, wstatus);
+	if (mshell->data.last_cmd != 0)
+	{
+		free(name);
+		mshell->data.here_doc_success = 0;
+		return (NULL);
+	}
+	return (name);
+}
+
+void	here_doc_initializer(t_btree *root, t_mshell *mshell)
 {	
 	t_list		*tokens;
-	t_token		*token;
+	char		*file;
 
-	if (!root)
+	if (!root || mshell->data.here_doc_success == 0)
 		return ;
-	tokens = root->content;
-	token = tokens->content;
-	if (token->type == CMD || token->type > PIPE)
+	tokens = (t_list *)root->content;
+	while (tokens)
 	{
-		while (tokens)
+		if (get_token(tokens)->type == HERE_DOC)
 		{
-			if (get_token(tokens)->type == HERE_DOC)
-			{
-				executer->dirs.here_doc_num++;
-				ft_lstadd_back(&(executer->dirs.here_docs),
-					ft_lstnew(((void *)here_doc(get_token(tokens->next)->str,
-								executer->dirs.here_doc_num))));
+			mshell->data.here_docs++;
+			file = here_doc(get_file_name(tokens->next), mshell);
+			if (file)
+				ft_lstadd_back(&(mshell->data.here_doc), ft_lstnew(file));
+			else
 				return ;
-			}
-			tokens = tokens->next;
 		}
+		tokens = tokens->next;
 	}
-	here_doc_initializer(root->left, executer);
-	here_doc_initializer(root->right, executer);
+	here_doc_initializer(root->left, mshell);
+	here_doc_initializer(root->right, mshell);
 }

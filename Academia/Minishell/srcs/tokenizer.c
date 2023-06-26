@@ -5,139 +5,113 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/27 09:13:30 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/05/29 09:24:32 by pfuentes         ###   ########.fr       */
+/*   Created: 2023/05/25 10:40:59 by pfuentes          #+#    #+#             */
+/*   Updated: 2023/06/22 11:55:31 by pfuentes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h" 
+#include "../libft/libft.h"
 
-static int	char_pos(char *str, char c)
+int	check_quotes(char *str, t_list **tokens)
 {
-	int	pos;
+	int	skip;
+	int	start;
 
-	pos = 0;
-	while (str[pos])
-	{
-		if (str[pos] == c)
-			break ;
-		pos++;
-	}
-	return (pos);
+	skip = 0;
+	start = 0;
+	if (str[0] == 39)
+		skip = skip_to_char(&str[1], 39);
+	else if (str[0] == 34)
+		skip = skip_to_char(&str[1], 34);
+	ft_lstadd_back(tokens, ft_lstnew((void *)new_token(ft_substr(&str[1],
+					start, skip - start))));
+	if (str[skip + 1] != '\0')
+		ft_lstadd_back(tokens,
+			ft_lstnew((void *)new_token(ft_substr(&str[1], skip, 1))));
+	return (skip + 1);
 }
 
-void	in_dict(t_lexer *lexer)
-{
-	int	i;
-	int	op_len;
-
-	i = 0;
-	while (i < DOLLAR - 1)
-	{
-		op_len = ft_strlen(lexer->dict[i]);
-		if (ft_strncmp(lexer->dict[i],
-				&lexer->line[lexer->tokenizer->end], op_len) == 0)
-		{
-			lexer->tokenizer->op_len = op_len;
-			return ;
-		}
-		i++;
-	}
-	lexer->tokenizer->op_len = 0;
-}
-
-void	add_token_lst(t_lexer *lexer, int type)
+static void	add_token_lst(char *line, int *pos, t_list **tokens, int type)
 {
 	char	*str;
 	t_token	*token;
 	t_list	*new;
 
 	if (type == 0)
-		str = ft_substr(lexer->line, lexer->tokenizer->start,
-				lexer->tokenizer->end - lexer->tokenizer->start);
+		str = ft_substr(line, pos[0],
+				pos[1] - pos[0]);
 	else
-		str = ft_substr(lexer->line, lexer->tokenizer->end,
-				lexer->tokenizer->op_len);
+		str = ft_substr(line, pos[1],
+				pos[2]);
 	token = new_token(str);
 	new = ft_lstnew(token);
-	ft_lstadd_back(&lexer->tokens, new);
+	ft_lstadd_back(tokens, new);
 }
 
-void	add_tokens_quotes(t_lexer *lexer, int type)
+int	check_assignment(char *str, char **dict, t_list **tokens)
 {
-	lexer->tokenizer->end++;
-	lexer->tokenizer->start = lexer->tokenizer->end;
-	if (type == 0)
-		lexer->tokenizer->end
-			+= char_pos(&lexer->line[lexer->tokenizer->end], 34);
-	else if (type == 1)
-		lexer->tokenizer->end
-			+= char_pos(&lexer->line[lexer->tokenizer->end], 39);
-	add_token_lst(lexer, 0);
-	if (lexer->line[lexer->tokenizer->end] != '\0')
-		add_token_lst(lexer, 1);
-	lexer->tokenizer->end++;
-	lexer->tokenizer->start = lexer->tokenizer->end;
-}
+	int	skip;
+	int	dict_check;
 
-void	add_tokens_assign(t_lexer *lexer)
-{
-	lexer->tokenizer->end++;
-	lexer->tokenizer->start = lexer->tokenizer->end;
-	lexer->tokenizer->end
-		+= char_pos(&lexer->line[lexer->tokenizer->end], 32);
-	add_token_lst(lexer, 0);
-	lexer->tokenizer->start = lexer->tokenizer->end;
-}
-
-void	special_symbols(t_lexer *lexer)
-{
-	if (lexer->line[lexer->tokenizer->end] == 34)
-		add_tokens_quotes(lexer, 0);
-	else if (lexer->line[lexer->tokenizer->end] == 39)
-		add_tokens_quotes(lexer, 1);
-	else if (lexer->line[lexer->tokenizer->end] == 61)
-		add_tokens_assign(lexer);
+	skip = 0;
+	if (str[1] == 39 || str[1] == 34)
+	{
+		ft_lstadd_back(tokens, ft_lstnew(ft_lstnew(char_to_str(str[1]))));
+		skip = check_quotes(&str[1], tokens) + 1;
+	}
 	else
 	{
-		lexer->tokenizer->end += lexer->tokenizer->op_len;
-		lexer->tokenizer->start = lexer->tokenizer->end;
+		skip = 1;
+		while (str[skip])
+		{
+			dict_check = in_dict(&str[skip], dict);
+			if (str[skip] == ' ' || dict_check > 0)
+				break ;
+			skip++;
+		}
+		ft_lstadd_back(tokens, ft_lstnew((void *)new_token
+				(ft_substr(&str[1], 0, skip - 1))));
+		if (dict_check > 0)
+			skip--;
 	}
+	return (skip);
 }
 
-void	tokens_lst(t_lexer *lexer)
+int	check_special_symbol(char *str, char **dict, t_list **tokens)
 {
-	while (lexer->line[lexer->tokenizer->end])
+	if (str[0] == 34 || str[0] == 39)
+		return (check_quotes(str, tokens));
+	if (str[0] == 61)
+		return (check_assignment(str, dict, tokens));
+	return (0);
+}
+
+void	tokens_lst(char *line, t_list **tokens, char **dict)
+{
+	int	p[3];
+
+	p[1] = 0;
+	while (line[p[1]])
 	{
-		lexer->tokenizer->end = skip_spaces(lexer->line, lexer->tokenizer->end);
-		lexer->tokenizer->start = lexer->tokenizer->end;
-		while (lexer->line[lexer->tokenizer->end]
-			&& lexer->line[lexer->tokenizer->end] != ' ')
+		p[1] = skip_spaces(line, p[1]);
+		p[0] = p[1];
+		while (line[p[1]] && line[p[1]] != ' ')
 		{
-			in_dict(lexer);
-			if (lexer->tokenizer->op_len > 0)
+			p[2] = in_dict(&line[p[1]], dict);
+			if (p[2] > 0)
 			{
-				if (lexer->tokenizer->start != lexer->tokenizer->end)
-					add_token_lst(lexer, 0);
-				add_token_lst(lexer, 1);
-				special_symbols(lexer);
+				if (p[0] != p[1] || (line[p[1]] == 61
+						&& (p[1] - 1) >= 0 && line[p[1] - 1] == ' '))
+					add_token_lst(line, p, tokens, 0);
+				add_token_lst(line, p, tokens, 1);
+				p[1] += check_special_symbol(&line[p[1]], dict, tokens) + p[2];
+				p[0] = p[1];
 			}
 			else
-				lexer->tokenizer->end++;
+				p[1]++;
 		}
-		if (lexer->tokenizer->start != lexer->tokenizer->end)
-			add_token_lst(lexer, 0);
-	}
-}
-
-void	print_tokens_lst(t_list *tokens)
-{
-	t_token	*token;
-
-	while (tokens)
-	{
-		token = (t_token *)tokens->content;
-		printf("%s$:  %d\n", token->str, token->type);
-		tokens = tokens->next;
+		if (p[0] != p[1])
+			add_token_lst(line, p, tokens, 0);
 	}
 }

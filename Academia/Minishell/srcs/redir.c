@@ -6,78 +6,47 @@
 /*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:15:02 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/05/29 09:36:54 by pfuentes         ###   ########.fr       */
+/*   Updated: 2023/06/20 12:48:14 by pfuentes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../libft/libft.h"
 
-void	get_cmd_input(t_list *tokens, t_executer *executer)
+char	*get_file_name(t_list *tokens)
 {
 	t_token	*token;
 
-	while (tokens)
-	{
-		token = get_token(tokens);
-		if (token->type == REDIR_INPUT)
-		{
-			if (executer->dirs->input_file)
-				close(executer->dirs->input);
-			executer->dirs->input_file = get_token(tokens->next)->str;
-			executer->dirs->input
-				= open(executer->dirs->input_file, O_RDONLY, 0666);
-		}
-		else if (token->type == HERE_DOC)
-			here_doc_dir(executer->dirs);
-		tokens = tokens->next;
-	}
+	token = get_token(tokens);
+	if (token->type == QUOTE || token->type == D_QUOTE)
+		return (get_token(tokens->next)->str);
+	return (token->str);
 }
 
-static void	set_output(int type, t_executer *executer)
+void	and_or_redir(t_mshell *mshell, t_dir *dir)
 {
-	if (executer->dirs->output_file)
-	{
-		if (type == 0)
-			executer->dirs->output = open(executer->dirs->output_file,
-					O_CREAT | O_TRUNC | O_WRONLY, 0666);
-		else if (type == 1)
-			executer->dirs->output = open(executer->dirs->output_file,
-					O_CREAT | O_APPEND | O_WRONLY, 0666);
-	}
+	mshell->data.input = dir->input;
+	mshell->data.output = dir->output;
 }
 
-void	get_cmd_output(t_list *tokens, t_executer *executer)
+int	set_redirections(t_list *tokens, t_mshell *mshell)
 {
-	t_token	*token;
-	char	*output;
-	int		type;
+	t_dir	*dir;
 
-	output = NULL;
-	while (tokens)
+	if (mshell->data.op_lst)
 	{
-		token = tokens->content;
-		if (token->type == REDIR_OUTPUT_TRUNC
-			|| token->type == REDIR_OUTPUT_APPEND)
-		{
-			if (executer->dirs->output_file)
-				close(executer->dirs->output);
-			executer->dirs->output_file = get_token(tokens->next)->str;
-			if (token->type == REDIR_OUTPUT_TRUNC)
-				type = 0;
-			else
-				type = 1;
-			set_output(type, executer);
-		}
-		tokens = tokens->next;
+		dir = get_dir(mshell->data.op_lst);
+		if (dir->type == PIPE)
+			new_pipes(mshell);
+		else if (dir->type == AND)
+			and_or_redir(mshell, dir);
 	}
+	if (get_cmd_input(tokens, mshell) == 0)
+		return (0);
+	if (!mshell->data.input_file
+		&& (mshell->data.op_lst
+			&& get_dir(mshell->data.op_lst)->input == PIPE_READ))
+		mshell->data.input = mshell->data.prev_pipe;
+	mshell->data.output_file = get_cmd_output(tokens, mshell);
+	return (1);
 }
-
-void	set_redirections(t_list *tokens, t_executer *executer)
-{
-	if (executer->ops->op_lst && get_dir(executer->ops->op_lst)->type == PIPE)
-		new_pipe(executer);
-	get_cmd_input(tokens, executer);
-	get_cmd_output(tokens, executer);
-}
-

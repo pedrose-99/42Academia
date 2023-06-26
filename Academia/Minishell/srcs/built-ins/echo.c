@@ -5,39 +5,43 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/28 08:58:55 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/05/29 11:28:55 by pfuentes         ###   ########.fr       */
+/*   Created: 2023/06/07 09:17:08 by pfuentes          #+#    #+#             */
+/*   Updated: 2023/06/20 10:51:45 by pfuentes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h" 
+#include "../../libft/libft.h"
 
-void	echo(char **cmd, t_executer *executer)
+static int	flag_type(char **cmd)
 {
-	int		cont;
-	int		new_line;
+	int	type;
 
-	printf("En echo\n");
-	printf("Output: %d\n", executer->dirs->output);
+	type = 0;
+	if (!cmd[1])
+		return (-1);
+	if (ft_strncmp(cmd[1], "-n", longer_str(cmd[1], "-n")) == 0)
+		type = 1;
+	return (type);
+}
+
+void	echo(char **cmd, t_mshell *mshell)
+{
+	int	cont;
+	int	type;
+
 	cont = 1;
-	new_line = 0;
-	if (cmd[1] && ft_strncmp(cmd[1], "-n", longer_str(cmd[1], "-n")) == 0)
-	{
-		//printf("Es -n\n");
-		cont = 2;
-		new_line = 1;
-	}
+	while (cmd[cont] && ft_strncmp(cmd[cont], "-", 1) == 0)
+		cont++;
 	while (cmd[cont])
 	{
-		ft_putstr_fd(cmd[cont], executer->dirs->output);
+		ft_putstr_fd(cmd[cont], mshell->data.output);
 		if (cmd[cont + 1])
-			ft_putstr_fd(" ", executer->dirs->output);
+			ft_putstr_fd(" ", mshell->data.output);
 		cont++;
 	}
-	if (new_line == 0)
-		ft_putstr_fd("\n", executer->dirs->output);
-	else
-		ft_putstr_fd("%%", executer->dirs->output);
-	executer->last_return = 0;
-	printf("Hizo echo\n");
+	type = flag_type(cmd);
+	if (type == 0)
+		ft_putstr_fd("\n", mshell->data.output);
+	mshell->data.last_cmd = 0;
 }

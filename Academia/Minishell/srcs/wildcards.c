@@ -1,85 +1,109 @@
-#include "../includes/minishell.h" 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wildcards.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/12 09:31:07 by pfuentes          #+#    #+#             */
+/*   Updated: 2023/06/20 13:45:45 by pfuentes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/minishell.h"
 #include "../libft/libft.h"
 
-/*if (entry->d_type == DT_REG)
-			printf("File: %s\n", entry->d_name);
-		else if (entry->d_type == DT_DIR)
-			printf("Directory: %s\n", entry->d_name);
-		*/
-
-static int	ft_rev_strncmp(char *s1, char *s2, int n)
+static DIR	*get_wildcard_dir(char *path)
 {
-	int	cont_s1;
+	DIR	*dir;
 
-	cont_s1 = (int)ft_strlen(s1) - 1;
-	while (n >= 0)
-	{
-		if (s1[cont_s1] != s2[n])
-			return ((unsigned char)s1[cont_s1] - (unsigned char)s2[n]);
-		cont_s1--;
-		n--;
-	}
-	return (0);
+	if (!path)
+		dir = opendir(".");
+	else
+		dir = opendir(path);
+	if (!dir)
+		exit(EXIT_FAILURE);
+	return (dir);
 }
 
-size_t	shorter_str(char *s1, char *s2)
+static void	free_wildcards_struct(DIR *dir, struct dirent *ent, char *path)
 {
-	size_t	s1_len;
-	size_t	s2_len;
-
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	if (s1_len < s2_len)
-		return (s1_len);
-	return (s2_len);
+	free(ent);
+	free(dir);
+	if (path)
+		free(path);
 }
 
-static void	match_wildcards(char *entry, char *cmp, int *space)
-{
-	cmp++;
-	if (ft_strlen(entry) >= ft_strlen(cmp))
-	{
-		if (ft_rev_strncmp(entry, cmp, (int)ft_strlen(cmp) - 1) == 0
-			&& entry[0] != '.')
-		{
-			if ((*space)++ > 0)
-				printf(" ");
-			printf("%s", entry);
-		}
-	}
-}
-
-void	wildcards(char *cmp)
+void	wildcards(t_list *tokens, t_list **wildcards_lst, char *path)
 {
 	DIR				*dir;
-	struct dirent	*entry;
-	int				space;
+	struct dirent	*ent;
+	struct dirent	*aux;
 
-	space = 0;
-	dir = opendir(".");
-	entry = readdir(dir);
-	while (entry)
+	dir = get_wildcard_dir(path);
+	ent = readdir(dir);
+	aux = ent;
+	while (ent)
 	{
-		match_wildcards(entry->d_name, cmp, &space);
-		entry = readdir(dir);
+		if (check_entry(tokens, ent, wildcards_lst, path) == 1)
+			add_entry_wildcards(wildcards_lst, path,
+				entry_to_add(tokens, ent->d_name));
+		ent = readdir(dir);
 	}
-	closedir(dir);
+	free_wildcards_struct(dir, aux, path);
 }
 
-/*
-int	main(int argc, char **argv, char **env)
+void	tokens_wildcards(t_list **lst, char *str)
 {
-	t_list	*wildcard_lst;
-	t_list	*env_lst;
+	int		start;
+	int		end;
+	char	c;
 
-	if (argc != 1)
-		return (1);
-	if (!argv)
-		return (2);
-	set_env_list(&env_lst, env);
-	ft_lstadd_back(&wildcard_lst, ft_lstnew((void *)".a"));
-	ft_lstadd_back(&wildcard_lst, ft_lstnew((void *)".out"));
-	wildcards(wildcard_lst);
-	return (0);
+	end = 0;
+	while (str[end])
+	{
+		start = end;
+		if (str[end] == '*' || str[end] == '/')
+		{
+			c = str[end];
+			while (str[end] == c)
+				end++;
+			ft_lstadd_back(lst, ft_lstnew(new_token
+					(ft_substr(str, start, end - start))));
+			start = end;
+		}
+		while (str[end] && (str[end] != '*' && str[end] != '/'))
+			end++;
+		if (start != end)
+			ft_lstadd_back(lst, ft_lstnew(new_token
+					(ft_substr(str, start, end - start))));
+	}
 }
-*/
+
+char	*call_wildcards(char *str)
+{
+	t_list	*wildcards_lst;
+	t_token	*token;
+	char	*wildcards_str;
+	t_list	*tokens;
+	char	**dict;
+
+	wildcards_lst = NULL;
+	tokens = NULL;
+	tokens_wildcards(&tokens, str);
+	dict = new_wildcards_dict();
+	assign_tokens_type(&tokens, dict);
+	free(dict);
+	token = get_token(tokens);
+	if (token->type == 2)
+		wildcards(tokens->next, &wildcards_lst, ft_strdup(token->str));
+	else
+		wildcards(tokens, &wildcards_lst, NULL);
+	print_str_lst(wildcards_lst);
+	sort_str_lst(&wildcards_lst);
+	wildcards_str = lst_to_str_spaces(wildcards_lst);
+	ft_lstclear(&tokens, &free_token);
+	ft_lstclear(&wildcards_lst, free);
+	free(str);
+	return (wildcards_str);
+}

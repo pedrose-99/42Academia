@@ -6,14 +6,35 @@
 /*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:28:29 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/05/29 09:28:33 by pfuentes         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:49:15 by pfuentes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../libft/libft.h"
 
-void	var_assignment(t_list *tokens, t_executer *executer)
+static void	var_assign_cases(t_list *tokens, t_mshell *mshell)
+{
+	t_token	*token;
+	t_list	*node;
+
+	token = get_token(tokens->prev);
+	node = get_node_by_key(mshell->data.env_lst, token->str);
+	if (node)
+	{
+		set_env_value(&node,
+			token->str, ft_strdup(get_token(tokens->next)->str));
+	}
+	else
+	{
+		ft_lstadd_back(&mshell->data.env_lst,
+			ft_lstnew(set_key_value(ft_strdup(get_token
+						(tokens->prev)->str), ft_strdup(get_token
+						(tokens->next)->str), 1)));
+	}
+}
+
+void	var_assignment(t_list *tokens, t_mshell *mshell)
 {
 	t_token	*token;
 
@@ -23,23 +44,22 @@ void	var_assignment(t_list *tokens, t_executer *executer)
 		if (token->type == ASSIGN)
 		{
 			if (ft_isdigit(get_token(tokens->prev)->str[0]) == 0)
+				var_assign_cases(tokens, mshell);
+			else
 			{
-				ft_lstadd_back(&executer->env->env_lst,
-					ft_lstnew(set_key_value(ft_strdup(get_token
-								(tokens->prev)->str), ft_strdup(get_token
-								(tokens->next)->str), 1)));
+				ft_putstr_fd(get_token(tokens->prev)->str, 2);
+				ft_putstr_fd(": not a valid identifier\n", 2);
 			}
 			tokens = tokens->next->next;
 		}	
 		else
 			tokens = tokens->next;
 	}
-	executer->last_return = 0;
+	mshell->data.last_cmd = 0;
 }
 
-int	check_var_assignment(t_list **tokens, t_executer *executer)
+int	check_var_assignment(t_list **tokens, t_mshell *mshell)
 {
-	t_token	*token;
 	t_list	*curr;
 	t_list	*cmd;
 
@@ -47,16 +67,14 @@ int	check_var_assignment(t_list **tokens, t_executer *executer)
 	cmd = curr;
 	if (curr->next && (get_token(curr->next)->type != ASSIGN))
 		return (0);
-	printf("Recorrer lista para asignar\n");
 	while (curr)
 	{
-		token = get_token(curr);
-		if (token->type == ASSIGN)
+		if (get_token(curr)->type == ASSIGN)
 		{
 			if (!curr->next->next)
 			{
-				var_assignment(*tokens, executer);
-				printf("Llegó al final, no hay comando\n");
+				var_assignment(*tokens, mshell);
+				mshell->data.last_cmd = 0;
 				return (1);
 			}
 			cmd = curr->next->next;
@@ -64,6 +82,5 @@ int	check_var_assignment(t_list **tokens, t_executer *executer)
 		curr = curr->next;
 	}
 	*tokens = cmd;
-	printf("No asigna variables\n");
 	return (0);
 }

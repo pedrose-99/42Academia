@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/27 10:29:23 by pserrano          #+#    #+#             */
-/*   Updated: 2020/02/13 10:23:15 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:05:56 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,5 @@ int				get_next_line(int fd, char **line)
 			break ;
 	}
 	free(buffer);
-	*buffer = NULL;
 	return (output(fd, string, line, ret));
 }

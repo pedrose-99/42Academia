@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/27 09:14:32 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/05/29 09:25:23 by pfuentes         ###   ########.fr       */
+/*   Created: 2023/06/05 12:52:22 by pfuentes          #+#    #+#             */
+/*   Updated: 2023/06/16 10:47:59 by pfuentes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h" 
+#include "../libft/libft.h"
 
 t_token	*new_token(char *str)
 {
@@ -22,40 +23,12 @@ t_token	*new_token(char *str)
 	return (token);
 }
 
-void	set_tokens_type(t_lexer *lexer)
+t_token	*get_token(t_list *node)
 {
-	t_list	*curr;
 	t_token	*token;
 
-	curr = lexer->tokens;
-	while (curr)
-	{
-		token = get_token(curr);
-		token->type = set_token_type(token->str, lexer->dict);
-		curr = curr->next;
-	}
-}
-
-int	set_token_type(char *cmp, char **dict)
-{
-	int		cont;
-
-	cont = 0;
-	while (dict[cont])
-	{
-		if (cont < DOLLAR - 1)
-		{
-			if (ft_strncmp(cmp, dict[cont], longer_str(cmp, dict[cont])) == 0)
-				return (cont + 1);
-		}
-		else
-		{
-			if (ft_strnstr(cmp, dict[cont], ft_strlen(cmp)))
-				return (cont + 1);
-		}
-		cont++;
-	}
-	return (0);
+	token = (t_token *)node->content;
+	return (token);
 }
 
 void	free_token(void *content)
