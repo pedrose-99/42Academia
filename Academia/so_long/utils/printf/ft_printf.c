@@ -6,15 +6,15 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 07:47:45 by pserrano          #+#    #+#             */
-/*   Updated: 2020/11/01 13:42:41 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:19:31 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-	int size;
+	int	size;
 
 	size = 0;
 	while (*str)
@@ -25,7 +25,7 @@ int		ft_strlen(char *str)
 	return (size);
 }
 
-int		ft_count_nb(long int nb)
+int	ft_count_nb(long int nb)
 {
 	long int		count;
 	unsigned int	c;
@@ -51,17 +51,11 @@ int		ft_count_nb(long int nb)
 
 void	print_all(t_list *f)
 {
-	char c;
+	char	c;
 
 	c = f->spec;
 	if (c == 'd' || c == 'i')
 		print_int(f);
-	else if (c == 'u')
-		print_unsigned(f);
-	else if (c == 'x' || c == 'X')
-		print_hexa(f);
-	else if (c == 'p')
-		print_hexap(f);
 	else if (c == 'c')
 		print_char(f);
 	else if (c == 's')
@@ -70,9 +64,9 @@ void	print_all(t_list *f)
 		print_char(f);
 }
 
-int		ft_printf(const char *format_string, ...)
+int	ft_printf(const char *format_string, ...)
 {
-	t_list f;
+	t_list	f;
 
 	init_struct(&f);
 	va_start(f.ap, format_string);
@@ -80,7 +74,7 @@ int		ft_printf(const char *format_string, ...)
 	{
 		if (*format_string == '%')
 		{
-			format_string = ft_store_data((char*)(format_string + 1), &f);
+			format_string = ft_store_data((char *)(format_string + 1), &f);
 			ft_store_data_def(&f);
 			f.spec = *(format_string++);
 			print_all(&f);

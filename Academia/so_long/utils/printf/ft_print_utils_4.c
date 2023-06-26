@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 14:11:58 by pserrano          #+#    #+#             */
-/*   Updated: 2020/11/01 14:13:26 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:25:40 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*type_p(char *def)
 
 char	*print_hexap_prec(char *p, t_list *f)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < 2)

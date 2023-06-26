@@ -6,40 +6,11 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 13:46:48 by pserrano          #+#    #+#             */
-/*   Updated: 2020/11/01 14:29:56 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:21:05 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-char	*trans_hex(long int i, char c)
-{
-	long int			i_copy;
-	char				*hex_char;
-	char				*def;
-	int					count;
-
-	count = 1;
-	if (c == 'x')
-		hex_char = "0123456789abcdef";
-	else
-		hex_char = "0123456789ABCDEF";
-	i_copy = i;
-	while (i_copy >= 16 && (i_copy /= 16))
-		count++;
-	i_copy = i;
-	if (!(def = (char*)malloc(sizeof(char) * (count + 1))))
-		return (NULL);
-	def[count] = '\0';
-	while (i_copy > 15)
-	{
-		--count;
-		def[count] = hex_char[i_copy % 16];
-		i_copy /= 16;
-	}
-	def[--count] = hex_char[i_copy % 16];
-	return (def);
-}
 
 void	caseh_minus(char *p, int i, int tam_num, t_list *f)
 {

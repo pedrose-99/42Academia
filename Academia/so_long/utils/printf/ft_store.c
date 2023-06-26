@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 09:12:57 by pserrano          #+#    #+#             */
-/*   Updated: 2020/11/01 14:05:47 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:27:49 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ void	init_struct(t_list *f)
 	f->zero = -1;
 }
 
-int		is_specifier(char c)
+int	is_specifier(char c)
 {
-	if (c == 'c' || c == 'd' || c == 'i' || c == 's' ||
-		c == 'u' || c == 'x' || c == '%' || c == 'X' || c == 'p')
+	if (c == 'c' || c == 'd' || c == 'i' || c == 's'
+		|| c == 'u' || c == 'x' || c == '%' || c == 'X'
+		|| c == 'p')
 		return (1);
 	else
 		return (0);

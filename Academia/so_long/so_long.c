@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 14:39:58 by pserrano          #+#    #+#             */
-/*   Updated: 2023/06/22 09:52:40 by pserrano         ###   ########.fr       */
+/*   Created: 2023/06/21 15:38:43 by pserrano          #+#    #+#             */
+/*   Updated: 2023/06/22 11:15:20 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
+#include "includes/so_long.h"
 
-void	free_map_info(t_info_map *map_info)
+int	main(int argc, char const *argv[])
 {
-	int	i;
+	t_info_map	map_info;
 
-	i = 0;
-	while (map_info->map[i])
+	if (argc != 2)
 	{
-		free(map_info->map[i]);
-		i++;
+		ft_printf("ERROR: Invalid arguments\n");
+		return (0);
 	}
-	free(map_info->map);
-}
-
-void	free_map(char **map)
-{
-	int	k;
-
-	k = 0;
-	while (map[k])
-	{
-		free(map[k]);
-		k++;
-	}
-	free(map);
+	if (!initialize_and_check_map(argv, &map_info))
+		;
+	else
+		map_render(&map_info);
+	return (0);
 }

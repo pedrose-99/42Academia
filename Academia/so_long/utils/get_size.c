@@ -1,39 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   get_size.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/21 14:39:58 by pserrano          #+#    #+#             */
-/*   Updated: 2023/06/22 09:52:40 by pserrano         ###   ########.fr       */
+/*   Created: 2023/06/21 15:28:01 by pserrano          #+#    #+#             */
+/*   Updated: 2023/06/21 15:28:20 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-void	free_map_info(t_info_map *map_info)
+int	get_size_y(char **map)
 {
 	int	i;
 
 	i = 0;
-	while (map_info->map[i])
-	{
-		free(map_info->map[i]);
+	while (map[i])
 		i++;
-	}
-	free(map_info->map);
+	return (i);
 }
 
-void	free_map(char **map)
+int	get_size_x(char **map)
 {
-	int	k;
+	int	i;
 
-	k = 0;
-	while (map[k])
-	{
-		free(map[k]);
-		k++;
-	}
-	free(map);
+	i = 0;
+	while (map[0][i])
+		i++;
+	return (i);
 }

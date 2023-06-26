@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/23 12:22:31 by pserrano          #+#    #+#             */
-/*   Updated: 2020/11/01 14:20:34 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:14:34 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	print_str(t_list *f)
 	char	*i;
 	int		tam_str;
 
-	i = va_arg(f->ap, char*);
+	i = va_arg(f->ap, char *);
 	i = handle_string(i);
 	tam_str = ft_strlen(i);
 	if ((f->zero > 0 && f->precision < 0)

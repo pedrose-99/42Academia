@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 09:54:27 by pserrano          #+#    #+#             */
-/*   Updated: 2020/11/01 14:48:53 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:27:09 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include <stdarg.h>
 
-typedef struct	s_list
+typedef struct s_list
 {
 	va_list		ap;
 	int			cont;
@@ -45,22 +45,6 @@ void			casec_zero_or_width(char i, t_list *f);
 void			caseint_zero_o_prec(int i, char *p, int tam_num, t_list *f);
 void			caseint_zero_prec(int i, int tam_num, char *p, t_list *f);
 /*
-**		ft_print_hexa.c
-*/
-void			caseh_width(char *p, int i, int tam_num, t_list *f);
-void			caseh_zero_prec(char *p, int tam_num, t_list *f);
-void			caseh_minus_prec(char *p, int i, int tam_num, t_list *f);
-void			caseh_width_prec(char *p, int i, int tam_num, t_list *f);
-void			print_hexa(t_list *f);
-/*
-**		ft_print_hexap.c
-*/
-void			casehp_width_prec(char *p, int i, int tam_num, t_list *f);
-char			*trans_hexp(long long int i);
-void			print_hexap(t_list *f);
-char			*handle_hexa(char *s);
-void			casep_null(t_list *f);
-/*
 **		ft_print_str.c
 */
 char			*handle_string(char *s);
@@ -68,14 +52,6 @@ void			casestr_zero_o_width(char *i, int tam_str, t_list *f);
 void			casestr_minus(char *i, int tam_str, t_list *f);
 void			casestr_precision(char *i, int tam_str, t_list *f);
 void			print_str(t_list *f);
-/*
-**		ft_printf_unsigned.c
-*/
-void			caseu_minus_prec(char *p, int i, int tam_num, t_list *f);
-void			caseu_width_prec(int i, int tam_num, char *p, t_list *f);
-void			caseu_minus(char *p, int tam_num, int i, t_list *f);
-void			caseu_width(char *p, int tam_num, int i, t_list *f);
-void			print_unsigned(t_list *f);
 /*
 **		ft_printf.c
 */
@@ -102,7 +78,6 @@ void			print_conversion_str(char *p, t_list *f);
 /*
 **		ft_print_utils_2.c
 */
-char			*trans_hex(long int i, char c);
 void			caseh_minus(char *p, int i, int tam_num, t_list *f);
 void			caseu_zero_o_prec(char *p, int tam_num, t_list *f);
 void			caseu_zero_prec(char *p, int tam_num, t_list *f);

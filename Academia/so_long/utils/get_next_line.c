@@ -6,13 +6,13 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/27 10:29:23 by pserrano          #+#    #+#             */
-/*   Updated: 2020/02/13 10:23:15 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:42:30 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int				save_line(char **string, char **line)
+int	save_line(char **string, char **line)
 {
 	int		len;
 	char	*temp;
@@ -37,7 +37,7 @@ int				save_line(char **string, char **line)
 	return (1);
 }
 
-int				output(int fd, char **string, char **line, int ret)
+int	output(int fd, char **string, char **line, int ret)
 {
 	if (ret < 0)
 	{
@@ -55,18 +55,18 @@ int				output(int fd, char **string, char **line, int ret)
 	}
 }
 
-int				get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	int				ret;
-	static	char	*string[4096];
+	static char		*string[64];
 	char			*buffer;
 	char			*line_temp;
 
-	ret = 0;
-	if (fd < 0 || line == 0 || BUFFER_SIZE == 0 ||
-		!(buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (fd < 0 || line == 0 || BUFFER_SIZE == 0 || !buffer)
 		return (-1);
-	while ((ret = read(fd, buffer, BUFFER_SIZE)) > 0)
+	ret = read(fd, buffer, BUFFER_SIZE);
+	while (ret > 0)
 	{
 		buffer[ret] = '\0';
 		if (string[fd] == 0)
@@ -81,6 +81,5 @@ int				get_next_line(int fd, char **line)
 			break ;
 	}
 	free(buffer);
-	*buffer = NULL;
 	return (output(fd, string, line, ret));
 }

@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 07:47:45 by pserrano          #+#    #+#             */
-/*   Updated: 2020/11/01 14:29:28 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:20:18 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*print_menos(int num, char *p, t_list *f)
 
 void	print_zero(int tam, t_list *f)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < tam)
@@ -42,7 +42,7 @@ void	print_zero(int tam, t_list *f)
 
 void	print_space(int tam, t_list *f)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < tam)

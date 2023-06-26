@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 10:04:18 by pserrano          #+#    #+#             */
-/*   Updated: 2020/11/01 14:02:54 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:39:18 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putnum(char *s, long int n, long int l)
 {
-	unsigned int c;
+	unsigned int	c;
 
 	c = 0;
 	s[l--] = '\0';
@@ -42,29 +42,38 @@ char	*ft_itoa(long int n)
 	if (n < -2147483648)
 		return (NULL);
 	l = ft_count_nb(n);
-	new = (char*)malloc(sizeof(char) * l + 1);
+	new = (char *)malloc(sizeof(char) * l + 1);
 	if (new == 0)
 		return (NULL);
 	ft_putnum(new, n, l);
 	return (new);
 }
 
-int		ft_is_space(char str)
+int	ft_is_space(char str)
 {
-	return (str == '\t' || str == '\v' || str == '\f' || str == '\r' ||
-			str == '\n' || str == ' ') ? (1) : (0);
+	if (str == ' ')
+		return (1);
+	if (str == '\t')
+		return (1);
+	if (str == '\n')
+		return (1);
+	if (str == '\r' || str == '\f' || str == '\v')
+		return (1);
+	return (0);
 }
 
-int		ft_is_num(char str)
+int	ft_is_num(char str)
 {
-	return (str >= '0' && str <= '9') ? (1) : (0);
+	if (str >= '0' && str <= '9')
+		return (1);
+	return (0);
 }
 
-int		ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	long int i;
-	long int nb;
-	long int j;
+	long int	i;
+	long int	nb;
+	long int	j;
 
 	j = 0;
 	i = 0;

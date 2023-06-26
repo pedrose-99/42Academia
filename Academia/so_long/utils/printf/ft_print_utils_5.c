@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 14:13:57 by pserrano          #+#    #+#             */
-/*   Updated: 2020/11/01 14:15:06 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:26:54 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_string(char *i, int tam_str, t_list *f)
 {
-	int p;
+	int	p;
 
 	p = 0;
 	while (p < tam_str)
@@ -24,9 +24,9 @@ void	print_string(char *i, int tam_str, t_list *f)
 	}
 }
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (n == 0)
@@ -38,7 +38,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n)
 
 void	casestr_minus_precs(char *i, int tam_str, t_list *f)
 {
-	int tam_def;
+	int	tam_def;
 
 	if (tam_str <= f->precision || f->precision < 0)
 		tam_def = tam_str;
@@ -50,7 +50,7 @@ void	casestr_minus_precs(char *i, int tam_str, t_list *f)
 
 void	casestr_zero_precs(char *i, int tam_str, t_list *f)
 {
-	int tam_def;
+	int	tam_def;
 
 	if (tam_str <= f->precision || f->precision < 0)
 		tam_def = tam_str;
@@ -68,7 +68,8 @@ char	*ft_strdup(char *s1)
 
 	j = 0;
 	i = ft_strlen(s1);
-	if (!(s2 = (char*)malloc(sizeof(char) * (i + 1))))
+	s2 = (char *)malloc(sizeof(char) * (i + 1));
+	if (!(s2))
 		return (0);
 	while (s1[j])
 	{
@@ -76,5 +77,5 @@ char	*ft_strdup(char *s1)
 		j++;
 	}
 	s2[j] = '\0';
-	return ((char*)s2);
+	return ((char *)s2);
 }
