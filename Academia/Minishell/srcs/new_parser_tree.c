@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_parser_tree.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 11:49:47 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/06/07 12:17:10 by pfuentes         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:33:10 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	tokens_delete_par(t_list **lst)
 
 int	is_parenthesis(t_btree **tree, t_list **tokens)
 {
-	t_token	*token;
 	t_list	*curr;
 
 	curr = *tokens;

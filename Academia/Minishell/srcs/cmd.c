@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:47:29 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/06/22 11:48:46 by pfuentes         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:25:01 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 void	cmd_op(t_list **tokens, t_mshell *mshell)
 {
-	char	**cmd;
 	t_list	*curr;
 
 	check_sustitution(*tokens, mshell);

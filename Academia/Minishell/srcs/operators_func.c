@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operators_func.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:58:27 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/06/15 13:13:59 by pfuentes         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:32:41 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	or_op(t_btree *root, t_mshell *mshell)
 char	*here_doc_op(t_mshell *mshell)
 {
 	char	*name;
-	int		fd;
 
+	name = NULL;
 	if (mshell->data.here_doc)
 		name = ft_strdup((char *)mshell->data.here_doc->content);
 	mshell->data.here_docs--;

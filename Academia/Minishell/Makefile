@@ -29,9 +29,9 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_A)
 			$(CC) $(CCFLAGS) $(READLINE) $(OBJS) $(LIBFT_A) -o $(NAME)
-%.o: %.c
-	$(CC) $(FLAGS) -c $< -o $@
 
+%.o: %.c
+	$(CC) $(CCFLAGS) -c $< -o $@
 $(LIBFT_A):
 		make bonus -C libft
 		cp libft/libft.a .

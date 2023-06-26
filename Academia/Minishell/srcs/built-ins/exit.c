@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 09:23:12 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/06/22 11:00:33 by pfuentes         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:35:07 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	b_exit(char **cmd, t_mshell *mshell)
 {
 	long long int	value;
 
+	value = 0;
 	if (exit_error_cases(cmd, mshell) > 0)
 		return ;
 	if (cmd[1])

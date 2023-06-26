@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assign_token_type.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 12:52:22 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/06/16 11:38:26 by pfuentes         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:24:49 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	assign_tokens_type(t_list **tokens, char **dict)
 {
 	t_list	*curr;
 	t_token	*token;
-	char	*quote;
 
 	curr = *tokens;
 	while (curr)

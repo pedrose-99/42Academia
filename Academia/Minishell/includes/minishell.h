@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pfuentes <pfuentes@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:31:33 by pfuentes          #+#    #+#             */
-/*   Updated: 2023/06/21 13:26:40 by pfuentes         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:23:31 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <string.h>
 # include <signal.h>
-# include <stdio.h>
 # include <sys/fcntl.h>
 # include <unistd.h>
 # include <fcntl.h>
