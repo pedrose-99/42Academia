@@ -1,12 +1,12 @@
 NAME = philo
 
-SRCS = philo.c 
+SRCS = philo.c utils/philo_utils.c srcs/init_struct.c
 
 OBJS	= $(SRCS:.c=.o)
 
 CC		= gcc
 
-CCFLAGS = -Werror -Wall -Wextra
+CCFLAGS = -Werror -Wall -Wextra #-g3 -fsanitize=thread
 
 all:  $(NAME)
 

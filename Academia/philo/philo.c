@@ -6,42 +6,54 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/06/26 10:46:41 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/06/27 13:34:30 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
-
-struct s_philo	*init_philo(int num_philo, int time_die, int time_eat, int time_sleep)
+/*
+void	ft_leaks()
 {
-	struct s_philo	philo;
-
-	philo.num_philo = num_philo;
-	philo.time_die = time_die;
-	philo.time_die = time_eat;
-	philo.time_sleep = time_sleep;
-	philo.num_times_must_eat = 1;
-	return (&philo);
-}
+	system("leaks -q philo");
+}*/
 
 
 int	main(int argc, char **argv)
 {
-	struct s_philo = *philo;
+	t_data	data;
 
-	if (argc == 5)
+	//atexit(ft_leaks);
+	if (argc >= 5 && argc <= 6)
 	{
-		philo = init_philo(argv[1], argv[2], argv[3], argv[4]);
-		printf("NUM_philo = %d, time_die = %d, time_eat = %d, time_sleep = %d.\n", philo->num_philo, philo->time_die, philo->time_eat, philo->time_sleep);
-	}
-	else if (argc == 6)
-	{
-		printf("Empezar el programa con los 5 argumentos\n");
+		if (!check_args(argv, argc))
+			printf("ERROR: Los argumentos no son validos.\n");
+		else
+		{
+			data = init_data(ft_atoi(argv[1]), ft_atoi(argv[2]),
+					ft_atoi(argv[3]), ft_atoi(argv[4]));
+			if (argc == 6)
+				data = init_num_must_eat(argv[5], data);
+		}
 	}
 	else
-	{
 		printf("ERROR: El número de argumentos no es valido.\n");
-	}
-	printf("ARGV = %s\n", argv[1]);
 	return (0);
 }
+
+//MIRAR VIDEOS DE HILOS MUTEX ETC
+
+/*
+Variables a crear en estructura:
+
+estructura philo que va a pertenecer a cada filosofo el cual debe tener:
+
+Tiempo inicial.
+Tiempo actual.
+Variable muerto?
+Accion de si esta durmiendo pensando o comiendo
+LA accion de coger tenedor?
+Threads
+mutex
+Imprimir cualquier accion cuando la haces. no se puede quedar un tenedor sin coger al principio
+
+*/
