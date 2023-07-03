@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:17:16 by pserrano          #+#    #+#             */
-/*   Updated: 2023/06/27 13:13:46 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/03 11:52:43 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,18 @@
 # define EAT 3
 # define DEATH 4
 
+typedef enum e_bool
+{
+	false,
+	true
+}			t_bool;
+
 typedef struct s_philo
 {
 	int		time_start;
-	int		death;
+	t_bool	death;
 	int		action;
+	int		num_times_eat;
 }				t_philo;
 
 typedef struct s_data
