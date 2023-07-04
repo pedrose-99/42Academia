@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:17:16 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/04 12:17:10 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/04 12:47:10 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ typedef struct s_philo
 	int		death;
 	int		action;
 	int		num_times_eat;
-//	pthread_mutex_t	fork;
-//	pthread_mutex_t *next_fork;
+//	pthread_mutex_t	right_fork;
+//	pthread_mutex_t *left_fork;
 }				t_philo;
 
 typedef struct s_data
