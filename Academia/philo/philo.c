@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/04 12:32:22 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/04 12:45:40 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_leaks()
 {
 	system("leaks -q philo");
-}*/
+}
 
 void	free_data(t_data data)
 {
@@ -28,7 +28,6 @@ void	free_data(t_data data)
 		i++;
 	}
 }
-
 void	init_philos(t_data data)
 {
 	int		i;
@@ -49,13 +48,13 @@ void	init_philos(t_data data)
 		printf("%d\n", data.philos[i]->action);
 		i++;
 	}
-}
+}*/
 
 int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	//atexit(ft_leaks);
+	atexit(ft_leaks);
 	if (argc >= 5 && argc <= 6)
 	{
 		if (!check_args(argv, argc))
