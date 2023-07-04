@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:17:16 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/03 11:52:43 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/04 11:39:48 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,33 @@
 # include <pthread.h>
 # include <semaphore.h>
 # include <unistd.h>
+# include <sys/time.h>
 
 # define SLEEP 1
 # define THINK 2
 # define EAT 3
 # define DEATH 4
 
-typedef enum e_bool
-{
-	false,
-	true
-}			t_bool;
-
 typedef struct s_philo
 {
-	int		time_start;
-	t_bool	death;
+	int		eaten_time;
+	int		death;
 	int		action;
 	int		num_times_eat;
+	pthread_mutex_t	fork;
+	pthread_mutex_t *next_fork;
 }				t_philo;
 
 typedef struct s_data
 {
-	int		num_philo;
+	int		time_start;
 	int		curr_time;
+	int		num_philo;
 	int		time_die;
 	int		time_eat;
 	int		time_sleep;
 	int		num_times_must_eat;
-
+	t_philo	**philos;
 }				t_data;
 
 //init_struct.c
@@ -61,6 +59,10 @@ int				check_args(char **num_param, int argc);
 //philo.c
 int				check_first_args(char *num_philo, char *time_die,
 					char *time_eat, char *sleep);
+void			init_philos(t_data data);
+
+//print_actions.c
+void			print_current_time(t_data data, int action);
 
 //philo_utils.c
 int				check_num(char *num);

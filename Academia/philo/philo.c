@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/06/27 13:34:30 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/04 11:40:10 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,22 @@ void	ft_leaks()
 {
 	system("leaks -q philo");
 }*/
+
+void	init_philos(t_data data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data.num_philo)
+	{
+		data.philos[i] = malloc(sizeof(t_philo));
+		data.philos[i]->eaten_time = 0;
+		data.philos[i]->action = THINK;
+		data.philos[i]->num_times_eat = 0;
+		data.philos[i]->death = 0;
+		i++;
+	}
+}
 
 
 int	main(int argc, char **argv)
@@ -33,6 +49,7 @@ int	main(int argc, char **argv)
 					ft_atoi(argv[3]), ft_atoi(argv[4]));
 			if (argc == 6)
 				data = init_num_must_eat(argv[5], data);
+			init_philos(data);
 		}
 	}
 	else
