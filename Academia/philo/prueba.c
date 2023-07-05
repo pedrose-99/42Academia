@@ -19,7 +19,7 @@ int	check_first_args(char *num_data, char *time_die, char *time_eat,
 	if (!check_num(num_data) || !check_num(time_die) || !check_num(time_eat)
 		|| !check_num(sleep))
 		return (0);
-	return (1);
+	return (1);jdjdjhjfhf
 }
 
 t_data	init_data(int num_data, int time_die, int time_eat, int time_sleep)
