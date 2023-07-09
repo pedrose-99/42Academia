@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   prueba.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:07:01 by pserrano          #+#    #+#             */
-/*   Updated: 2023/06/27 13:05:15 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/09 17:27:34 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/data.h"
+#include "philo.h"
 
 
 int	check_first_args(char *num_data, char *time_die, char *time_eat,
@@ -19,18 +19,18 @@ int	check_first_args(char *num_data, char *time_die, char *time_eat,
 	if (!check_num(num_data) || !check_num(time_die) || !check_num(time_eat)
 		|| !check_num(sleep))
 		return (0);
-	return (1);jdjdjhjfhf
+	return (1);
 }
 
 t_data	init_data(int num_data, int time_die, int time_eat, int time_sleep)
 {
 	t_data	data;
 
-	data.num_data = num_data;
-	data.time_die = time_die;
+	data.num_philo = num_data;
+	data.time_die =   time_die;
 	data.time_eat = time_eat;
 	data.time_sleep = time_sleep;
-	data.num_times_must_eat = -1;
+	data.num_times_must_eat =    -1;
 	return (data);
 }
 

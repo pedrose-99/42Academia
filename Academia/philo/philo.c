@@ -3,91 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/04 12:45:40 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/09 20:37:46 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philo.h"
-/*
-void	ft_leaks()
+#include "philo.h"
+
+void	sleep(int time_sleep)
 {
-	system("leaks -q philo");
-}
+	long	current_time;
+	long	end_time;
 
-void	free_data(t_data data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data.num_philo)
+	current_time = get_curr_time();
+	end_time = current_time + time_sleep;
+	while (current_time < end_time)
 	{
-		free(data.philos[i]);
-		i++;
-	}
-}
-void	init_philos(t_data data)
-{
-	int		i;
-
-	i = 0;
-	data.philos = malloc(sizeof(t_philo));
-	while (i < data.num_philo)
-	{
-		data.philos[i]->eaten_time = 0;
-		data.philos[i]->action = THINK;
-		data.philos[i]->num_times_eat = 0;
-		data.philos[i]->death = 0;
-		i++;
-	}
-	i = 0;
-	while (i < data.num_philo)
-	{
-		printf("%d\n", data.philos[i]->action);
-		i++;
-	}
-}*/
-
-int	main(int argc, char **argv)
-{
-	t_data	data;
-
-	atexit(ft_leaks);
-	if (argc >= 5 && argc <= 6)
-	{
-		if (!check_args(argv, argc))
-			printf("ERROR: Los argumentos no son validos.\n");
+		//comprobar si se ha muerto alguno
+		if (end_time - current_time > 10)
+			usleep(10000);
 		else
-		{
-			data = init_data(ft_atoi(argv[1]), ft_atoi(argv[2]),
-					ft_atoi(argv[3]), ft_atoi(argv[4]));
-			if (argc == 6)
-				data = init_num_must_eat(argv[5], data);
-			init_philos(data);
-			free_data(data);
-		}
+			usleep((end_time - current_time) * 1000);
 	}
-	else
-		printf("ERROR: El número de argumentos no es valido.\n");
-	return (0);
 }
 
-//MIRAR VIDEOS DE HILOS MUTEX ETC
+void	eat(t_philo *philo)
+{
+	//comprobar si se han muerto con variable nueva.
+	phtread_mutex_lock(&philo->right_fork);
+	printf("he cogido un tenedor");
+	//comprobar si se han muerto con variable nueva.
+	pthread_mutex_lock(philo->left_fork);
+	printf("he cogido un tenedor");
+	printf("El philosofo x esta comiendo\n");
+	sleep(philo->time_eat); //mientras comes ñamñam
+	printf("El philosofo x esta durmiendo\n");
+	pthread_mutex_unlock(&philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
+}
 
-/*
-Variables a crear en estructura:
-
-estructura philo que va a pertenecer a cada filosofo el cual debe tener:
-
-Tiempo inicial.
-Tiempo actual.
-Variable muerto?
-Accion de si esta durmiendo pensando o comiendo
-LA accion de coger tenedor?
-Threads
-mutex
-Imprimir cualquier accion cuando la haces. no se puede quedar un tenedor sin coger al principio
-
-*/
+void	*live(void *phil)
+{
+	t_philo	*philo;
+	
+	philo = (t_philo *)phil;
+	philo->time_finish_eat = get_curr_time();
+	while (1)
+	{
+		eat(philo);
+		sleep(philo->time_sleep);
+		//comprobar si alguien ha muerto
+		//si no esta muerto printear pensando
+		printf("Estoy pensando");
+	}
+}
