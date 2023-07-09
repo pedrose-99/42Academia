@@ -26,7 +26,7 @@ static void	wrong_var(char *var, t_mshell *mshell)
 static void	export_exiting_var(char *var, t_mshell *mshell)
 {
 	t_list	*node;
-	t_kv	*key_val;
+	//t_kv	*key_val;
 
 	if (ft_strncmp(var, "", 1) == 0 || ft_strncmp(var, " ", 1) == 0)
 		return ;
@@ -36,7 +36,7 @@ static void	export_exiting_var(char *var, t_mshell *mshell)
 	if (node)
 	{
 		set_var_type(&node, 0);
-		key_val = (t_kv *)node->content;
+		//key_val = (t_kv *)node->content;
 	}
 	else
 	{

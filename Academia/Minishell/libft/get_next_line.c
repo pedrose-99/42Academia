@@ -101,7 +101,7 @@ static char	*create_stash(char *stash, int fd)
 
 char	*get_next_line(int fd)
 {
-	char static	*stash;
+	static char	*stash;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
