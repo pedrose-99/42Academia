@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pserrano <pserrano@student.42.f>           +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 11:08:41 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/09 17:26:43 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:55:28 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,19 @@ int	ft_atoi(const char *str)
 	}
 	j = j * nb;
 	return (j);
+}
+
+void	free_philo(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->num_philo)
+	{
+		free(data->threads[i]);
+		free(data->philos[i].right_fork);
+		i++;
+	}
+	free(data->philos);
+	
 }

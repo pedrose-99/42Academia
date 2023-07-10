@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pserrano <pserrano@student.42.f>           +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:29:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/09 20:38:45 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:49:18 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+// En principio no da error
 t_data	init_data(char **argv, int argc)
 {
-	t_data			data;
+	t_data	data;
+	int		i;
 
 	data.num_philo = ft_atoi(argv[1]);
 	data.time_die = ft_atoi(argv[2]);
@@ -25,6 +27,12 @@ t_data	init_data(char **argv, int argc)
 	else
 		data.num_times_must_eat = ft_atoi(argv[5]);
 	data.time_start = get_curr_time();
+	i = 0;
+	while (i < data.num_philo)
+	{
+		data.threads[i] = malloc(sizeof(pthread_t));
+		i++;
+	}
 	return (data);
 }
 
@@ -46,7 +54,7 @@ int	check_args(char **num_param, int argc)
 	return (1);
 }
 
-int		init_philos_threads(t_data *data)
+int	init_philos_threads(t_data *data)
 {
 	int	i;
 
@@ -55,10 +63,11 @@ int		init_philos_threads(t_data *data)
 	{
 		if (!(i % 2))
 		{
-		if (pthread_create(&data->threads[i], NULL, &live, &data->philos[i]))
-			return (0);
-		i++;
+			if (pthread_create(&data->threads[i],
+					NULL, &live, &data->philos[i]))
+				return (0);
 		}
+		i++;
 	}
 	usleep(300);
 	i = 0;
@@ -66,10 +75,11 @@ int		init_philos_threads(t_data *data)
 	{
 		if ((i % 2))
 		{
-		if (pthread_create(&data->threads[i], NULL, &live, &data->philos[i]))
-			return (0);
-		i++;
+			if (pthread_create(&data->threads[i], NULL,
+					&live, &data->philos[i]))
+				return (0);
 		}
+		i++;
 	}
 	return (1);
 }
@@ -81,11 +91,13 @@ int	init_mutex_philos(t_data *data)
 	i = 0;
 	while (i < data->num_philo)
 	{
-		pthread_mutex_init(&(data->philos[i].right_fork), NULL);
+		data->philos[i].right_fork = malloc(sizeof(pthread_mutex_t));
+		pthread_mutex_init((data->philos[i].right_fork), NULL);
 		if (i == 0)
-			data->philos[i].left_fork = &data->philos[data->num_philo - 1].right_fork;
+			data->philos[i].left_fork
+				= data->philos[data->num_philo - 1].right_fork;
 		else
-			data->philos[i].left_fork = &data->philos[i + 1].right_fork;
+			data->philos[i].left_fork = data->philos[i + 1].right_fork;
 		i++;
 	}
 	if (init_philos_threads(data))
@@ -99,17 +111,20 @@ void	init_philos(t_data *data)
 
 	i = 0;
 	data->philos = malloc(sizeof(t_philo));
+	data->philos->info.death = 0;
+	data->philos[i].info.death = 0;
 	while (i < data->num_philo)
 	{
 		data->philos[i].pos = i;
-		data->philos[i].time_start_eat = -1;
 		data->philos[i].time_finish_eat = -1;
-		data->philos[i].time_star_sleep = -1;
-		data->philos[i].time_finish_sleep = -1;
 		data->philos[i].action = THINK;
 		data->philos[i].num_times_eat = 0;
-		data->philos[i].death = 0;
+		data->philos[i].info.time_die = data->time_die;
+		data->philos[i].info.time_eat = data->time_eat;
+		data->philos[i].info.time_sleep = data->time_sleep;
+		data->philos[i].info.time_start = data->time_start;
 		i++;
 	}
 	init_mutex_philos(data);
 }
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pserrano <pserrano@student.42.f>           +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:33:17 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/09 20:44:03 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:33:01 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,18 @@ int	main(int argc, char **argv)
 	if (argc >= 5 && argc <= 6)
 	{
 		if (!check_args(argv, argc))
-        {
+		{
 			printf("ERROR: Los argumentos no son validos.\n");
-            return (0);
-        }
-        else
+			return (0);
+		}
+		else
 		{
 			data = init_data(argv, argc);
-            print_current_time(data, THINK);
-            init_philos(&data);
+			init_philos(&data);
 		}
 	}
 	else  
 		printf("ERROR: El número de argumentos no es valido.\n");
-    
-    //pthreadjoin al final pa asegurar q todos terminan
+	//pthreadjoin al final pa asegurar q todos terminan
 	return (0);
 }

@@ -3,25 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pserrano <pserrano@student.42.f>           +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/09 20:37:46 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:52:27 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	sleep(int time_sleep)
+void	action_time(int time_sleep, t_philo *philo)
 {
 	long	current_time;
 	long	end_time;
 
 	current_time = get_curr_time();
 	end_time = current_time + time_sleep;
-	while (current_time < end_time)
+	while (current_time < end_time && is_dead(philo))
 	{
-		//comprobar si se ha muerto alguno
 		if (end_time - current_time > 10)
 			usleep(10000);
 		else
@@ -29,33 +28,46 @@ void	sleep(int time_sleep)
 	}
 }
 
+int	is_dead(t_philo *philo)
+{
+	if (get_curr_time() - philo->time_finish_eat >= philo->info.time_die)
+	{
+		print_current_time(*philo, DEATH);
+		philo->info.death = 1;
+		return (1);
+	}
+	if (philo->info.death)
+		return (1);
+	return (0);
+}
+
 void	eat(t_philo *philo)
 {
-	//comprobar si se han muerto con variable nueva.
-	phtread_mutex_lock(&philo->right_fork);
-	printf("he cogido un tenedor");
-	//comprobar si se han muerto con variable nueva.
-	pthread_mutex_lock(philo->left_fork);
-	printf("he cogido un tenedor");
-	printf("El philosofo x esta comiendo\n");
-	sleep(philo->time_eat); //mientras comes ñamñam
-	printf("El philosofo x esta durmiendo\n");
-	pthread_mutex_unlock(&philo->right_fork);
+	if (!is_dead(philo))
+		pthread_mutex_lock(philo->right_fork);
+	print_current_time(*philo, FORK);
+	if (!is_dead(philo))
+		pthread_mutex_lock(philo->left_fork);
+	print_current_time(*philo, FORK);
+	print_current_time(*philo, EAT);
+	action_time(philo->info.time_eat, philo);
+	print_current_time(*philo, SLEEP);
+	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
 }
 
 void	*live(void *phil)
 {
 	t_philo	*philo;
-	
+
 	philo = (t_philo *)phil;
 	philo->time_finish_eat = get_curr_time();
 	while (1)
 	{
 		eat(philo);
-		sleep(philo->time_sleep);
-		//comprobar si alguien ha muerto
-		//si no esta muerto printear pensando
-		printf("Estoy pensando");
+		action_time(philo->info.time_sleep, philo);
+		if (philo->info.death)
+			return (NULL);
+		print_current_time(*philo, THINK);
 	}
 }
