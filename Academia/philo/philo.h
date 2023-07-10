@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:17:16 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 11:52:45 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 13:43:21 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,23 @@
 typedef struct s_info
 {
 	long				time_start;
-	int					time_die;
-	int					time_eat;
-	int					time_sleep;
+	long				time_die;
+	long				time_eat;
+	long				time_sleep;
 	int					num_times_must_eat;
+	pthread_mutex_t		*death_mutex;
 	int					death;
+	pthread_mutex_t		*print;
 }			t_info;
 
 typedef struct s_philo
 {
 	int				pos;
-	int				time_finish_eat;
+	long			time_finish_eat;
 	int				action;
 	int				num_times_eat;
-	t_info			info;
-	pthread_mutex_t	*right_fork;
+	t_info			*info;
+	pthread_mutex_t	right_fork;
 	pthread_mutex_t	*left_fork;
 }				t_philo;
 

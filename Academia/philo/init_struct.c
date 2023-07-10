@@ -6,13 +6,13 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:29:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 11:49:18 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 13:38:52 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-// En principio no da error
+// Da error al hacer malloc
 t_data	init_data(char **argv, int argc)
 {
 	t_data	data;
@@ -28,11 +28,7 @@ t_data	init_data(char **argv, int argc)
 		data.num_times_must_eat = ft_atoi(argv[5]);
 	data.time_start = get_curr_time();
 	i = 0;
-	while (i < data.num_philo)
-	{
-		data.threads[i] = malloc(sizeof(pthread_t));
-		i++;
-	}
+	data.threads = malloc(sizeof(pthread_t));
 	return (data);
 }
 
@@ -91,13 +87,12 @@ int	init_mutex_philos(t_data *data)
 	i = 0;
 	while (i < data->num_philo)
 	{
-		data->philos[i].right_fork = malloc(sizeof(pthread_mutex_t));
-		pthread_mutex_init((data->philos[i].right_fork), NULL);
+		pthread_mutex_init(&(data->philos[i].right_fork), NULL);
 		if (i == 0)
 			data->philos[i].left_fork
-				= data->philos[data->num_philo - 1].right_fork;
+				= &data->philos[data->num_philo - 1].right_fork;
 		else
-			data->philos[i].left_fork = data->philos[i + 1].right_fork;
+			data->philos[i].left_fork = &data->philos[i + 1].right_fork;
 		i++;
 	}
 	if (init_philos_threads(data))
@@ -108,21 +103,25 @@ int	init_mutex_philos(t_data *data)
 void	init_philos(t_data *data)
 {
 	int		i;
+	t_info	info;
 
 	i = 0;
 	data->philos = malloc(sizeof(t_philo));
-	data->philos->info.death = 0;
-	data->philos[i].info.death = 0;
+	info.time_die = data->time_die;
+	info.time_eat = data->time_eat;
+	info.time_sleep = data->time_sleep;
+	info.time_start = data->time_start;
+	info.num_times_must_eat = data->num_times_must_eat;
+	info.death_mutex = malloc(sizeof(pthread_mutex_t));
+	info.print = malloc(sizeof(pthread_mutex_t));
+	info.death = 0;
 	while (i < data->num_philo)
 	{
 		data->philos[i].pos = i;
 		data->philos[i].time_finish_eat = -1;
 		data->philos[i].action = THINK;
 		data->philos[i].num_times_eat = 0;
-		data->philos[i].info.time_die = data->time_die;
-		data->philos[i].info.time_eat = data->time_eat;
-		data->philos[i].info.time_sleep = data->time_sleep;
-		data->philos[i].info.time_start = data->time_start;
+		data->philos[i].info = &info;
 		i++;
 	}
 	init_mutex_philos(data);

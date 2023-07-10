@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:33:17 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 11:33:01 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 13:32:27 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ void	ft_leaks()
 int	main(int argc, char **argv)
 {
 	t_data	data;
+	int		i;
 
-	//atexit(ft_leaks);
+//	atexit(ft_leaks);
 	if (argc >= 5 && argc <= 6)
 	{
 		if (!check_args(argv, argc))
@@ -37,6 +38,12 @@ int	main(int argc, char **argv)
 	}
 	else  
 		printf("ERROR: El número de argumentos no es valido.\n");
-	//pthreadjoin al final pa asegurar q todos terminan
+	i = 0;
+	while (i < data.num_philo)
+	{
+		pthread_join(data.threads[i], NULL);
+		i++;
+	}
+	free(&data);
 	return (0);
 }
