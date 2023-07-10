@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 14:11:29 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:21:34 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,19 @@ int	is_dead(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
-	if (!is_dead(philo))
-		pthread_mutex_lock(&philo->right_fork);
+	if (is_dead(philo))
+		return ;
+	pthread_mutex_lock(&philo->right_fork);
 	print_current_time(*philo, FORK);
-	if (!is_dead(philo))
-		pthread_mutex_lock(philo->left_fork);
+	if (is_dead(philo))
+		return ;
+	pthread_mutex_lock(philo->left_fork);
 	print_current_time(*philo, FORK);
 	print_current_time(*philo, EAT);
 	action_time(philo->info->time_eat, philo);
+	if (is_dead(philo))
+		return ;
+	philo->time_finish_eat = get_curr_time();
 	print_current_time(*philo, SLEEP);
 	pthread_mutex_unlock(&philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
@@ -71,6 +76,8 @@ void	*live(void *phil)
 		if (is_dead(philo))
 			return (NULL);
 		eat(philo);
+		if (is_dead(philo))
+			return (NULL);
 		action_time(philo->info->time_sleep, philo);
 		if (philo->info->death)
 			return (NULL);

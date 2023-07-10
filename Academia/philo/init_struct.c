@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:29:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 13:50:24 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:15:03 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	init_mutex_philos(t_data *data)
 			data->philos[i].left_fork
 				= &data->philos[data->num_philo - 1].right_fork;
 		else
-			data->philos[i].left_fork = &data->philos[i + 1].right_fork;
+			data->philos[i].left_fork = &data->philos[i - 1].right_fork;
 		i++;
 	}
 	if (init_philos_threads(data))

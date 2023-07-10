@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 11:08:41 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 13:13:32 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:52:34 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,7 @@ void	free_philo(t_data *data)
 		pthread_mutex_destroy(&data->philos[i].right_fork);
 		i++;
 	}
+	pthread_mutex_destroy(data->philos[0].info->death_mutex);
+	pthread_mutex_destroy(data->philos[0].info->print);
 	free(data->philos);
 }

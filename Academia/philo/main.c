@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:33:17 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 13:32:27 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:52:15 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ int	main(int argc, char **argv)
 		pthread_join(data.threads[i], NULL);
 		i++;
 	}
-	free(&data);
+	free_philo(&data);
 	return (0);
 }
