@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 13:45:00 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 13:58:57 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,17 @@ void	action_time(int time_sleep, t_philo *philo)
 	long	current_time;
 	long	end_time;
 
-	printf("COmiendo en tiempo: %d\n", time_sleep);
-	current_time = get_curr_time();
+	current_time = get_curr_time() - philo->info->time_start;
 	end_time = current_time + time_sleep;
+	printf("currentt time es: %ld\n", current_time);
+	printf("End time es de %ld\n", end_time);
 	while (current_time < end_time && is_dead(philo))
 	{
 		if (end_time - current_time > 10)
 			usleep(10000);
 		else
 			usleep((end_time - current_time) * 1000);
+		current_time = get_curr_time() - philo->info->time_start;
 	}
 }
 

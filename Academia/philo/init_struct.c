@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:29:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 13:38:52 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 13:50:24 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,25 +103,26 @@ int	init_mutex_philos(t_data *data)
 void	init_philos(t_data *data)
 {
 	int		i;
-	t_info	info;
+	t_info	*info;
 
 	i = 0;
 	data->philos = malloc(sizeof(t_philo));
-	info.time_die = data->time_die;
-	info.time_eat = data->time_eat;
-	info.time_sleep = data->time_sleep;
-	info.time_start = data->time_start;
-	info.num_times_must_eat = data->num_times_must_eat;
-	info.death_mutex = malloc(sizeof(pthread_mutex_t));
-	info.print = malloc(sizeof(pthread_mutex_t));
-	info.death = 0;
+	info = malloc(sizeof(t_info));
+	info->time_die = data->time_die;
+	info->time_eat = data->time_eat;
+	info->time_sleep = data->time_sleep;
+	info->time_start = data->time_start;
+	info->num_times_must_eat = data->num_times_must_eat;
+	info->death_mutex = malloc(sizeof(pthread_mutex_t));
+	info->print = malloc(sizeof(pthread_mutex_t));
+	info->death = 0;
 	while (i < data->num_philo)
 	{
 		data->philos[i].pos = i;
 		data->philos[i].time_finish_eat = -1;
 		data->philos[i].action = THINK;
 		data->philos[i].num_times_eat = 0;
-		data->philos[i].info = &info;
+		data->philos[i].info = info;
 		i++;
 	}
 	init_mutex_philos(data);
