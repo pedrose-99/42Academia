@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:29:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 16:15:03 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 19:35:43 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 t_data	init_data(char **argv, int argc)
 {
 	t_data	data;
-	int		i;
 
 	data.num_philo = ft_atoi(argv[1]);
 	data.time_die = ft_atoi(argv[2]);
@@ -27,7 +26,6 @@ t_data	init_data(char **argv, int argc)
 	else
 		data.num_times_must_eat = ft_atoi(argv[5]);
 	data.time_start = get_curr_time();
-	i = 0;
 	data.threads = malloc(sizeof(pthread_t));
 	return (data);
 }

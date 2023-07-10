@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 11:08:41 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 15:52:34 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 19:35:13 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	free_philo(t_data *data)
 	i = 0;
 	while (i < data->num_philo)
 	{
-		free(data->threads[i]);
+		//free(data->threads[i]);
 		pthread_mutex_destroy(&data->philos[i].right_fork);
 		i++;
 	}

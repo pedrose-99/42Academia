@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_actions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:27:15 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 13:14:44 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/10 20:20:07 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_current_time(t_philo philo, int action)
 		printf("%ld ms philo %d died\n",
 			get_curr_time() - philo.info->time_start, philo.pos + 1);
 	else if (action == FORK)
-		printf("%ld philo %d has taken a fork\n",
+		printf("%ld ms philo %d has taken a fork\n",
 			get_curr_time() - philo.info->time_start, philo.pos + 1);
 	pthread_mutex_unlock(philo.info->print);
 }
