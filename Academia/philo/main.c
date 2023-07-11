@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:33:17 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 15:52:15 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/11 13:30:26 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,29 @@ void	ft_leaks()
 {
 	system("leaks -q philo");
 }
+//	atexit(ft_leaks);
+
 
 int	main(int argc, char **argv)
 {
-	t_data	data;
+	t_data	*data;
+	t_info	*info;
 	int		i;
 
-//	atexit(ft_leaks);
-	if (argc >= 5 && argc <= 6)
-	{
-		if (!check_args(argv, argc))
-		{
-			printf("ERROR: Los argumentos no son validos.\n");
-			return (0);
-		}
-		else
-		{
-			data = init_data(argv, argc);
-			init_philos(&data);
-		}
-	}
-	else  
-		printf("ERROR: El número de argumentos no es valido.\n");
+	data = malloc(sizeof(t_data));
+	info = malloc(sizeof(t_info));
+	if (!check_args(argv, argc))
+		return (0);
+	init_data(argv[1], data);
+	init_info(argc, argv, info);
+	if (!init_philos(data, info))
+		return (0);
 	i = 0;
-	while (i < data.num_philo)
+	while (i < data->num_philo)
 	{
-		pthread_join(data.threads[i], NULL);
+		pthread_join(data->threads[i], NULL);
 		i++;
 	}
-	free_philo(&data);
+	free_philo(data);
 	return (0);
 }

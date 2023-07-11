@@ -7,7 +7,7 @@ OBJS	= $(SRCS:.c=.o)
 
 CC		= gcc
 
-CCFLAGS = -Werror -Wall -Wextra -g3 -fsanitize=thread
+CCFLAGS = -Werror -Wall -Wextra #-g3 -fsanitize=thread
 
 all:  $(NAME)
 

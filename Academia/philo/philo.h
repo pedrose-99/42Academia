@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:17:16 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/10 13:43:21 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/11 13:43:04 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,28 @@
 
 typedef struct s_info
 {
+	int					num_times_must_eat;
+	int					num_philo;
 	long				time_start;
 	long				time_die;
 	long				time_eat;
 	long				time_sleep;
-	int					num_times_must_eat;
-	pthread_mutex_t		*death_mutex;
+	int					num_eaten;
+	int					can_print;
 	int					death;
-	pthread_mutex_t		*print;
+	int					num_philo_eaten;
+	pthread_mutex_t		death_mutex;
+	pthread_mutex_t		num_eat;
+	pthread_mutex_t		print;
 }			t_info;
 
 typedef struct s_philo
 {
-	int				pos;
 	long			time_finish_eat;
-	int				action;
 	int				num_times_eat;
+	int				*l_fork;
+	int				pos;
+	int				r_fork;
 	t_info			*info;
 	pthread_mutex_t	right_fork;
 	pthread_mutex_t	*left_fork;
@@ -54,23 +60,19 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	long		time_start;
-	int			curr_time;
 	int			num_philo;
-	int			time_die;
-	int			time_eat;
-	int			time_sleep;
-	int			num_times_must_eat;
 	pthread_t	*threads;
 	t_philo		*philos;
 }				t_data;
 
 //init_struct.c
-t_data			init_data(char **argv, int argc);
+void			init_info(int argc, char **argv, t_info *info);
+void			init_data(char *str, t_data *data);
 int				check_args(char **num_param, int argc);
 int				init_philos_threads(t_data *data);
 int				init_mutex_philos(t_data *data);
-void			init_philos(t_data *data);
+int				init_philos(t_data *data, t_info *info);
+int				init_mutex_info(t_info *info);
 
 //philo.c
 void			*live(void *philo);
