@@ -1,7 +1,7 @@
 NAME = philo
 
 SRCS = philo.c philo_utils.c init_struct.c print_actions.c \
-		main.c
+		main.c check_num.c init_info.c
 
 OBJS	= $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 11:08:41 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/11 12:34:42 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:52:23 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,21 @@ int	ft_atoi(const char *str)
 	return (j);
 }
 
-void	free_philo(t_data *data)
+void	free_philo(t_data *data, t_info *info, t_philo *philos)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (i < data->num_philo)
 	{
-		//free(data->threads[i]);
-		pthread_mutex_destroy(&data->philos[i].right_fork);
+		pthread_mutex_destroy(&philos[i].right_fork);
+		printf("AQUIIIII\n");
 		i++;
 	}
-	pthread_mutex_destroy(&data->philos[0].info->death_mutex);
-	pthread_mutex_destroy(&data->philos[0].info->print);
-	free(data->philos);
+	pthread_mutex_destroy(&info->death_mutex);
+	pthread_mutex_destroy(&info->print);
+	pthread_mutex_destroy(&info->num_eat);
+	printf("NANANANANa\n");
+	//free(data->threads);
+	//free(data->philos);
 }
