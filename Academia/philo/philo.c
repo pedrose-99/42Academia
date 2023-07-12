@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/12 12:16:36 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:32:30 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,11 @@ void	*live(void *phil)
 	int		i;
 
 	philo = (t_philo *)phil;
+	printf("El philo es el %i\n", philo->pos);
 	i = philo->pos;
 	if (i % 2 == 0)
 		usleep(500);
+	printf("El JAJASSHSHD es el %i\n", philo->pos);
 	philo->time_finish_eat = get_curr_time();
 	while (1)
 	{

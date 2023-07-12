@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:29:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/12 17:49:08 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:21:27 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,13 @@ int	init_philos_threads(t_data *data)
 			return (0);
 		i++;
 	}
-	printf("antes del main%d\n", data->philos[0].pos);
+	i = 0;
+	while (i < data->num_philo)
+	{
+		printf("La posic es: %d es %d \n", data->philos[i].pos, i);
+		i++;
+	}
+	printf("antes del main%d\n", data->philos[7].pos);
 	return (1);
 }
 
@@ -95,10 +101,13 @@ int	init_philos(t_data *data, t_info *info)
 	int		i;
 
 	i = 0;
-	data->philos = malloc(sizeof(t_philo) * (data->num_philo));
-	data->philos = memset(data->philos, 0, sizeof(t_philo));
+	data->philos = (t_philo*) malloc(sizeof(t_philo) * (data->num_philo));
+	data->philos = memset(data->philos, 0, sizeof(t_philo) * data->num_philo);
 	if (!init_mutex_info(info))
+	{
+		free(data->philos);
 		return (0);
+	}
 	while (i < data->num_philo)
 	{
 		data->philos[i].pos = i;
