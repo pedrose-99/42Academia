@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/13 09:28:58 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/13 10:59:13 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	action_time(int time_sleep, t_philo *philo)
 	while (current_time < end_time && !is_dead(philo))
 	{
 		if (end_time - current_time > 10)
-			usleep(10000);
+			usleep(100);
 		else
-			usleep((end_time - current_time) * 1000);
+			usleep((end_time - current_time) * 100);
 		current_time = get_curr_time() - philo->info->time_start;
 	}
 }
@@ -81,8 +81,6 @@ void	eat(t_philo *philo)
 	fork_left = 0;
 	fork_right = 0;
 	eatseg(philo, fork_left, fork_right);
-	if (is_dead(philo))
-		return ;
 	print_current_time(*philo, EAT);
 	philo->num_times_eat++;
 	philo->time_finish_eat = get_curr_time();
@@ -103,11 +101,9 @@ void	eat(t_philo *philo)
 void	*live(void *phil)
 {
 	t_philo	*philo;
-	int		i;
 
 	philo = (t_philo *)phil;
-	i = philo->pos;
-	if (i % 2 == 0)
+	if (philo->pos % 2 == 0)
 		usleep(500);
 	philo->time_finish_eat = get_curr_time();
 	while (1)
@@ -121,9 +117,7 @@ void	*live(void *phil)
 		if (is_dead(philo))
 			return (NULL);
 		if (check_num_eat(philo))
-		{
 			return (NULL);
-		}
 		print_current_time(*philo, THINK);
 	}
 	return (NULL);

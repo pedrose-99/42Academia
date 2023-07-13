@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:33:17 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/13 09:47:03 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/13 10:21:41 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	t_info	info;
 	int		i;
 
-	atexit(ft_leaks);
+//	atexit(ft_leaks);
 	if (!check_args(argv, argc))
 		return (0);
 	init_data(argv[1], &data);
