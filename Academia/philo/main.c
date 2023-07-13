@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:33:17 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/12 17:29:45 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/13 09:47:03 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,28 @@ int	main(int argc, char **argv)
 	i = 0;
 	while (i < data.num_philo)
 	{
-		pthread_join(data.threads[i], NULL);
+		pthread_join(data.philos[i].thread, NULL);
 		i++;
 	}
-	printf("loqsea\n");
-	printf("data %d\n", data.philos[0].pos);
-	printf("PORQUe cojones %d\n", 2);
-	//free_philo(&data, &info);
+	free_philo(&data, &info);
 	return (0);
 }
+
+
+/*
+	while (1)
+	{
+		i = 0;
+		while (i < data.num_philo)
+		{
+			if (is_dead(&data.philos[i]))
+			{
+				//Terminaar
+				break ;
+			}
+			if (data.philos[i].info->death == 1)
+				break;
+			i++;
+		}
+	}
+*/

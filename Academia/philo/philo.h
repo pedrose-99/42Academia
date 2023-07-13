@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:17:16 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/12 16:52:21 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/13 09:11:41 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_philo
 	int				*l_fork;
 	int				pos;
 	int				r_fork;
+	pthread_t		thread;
 	t_info			*info;
 	pthread_mutex_t	right_fork;
 	pthread_mutex_t	*left_fork;
@@ -62,7 +63,7 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int			num_philo;
-	pthread_t	*threads;
+//	pthread_t	*threads;
 	t_philo		*philos;
 }				t_data;
 
@@ -98,6 +99,6 @@ long			get_curr_time(void);
 //philo_utils.c
 int				check_num(char *num);
 int				ft_atoi(const char *str);
-void			free_philo(t_data *data, t_info *info, t_philo *philos);
+void			free_philo(t_data *data, t_info *info);
 
 #endif
