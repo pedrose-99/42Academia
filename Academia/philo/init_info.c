@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_info.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pserrano <pserrano@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:01:45 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/13 10:40:55 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/07/13 20:00:16 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ void	init_info(int argc, char **argv, t_info *info)
 
 int	init_mutex_info(t_info *info)
 {
-	int	i;
 	int	error;
 
-	i = 0;
 	error = pthread_mutex_init(&info->death_mutex, NULL);
 	if (error)
 		return (0);
