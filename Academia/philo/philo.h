@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:17:16 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/13 10:45:42 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:29:10 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int			num_philo;
-//	pthread_t	*threads;
+	pthread_t	*threads;
 	t_philo		*philos;
 }				t_data;
 
@@ -81,8 +81,8 @@ int				init_mutex_info(t_info *info);
 
 //philo.c
 void			*live(void *philo);
-void			eat(t_philo *philo);
-void			action_time(int time_sleep, t_philo *philo);
+int				eat(t_philo *philo);
+int				action_time(int time_sleep, t_philo *philo);
 int				is_dead(t_philo *philo);
 void			eatseg(t_philo *philo, int fork_left, int fork_right);
 

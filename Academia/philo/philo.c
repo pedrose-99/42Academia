@@ -6,27 +6,42 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/13 10:59:13 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:34:19 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	action_time(int time_sleep, t_philo *philo)
+int	ft_usleep(size_t milliseconds)
+{
+	size_t	start;
+
+	start = get_curr_time();
+	while ((get_curr_time() - start) < milliseconds)
+		usleep(50);
+	return (0);
+}
+
+int	action_time(int time_sleep, t_philo *philo)
 {
 	long	current_time;
 	long	end_time;
+	int		pos;
 
-	current_time = get_curr_time() - philo->info->time_start;
+	current_time = get_curr_time();
 	end_time = current_time + time_sleep;
-	while (current_time < end_time && !is_dead(philo))
+	//printf("Tiempo que tiene que comer %d la pos %d \n", time_sleep, philo->pos + 1);
+	while (get_curr_time() < end_time)
 	{
-		if (end_time - current_time > 10)
-			usleep(100);
-		else
-			usleep((end_time - current_time) * 100);
-		current_time = get_curr_time() - philo->info->time_start;
+		ft_usleep(time_sleep);
+		//printf("curr - slepp %lu \n",end_time - current_time);
+		//current_time = get_curr_time();
 	}
+	printf("Tiempo despues de comer %ld la pos %d \n", get_curr_time() - end_time, philo->pos + 1);
+	//if (is_dead(philo))
+	//	return (0);
+	pos = philo->pos;
+	return (1);
 }
 
 int	is_dead(t_philo *philo)
@@ -73,7 +88,7 @@ void	eatseg(t_philo *philo, int fork_left, int fork_right)
 	}
 }
 
-void	eat(t_philo *philo)
+int	eat(t_philo *philo)
 {
 	int	fork_left;
 	int	fork_right;
@@ -84,17 +99,19 @@ void	eat(t_philo *philo)
 	print_current_time(*philo, EAT);
 	philo->num_times_eat++;
 	philo->time_finish_eat = get_curr_time();
-	action_time(philo->info->time_eat, philo);
-	if (is_dead(philo))
-		return ;
-	if (!check_eaten(philo))
-		print_current_time(*philo, SLEEP);
+	if (action_time(philo->info->time_eat, philo) == 0)
+	{
+		return (0);
+	}
+	//if (!check_eaten(philo))
+	print_current_time(*philo, SLEEP);
 	pthread_mutex_lock(&philo->right_fork);
 	philo->r_fork = 0;
 	pthread_mutex_unlock(&philo->right_fork);
 	pthread_mutex_lock(philo->left_fork);
 	*philo->l_fork = 0;
 	pthread_mutex_unlock(philo->left_fork);
+	return (1);
 }
 
 
@@ -110,11 +127,9 @@ void	*live(void *phil)
 	{
 		if (is_dead(philo))
 			return (NULL);
-		eat(philo);
-		if (is_dead(philo))
+		if (eat(philo) == 0)
 			return (NULL);
-		action_time(philo->info->time_sleep, philo);
-		if (is_dead(philo))
+		if (action_time(philo->info->time_sleep, philo) == 0)
 			return (NULL);
 		if (check_num_eat(philo))
 			return (NULL);

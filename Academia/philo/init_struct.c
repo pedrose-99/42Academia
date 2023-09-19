@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:29:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/13 10:58:51 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:32:44 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	init_data(char *str, t_data *data)
 {
 	data->num_philo = ft_atoi(str);
-	//data->threads = malloc(sizeof(pthread_t));
+	//data->threads = malloc(sizeof(pthread_t *));
 }
 
 int	check_args(char **num_param, int argc)
@@ -50,6 +50,7 @@ int	init_philos_threads(t_data *data)
 	int	i;
 
 	i = 0;
+	//data->threads = malloc(sizeof(pthread_t) * data->num_philo);
 	while (i < data->num_philo)
 	{
 		if (pthread_create(&data->philos[i].thread, NULL, &live,

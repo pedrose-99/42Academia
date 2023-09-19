@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:33:17 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/13 10:21:41 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:32:32 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int argc, char **argv)
 	while (i < data.num_philo)
 	{
 		pthread_join(data.philos[i].thread, NULL);
+		//pthread_join(data.threads[i], NULL);
 		i++;
 	}
 	free_philo(&data, &info);
