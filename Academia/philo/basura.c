@@ -392,3 +392,104 @@ int	main(int argc, char **argv)
 
 
 
+void	eatseg2(t_philo *philo, int fork_left, int fork_right)
+{
+	int	fork_r;
+	int	fork_l;
+
+	fork_r = 0;
+	fork_l = 0;
+	if (philo->pos % 2 == 0)
+	{
+		while (fork_left == 0 || fork_right == 0)
+		{
+			if (fork_r == 0)
+			{
+				pthread_mutex_lock(&philo->right_fork);
+				if (philo->r_fork == 0)
+				{
+					philo->r_fork = 1;
+					fork_right = 1;
+					fork_r = 1;
+					print_current_time(*philo, FORK);
+				}
+				pthread_mutex_unlock(&philo->right_fork);
+			}
+			else
+			{
+				if (*philo->l_fork == 0)
+				{
+					*philo->l_fork = 1;
+					fork_left = 1;
+					print_current_time(*philo, FORK);
+				}
+				pthread_mutex_unlock(philo->left_fork);
+				if (is_dead(philo))
+					return ;
+			}
+		}
+	}
+	else
+	{
+		while (fork_left == 0 || fork_right == 0)
+		{
+			if (fork_l == 0)
+			{
+				if (*philo->l_fork == 0)
+				{
+					*philo->l_fork = 1;
+					fork_left = 1;
+					fork_l = 1;
+					print_current_time(*philo, FORK);
+				}
+				pthread_mutex_unlock(philo->left_fork);
+				if (is_dead(philo))
+					return ;
+			}
+			else
+			{
+				pthread_mutex_lock(&philo->right_fork);
+				if (philo->r_fork == 0)
+				{
+					philo->r_fork = 1;
+					fork_right = 1;
+					print_current_time(*philo, FORK);
+				}
+				pthread_mutex_unlock(&philo->right_fork);
+			}			
+		}
+	}
+}
+
+
+
+
+int	init_philos_threads(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	//data->threads = malloc(sizeof(pthread_t) * data->num_philo);
+	while (i < data->num_philo)
+	{
+		if (data->philos[i].pos % 2 == 0)
+		{
+			if (pthread_create(&data->philos[i].thread, NULL, &live,
+					&(data->philos[i])) != 0)
+				return (0);
+		}
+		i++;
+	}
+	i = 0;
+	while (i < data->num_philo)
+	{
+		if (data->philos[i].pos % 2 == 1)
+		{
+			if (pthread_create(&data->philos[i].thread, NULL, &live,
+					&(data->philos[i])) != 0)
+				return (0);
+		}
+		i++;
+	}
+	return (1);
+}

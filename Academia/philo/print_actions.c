@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:27:15 by pserrano          #+#    #+#             */
-/*   Updated: 2023/07/13 10:45:29 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/09/21 10:29:51 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	print_current_time(t_philo philo, int action)
 {
-	pthread_mutex_lock(&philo.info->print);
+	pthread_mutex_lock(philo.print);
 	if (philo.info->can_print)
 	{
 		if (action == SLEEP)
@@ -38,7 +38,7 @@ void	print_current_time(t_philo philo, int action)
 			printf("%ld ms philo %d has taken a fork\n",
 				get_curr_time() - philo.info->time_start, philo.pos + 1);
 	}
-	pthread_mutex_unlock(&philo.info->print);
+	pthread_mutex_unlock(philo.print);
 }
 
 long	get_curr_time(void)

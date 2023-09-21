@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:29:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/09/19 15:32:44 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/09/21 11:15:37 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,7 @@ int	init_philos(t_data *data, t_info *info)
 
 	i = 0;
 	data->philos = (t_philo *) malloc(sizeof(t_philo) * (data->num_philo));
-	data->philos = memset(data->philos, 0, sizeof(t_philo) * data->num_philo);
-	if (!init_mutex_info(info))
+	if (!init_mutex_info(data))
 	{
 		free(data->philos);
 		return (0);
@@ -106,6 +105,9 @@ int	init_philos(t_data *data, t_info *info)
 		data->philos[i].pos = i;
 		data->philos[i].num_times_eat = 0;
 		data->philos[i].info = info;
+		data->philos[i].death_mutex = &(data->death_mutex);
+		data->philos[i].print = &(data->print);
+		data->philos[i].num_eat = &(data->num_eat);
 		i++;
 	}
 	init_mutex_philos(data);

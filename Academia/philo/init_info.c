@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:01:45 by pserrano          #+#    #+#             */
-/*   Updated: 2023/09/19 15:32:37 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/09/21 10:36:04 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,17 @@ void	init_info(int argc, char **argv, t_info *info)
 	info->time_start = get_curr_time();
 }
 
-int	init_mutex_info(t_info *info)
+int	init_mutex_info(t_data *data)
 {
 	int	error;
 
-	error = pthread_mutex_init(&info->death_mutex, NULL);
+	error = pthread_mutex_init(&(data->death_mutex), NULL);
 	if (error)
 		return (0);
-	error = pthread_mutex_init(&info->print, NULL);
+	error = pthread_mutex_init(&(data->print), NULL);
 	if (error)
 		return (0);
-	error = pthread_mutex_init(&info->num_eat, NULL);
+	error = pthread_mutex_init(&(data->num_eat), NULL);
 	if (error)
 		return (0);
 	return (1);
