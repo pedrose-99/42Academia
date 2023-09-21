@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 11:08:41 by pserrano          #+#    #+#             */
-/*   Updated: 2023/09/21 10:47:04 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:43:36 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,11 @@ void	free_philo(t_data *data)
 	int		i;
 
 	i = 0;
-	/*
 	while (i < data->num_philo)
 	{
 		pthread_mutex_destroy(&data->philos[i].right_fork);
 		i++;
-	}*/
+	}
 	pthread_mutex_destroy(&data->death_mutex);
 	pthread_mutex_destroy(&data->print);
 	pthread_mutex_destroy(&data->num_eat);

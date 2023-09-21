@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:33:17 by pserrano          #+#    #+#             */
-/*   Updated: 2023/09/21 10:42:56 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:47:11 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ int	main(int argc, char **argv)
 	if (!check_args(argv, argc))
 		return (0);
 	init_data(argv[1], &data);
+	data.threads = malloc(sizeof(pthread_t) * data.num_philo);
 	init_info(argc, argv, &info);
 	if (!init_philos(&data, &info))
 		return (0);
 	i = 0;
 	while (i < data.num_philo)
 	{
-		pthread_join(data.philos[i].thread, NULL);
-		//pthread_join(data.threads[i], NULL);
+		//pthread_join(data.philos[i].thread, NULL);
+		pthread_join(data.threads[i], NULL);
 		i++;
 	}
 	free_philo(&data);

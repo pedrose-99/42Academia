@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:17:16 by pserrano          #+#    #+#             */
-/*   Updated: 2023/09/21 11:33:41 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:50:39 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,19 @@ typedef struct s_info
 	int					num_eaten;
 	int					can_print;
 	int					death;
-	int					unlock_dead;
 	int					num_philo_eaten;
-/*	pthread_mutex_t		death_mutex;
-	pthread_mutex_t		num_eat;
-	pthread_mutex_t		print;*/
 }			t_info;
 
 typedef struct s_philo
 {
-	long			time_finish_eat;
-	int				num_times_eat;
-	int				*l_fork;
-	int				pos;
-	int				r_fork;
-	pthread_t		thread;
-	t_info			*info;
-	pthread_mutex_t	right_fork;
-	pthread_mutex_t	*left_fork;
+	long				time_finish_eat;
+	int					num_times_eat;
+	int					*l_fork;
+	int					pos;
+	int					r_fork;
+	t_info				*info;
+	pthread_mutex_t		right_fork;
+	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*death_mutex;
 	pthread_mutex_t		*num_eat;
 	pthread_mutex_t		*print;
@@ -69,7 +64,7 @@ typedef struct s_data
 	pthread_t			*threads;
 	t_philo				*philos;
 	pthread_mutex_t		death_mutex;
-	pthread_mutex_t		num_eat;
+	pthread_mutex_t		num_eat; //Cambiar esta por la misma que death
 	pthread_mutex_t		print;
 }				t_data;
 

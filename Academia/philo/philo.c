@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/09/21 11:42:42 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:48:44 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_usleep(size_t milliseconds)
 
 	start = get_curr_time();
 	while ((get_curr_time() - start) < milliseconds)
-		usleep(50);
+		usleep(500);
 	return (0);
 }
 
@@ -33,11 +33,11 @@ int	action_time(int time_sleep, t_philo *philo)
 	//printf("Tiempo que tiene que comer %ld la pos %d \n",  end_time, philo->pos + 1);
 	while (get_curr_time() < end_time)
 	{
-		ft_usleep(1);
+		usleep(100);
 		//printf("curr - slepp %lu \n",end_time - current_time);
 		//current_time = get_curr_time();
 	}
-//	printf("Tiempo despues de comer %ld la pos %d \n", get_curr_time() - end_time, philo->pos + 1);
+	//printf("Tiempo despues de comer %ld la pos %d \n", get_curr_time() - end_time, philo->pos + 1);
 	//if (is_dead(philo))
 	//	return (0);
 	pos = philo->pos;
@@ -91,7 +91,7 @@ void	eatsegimpar(t_philo *philo, int fork_left, int fork_right)
 		}
 		if (is_dead(philo))
 			return ;
-		//usleep(50);
+		usleep(50);
 	}
 }
 
@@ -123,7 +123,7 @@ void	eatsegpar(t_philo *philo, int fork_left, int fork_right)
 		}
 		if (is_dead(philo))
 			return ;
-		//usleep(50);
+		usleep(50);
 	}
 }
 
@@ -174,8 +174,8 @@ void	*live(void *phil)
 			return (NULL);
 		if (action_time(philo->info->time_sleep, philo) == 0)
 			return (NULL);
-		if (check_num_eat(philo))
-			return (NULL);
+	//	if (check_num_eat(philo))
+	//		return (NULL);
 		print_current_time(*philo, THINK);
 	}
 	return (NULL);
