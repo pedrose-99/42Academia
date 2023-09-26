@@ -1,0 +1,121 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
+/*   Updated: 2023/09/26 14:01:50 by pserrano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
+
+int	action_time(int time_sleep, t_philo *philo)
+{
+	long	current_time;
+	long	end_time;
+
+	current_time = get_curr_time();
+	end_time = current_time + time_sleep;
+	while (get_curr_time() < end_time)
+	{
+		usleep(100);
+		if (is_dead(philo))
+		{
+			pthread_mutex_unlock(&philo->right_fork);
+			pthread_mutex_unlock(philo->left_fork);
+			return (0);
+		}
+	}
+	return (1);
+}
+
+int	is_dead(t_philo *philo)
+{
+	pthread_mutex_lock(philo->death_mutex);
+	if (philo->info->death)
+	{
+		pthread_mutex_unlock(philo->death_mutex);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->death_mutex);
+	return (0);
+}
+
+int	eatsegimpar(t_philo *philo)
+{
+	pthread_mutex_lock(philo->left_fork);
+	if (is_dead(philo) || check_eaten(philo))
+		return (0);
+	print_current_time(*philo, FORK);
+	pthread_mutex_lock(&philo->right_fork);
+	if (is_dead(philo) || check_eaten(philo))
+		return (0);
+	print_current_time(*philo, FORK);
+	print_current_time(*philo, EAT);
+	if (action_time(philo->info->time_eat, philo) == 0)
+		return (0);
+	philo->num_times_eat++;
+	return (1);
+}
+
+int	eatsegpar(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->right_fork);
+	pthread_mutex_lock(philo->left_fork);
+	print_current_time(*philo, EAT);
+	if (action_time(philo->info->time_eat, philo) == 0)
+		return (0);
+	philo->num_times_eat++;
+	return (1);
+}
+
+int	eat(t_philo *philo)
+{
+	if (philo->pos % 2 == 0)
+	{
+		if (eatsegimpar(philo) == 0)
+			return (0);
+	}
+	else
+	{
+		if (eatsegimpar(philo) == 0)
+			return (0);
+	}
+	philo->time_finish_eat = get_curr_time();
+	if (check_eaten(philo))
+	{
+		pthread_mutex_unlock(&philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
+		return (0);
+	}
+	print_current_time(*philo, SLEEP);
+	pthread_mutex_unlock(&philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
+	return (1);
+}
+
+void	*live(void *phil)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)phil;
+	if (philo->pos % 2 == 0)
+		usleep(500);
+	philo->time_finish_eat = get_curr_time();
+	while (1)
+	{
+		if (is_dead(philo))
+			return (NULL);
+		if (eat(philo) == 0)
+			return (NULL);
+		if (action_time(philo->info->time_sleep, philo) == 0)
+			return (NULL);
+		print_current_time(*philo, THINK);
+		if (check_eaten(philo))
+			return (NULL);
+	}
+	return (NULL);
+}
