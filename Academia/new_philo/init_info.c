@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:01:45 by pserrano          #+#    #+#             */
-/*   Updated: 2023/09/26 11:00:50 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/10/03 11:58:07 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_info(int argc, char **argv, t_info *info)
 		info->num_times_must_eat = ft_atoi(argv[5]);
 	info->can_print = 1;
 	info->num_philo = ft_atoi(argv[1]);
-	info->time_die = ft_atoi(argv[2]);
+	info->time_die = ft_atoi(argv[2]) + 1;
 	info->time_eat = ft_atoi(argv[3]);
 	info->time_sleep = ft_atoi(argv[4]);
 	info->death = 0;

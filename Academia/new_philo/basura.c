@@ -469,12 +469,11 @@ int	init_philos_threads(t_data *data)
 	int	i;
 
 	i = 0;
-	//data->threads = malloc(sizeof(pthread_t) * data->num_philo);
 	while (i < data->num_philo)
 	{
 		if (data->philos[i].pos % 2 == 0)
 		{
-			if (pthread_create(&data->philos[i].thread, NULL, &live,
+			if (pthread_create(&(data->threads[i]), NULL, &live,
 					&(data->philos[i])) != 0)
 				return (0);
 		}
@@ -483,9 +482,9 @@ int	init_philos_threads(t_data *data)
 	i = 0;
 	while (i < data->num_philo)
 	{
-		if (data->philos[i].pos % 2 == 1)
+		if (data->philos[i].pos % 2 != 0)
 		{
-			if (pthread_create(&data->philos[i].thread, NULL, &live,
+			if (pthread_create(&(data->threads[i]), NULL, &live,
 					&(data->philos[i])) != 0)
 				return (0);
 		}

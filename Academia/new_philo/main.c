@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:33:17 by pserrano          #+#    #+#             */
-/*   Updated: 2023/09/26 14:11:59 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/10/03 11:36:18 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int argc, char **argv)
 	t_info	info;
 	int		i;
 
-//	atexit(ft_leaks);
+	atexit(ft_leaks);
 	if (!check_args(argv, argc))
 		return (0);
 	init_data(argv[1], &data);
@@ -65,6 +65,7 @@ int	main(int argc, char **argv)
 	{
 		if (monitoring(data) == 0)
 			break ;
+		usleep(500);
 	}
 	i = 0;
 	while (i < data.num_philo)

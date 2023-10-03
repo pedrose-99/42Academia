@@ -6,13 +6,25 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:27:15 by pserrano          #+#    #+#             */
-/*   Updated: 2023/09/26 12:22:59 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/10/03 10:52:44 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//CRear int y devolver int para gestionar el escribir
+int	check_write(t_philo *philo)
+{
+	int	can_print;
+
+	can_print = 1;
+	printf("%ld ms philo %d is eating\n",
+		get_curr_time() - philo->info->time_start, philo->pos + 1);
+	pthread_mutex_lock(philo->eat_mutex);
+	if (philo->info->num_philo_eaten == philo->info->num_philo)
+		can_print = 0;
+	pthread_mutex_unlock(philo->eat_mutex);
+	return (can_print);
+}
 
 void	print_current_time(t_philo philo, int action)
 {
@@ -26,8 +38,7 @@ void	print_current_time(t_philo philo, int action)
 			printf("%ld ms philo %d is thinking\n",
 				get_curr_time() - philo.info->time_start, philo.pos + 1);
 		else if (action == EAT)
-			printf("%ld ms philo %d is eating\n",
-				get_curr_time() - philo.info->time_start, philo.pos + 1);
+			philo.info->can_print = check_write(&philo);
 		else if (action == DEATH)
 		{
 			printf("%ld ms philo %d died\n",
