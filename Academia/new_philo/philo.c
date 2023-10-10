@@ -6,43 +6,11 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/10/03 12:06:23 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/10/10 08:45:40 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	action_time(int time_sleep, t_philo *philo)
-{
-	long	current_time;
-	long	end_time;
-
-	current_time = get_curr_time();
-	end_time = current_time + time_sleep;
-	while (get_curr_time() < end_time)
-	{
-		usleep(500);
-		if (is_dead(philo) || check_eaten(philo))
-		{
-			pthread_mutex_unlock(&philo->right_fork);
-			pthread_mutex_unlock(philo->left_fork);
-			return (0);
-		}
-	}
-	return (1);
-}
-
-int	is_dead(t_philo *philo)
-{
-	pthread_mutex_lock(philo->death_mutex);
-	if (philo->info->death)
-	{
-		pthread_mutex_unlock(philo->death_mutex);
-		return (1);
-	}
-	pthread_mutex_unlock(philo->death_mutex);
-	return (0);
-}
 
 int	eatsegimpar(t_philo *philo)
 {
@@ -80,18 +48,31 @@ int	eatsegpar(t_philo *philo)
 	return (1);
 }
 
-int	eat(t_philo *philo)
+int	check_condition(t_philo *philo)
 {
-	if (philo->pos % 2 == 0)
+	if (philo->info->num_philo > 50)
 	{
-		if (eatsegimpar(philo) == 0)
-			return (0);
+		if (philo->pos % 2 == 0)
+		{
+			if (eatsegimpar(philo) == 0)
+				return (0);
+		}
+		else
+		{
+			if (eatsegpar(philo) == 0)
+				return (0);
+		}
 	}
 	else
-	{
-		if (eatsegpar(philo) == 0)
+		if (eatsegimpar(philo) == 0)
 			return (0);
-	}
+	return (1);
+}
+
+int	eat(t_philo *philo)
+{
+	if (check_condition(philo) == 0)
+		return (0);
 	if (check_eaten(philo))
 	{
 		pthread_mutex_unlock(&philo->right_fork);

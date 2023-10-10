@@ -27,4 +27,4 @@ thread: CCFLAGS += -fsanitize=thread
 thread: CCFLAGS += -g3
 thread: re
 
-.PHONY: all clean fclean re 
+.PHONY: all clean fclean re
