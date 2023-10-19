@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:29:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/10/03 11:44:19 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/10/14 09:57:25 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int	init_philos(t_data *data, t_info *info)
 	}
 	while (i < data->num_philo)
 	{
+		pthread_mutex_init(&(data->philos[i].mutex_time_eat), NULL);
 		data->philos[i].pos = i;
 		data->philos[i].num_times_eat = 0;
 		data->philos[i].info = info;

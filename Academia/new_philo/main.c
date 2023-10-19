@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 17:33:17 by pserrano          #+#    #+#             */
-/*   Updated: 2023/10/10 10:28:34 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:20:21 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_leaks()
 int	is_philo_dead(t_philo *philo)
 {
 	pthread_mutex_lock(philo->death_mutex);
+	pthread_mutex_lock(&philo->mutex_time_eat);
 	if (get_curr_time() - philo->time_finish_eat >= philo->info->time_die)
 	{
 		print_current_time(*philo, DEATH);
@@ -29,6 +30,7 @@ int	is_philo_dead(t_philo *philo)
 		pthread_mutex_unlock(&philo->right_fork);
 		return (1);
 	}
+	pthread_mutex_unlock(&philo->mutex_time_eat);
 	pthread_mutex_unlock(philo->death_mutex);
 	return (0);
 }
@@ -53,7 +55,7 @@ int	main(int argc, char **argv)
 	t_info	info;
 	int		i;
 
-	atexit(ft_leaks);
+//	atexit(ft_leaks);
 	if (!check_args(argv, argc))
 		return (0);
 	init_data(argv[1], &data);

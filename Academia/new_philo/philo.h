@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:17:16 by pserrano          #+#    #+#             */
-/*   Updated: 2023/10/03 10:24:08 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:14:23 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_philo
 	int					pos;
 	int					r_fork;
 	t_info				*info;
+	pthread_mutex_t		mutex_time_eat;
 	pthread_mutex_t		right_fork;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*death_mutex;
@@ -88,7 +89,7 @@ int				is_dead(t_philo *philo);
 
 
 //check_num.c
-int				check_eaten(t_philo *philo);
+void			check_eaten(t_philo *philo);
 
 
 //print_actions.c

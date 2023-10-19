@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:27:15 by pserrano          #+#    #+#             */
-/*   Updated: 2023/10/10 08:45:47 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:16:11 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	check_write(t_philo *philo)
 	can_print = 1;
 	printf("%ld ms philo %d is eating\n",
 		get_curr_time() - philo->info->time_start, philo->pos + 1);
+	check_eaten(philo);
 	pthread_mutex_lock(philo->eat_mutex);
 	if (philo->info->num_philo_eaten == philo->info->num_philo)
 	{
@@ -75,7 +76,7 @@ int	action_time(int time_sleep, t_philo *philo)
 	while (get_curr_time() < end_time)
 	{
 		usleep(500);
-		if (is_dead(philo) || check_eaten(philo))
+		if (is_dead(philo))
 		{
 			pthread_mutex_unlock(&philo->right_fork);
 			pthread_mutex_unlock(philo->left_fork);

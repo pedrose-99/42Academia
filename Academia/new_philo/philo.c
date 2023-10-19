@@ -6,38 +6,40 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:16:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/10/10 08:45:40 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:15:31 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	eatsegimpar(t_philo *philo)
+int	eatimpar(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
-	if (is_dead(philo) || check_eaten(philo))
+	if (is_dead(philo))
 		return (0);
 	print_current_time(*philo, FORK);
 	pthread_mutex_lock(&philo->right_fork);
-	if (is_dead(philo) || check_eaten(philo))
+	if (is_dead(philo))
 		return (0);
 	print_current_time(*philo, FORK);
 	philo->num_times_eat++;
 	print_current_time(*philo, EAT);
+	pthread_mutex_lock(&philo->mutex_time_eat);
 	philo->time_finish_eat = get_curr_time();
+	pthread_mutex_unlock(&philo->mutex_time_eat);
 	if (action_time(philo->info->time_eat, philo) == 0)
 		return (0);
 	return (1);
 }
 
-int	eatsegpar(t_philo *philo)
+int	eatpar(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->right_fork);
-	if (is_dead(philo) || check_eaten(philo))
+	if (is_dead(philo))
 		return (0);
 	print_current_time(*philo, FORK);
 	pthread_mutex_lock(philo->left_fork);
-	if (is_dead(philo) || check_eaten(philo))
+	if (is_dead(philo))
 		return (0);
 	print_current_time(*philo, FORK);
 	philo->num_times_eat++;
@@ -54,17 +56,17 @@ int	check_condition(t_philo *philo)
 	{
 		if (philo->pos % 2 == 0)
 		{
-			if (eatsegimpar(philo) == 0)
+			if (eatimpar(philo) == 0)
 				return (0);
 		}
 		else
 		{
-			if (eatsegpar(philo) == 0)
+			if (eatpar(philo) == 0)
 				return (0);
 		}
 	}
 	else
-		if (eatsegimpar(philo) == 0)
+		if (eatimpar(philo) == 0)
 			return (0);
 	return (1);
 }
@@ -73,12 +75,6 @@ int	eat(t_philo *philo)
 {
 	if (check_condition(philo) == 0)
 		return (0);
-	if (check_eaten(philo))
-	{
-		pthread_mutex_unlock(&philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
-		return (0);
-	}
 	print_current_time(*philo, SLEEP);
 	pthread_mutex_unlock(&philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
@@ -92,16 +88,18 @@ void	*live(void *phil)
 	philo = (t_philo *)phil;
 	if (philo->pos % 2 == 0)
 		usleep(500);
+	pthread_mutex_lock(&philo->mutex_time_eat);
 	philo->time_finish_eat = get_curr_time();
+	pthread_mutex_unlock(&philo->mutex_time_eat);
 	while (1)
 	{
-		if (check_eaten(philo) || is_dead(philo))
+		if (is_dead(philo))
 			return (NULL);
 		if (eat(philo) == 0)
 			return (NULL);
 		if (action_time(philo->info->time_sleep, philo) == 0)
 			return (NULL);
-		if (check_eaten(philo) || is_dead(philo))
+		if (is_dead(philo))
 			return (NULL);
 		print_current_time(*philo, THINK);
 	}
