@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 11:08:41 by pserrano          #+#    #+#             */
-/*   Updated: 2023/09/21 14:43:36 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:02:00 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ int	check_num(char *num)
 {
 	int	i;
 
+	i = 0;
+	while (num[i])
+		i++;
+	if (i == 0)
+		return (0);
 	i = 0;
 	while (num[i])
 	{
@@ -79,10 +84,12 @@ void	free_philo(t_data *data)
 	while (i < data->num_philo)
 	{
 		pthread_mutex_destroy(&data->philos[i].right_fork);
+		pthread_mutex_destroy(&data->philos[i].mutex_time_eat);
 		i++;
 	}
 	pthread_mutex_destroy(&data->death_mutex);
 	pthread_mutex_destroy(&data->print);
-	pthread_mutex_destroy(&data->num_eat);
+	pthread_mutex_destroy(&data->eat_mutex);
 	free(data->philos);
+	free(data->threads);
 }

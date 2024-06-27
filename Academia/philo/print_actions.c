@@ -6,13 +6,31 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 11:27:15 by pserrano          #+#    #+#             */
-/*   Updated: 2023/09/21 10:29:51 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:16:11 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//CRear int y devolver int para gestionar el escribir
+int	check_write(t_philo *philo)
+{
+	int	can_print;
+
+	can_print = 1;
+	printf("%ld ms philo %d is eating\n",
+		get_curr_time() - philo->info->time_start, philo->pos + 1);
+	check_eaten(philo);
+	pthread_mutex_lock(philo->eat_mutex);
+	if (philo->info->num_philo_eaten == philo->info->num_philo)
+	{
+		pthread_mutex_lock(philo->death_mutex);
+		can_print = 0;
+		philo->info->death = 1;
+		pthread_mutex_unlock(philo->death_mutex);
+	}
+	pthread_mutex_unlock(philo->eat_mutex);
+	return (can_print);
+}
 
 void	print_current_time(t_philo philo, int action)
 {
@@ -26,8 +44,7 @@ void	print_current_time(t_philo philo, int action)
 			printf("%ld ms philo %d is thinking\n",
 				get_curr_time() - philo.info->time_start, philo.pos + 1);
 		else if (action == EAT)
-			printf("%ld ms philo %d is eating\n",
-				get_curr_time() - philo.info->time_start, philo.pos + 1);
+			philo.info->can_print = check_write(&philo);
 		else if (action == DEATH)
 		{
 			printf("%ld ms philo %d died\n",
@@ -47,4 +64,36 @@ long	get_curr_time(void)
 
 	gettimeofday(&current_time, NULL);
 	return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
+}
+
+int	action_time(int time_sleep, t_philo *philo)
+{
+	long	current_time;
+	long	end_time;
+
+	current_time = get_curr_time();
+	end_time = current_time + time_sleep;
+	while (get_curr_time() < end_time)
+	{
+		usleep(500);
+		if (is_dead(philo))
+		{
+			pthread_mutex_unlock(&philo->right_fork);
+			pthread_mutex_unlock(philo->left_fork);
+			return (0);
+		}
+	}
+	return (1);
+}
+
+int	is_dead(t_philo *philo)
+{
+	pthread_mutex_lock(philo->death_mutex);
+	if (philo->info->death)
+	{
+		pthread_mutex_unlock(philo->death_mutex);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->death_mutex);
+	return (0);
 }

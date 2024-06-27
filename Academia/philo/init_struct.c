@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:29:39 by pserrano          #+#    #+#             */
-/*   Updated: 2023/09/21 14:42:10 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:22:23 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,6 @@ int	init_philos_threads(t_data *data)
 	i = 0;
 	while (i < data->num_philo)
 	{
-	/*	if (pthread_create(&data->philos[i].thread, NULL, &live,
-				&(data->philos[i])) != 0)
-			return (0);*/
 		if (pthread_create(&(data->threads[i]), NULL, &live,
 				&(data->philos[i])) != 0)
 			return (0);
@@ -103,15 +100,16 @@ int	init_philos(t_data *data, t_info *info)
 	}
 	while (i < data->num_philo)
 	{
+		pthread_mutex_init(&(data->philos[i].mutex_time_eat), NULL);
 		data->philos[i].pos = i;
 		data->philos[i].num_times_eat = 0;
 		data->philos[i].info = info;
 		data->philos[i].death_mutex = &(data->death_mutex);
 		data->philos[i].print = &(data->print);
-		data->philos[i].num_eat = &(data->num_eat);
+		data->philos[i].eat_mutex = &(data->eat_mutex);
+		data->philos[i].time_finish_eat = get_curr_time();
 		i++;
 	}
 	init_mutex_philos(data);
 	return (1);
 }
-

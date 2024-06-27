@@ -7,20 +7,24 @@ OBJS	= $(SRCS:.c=.o)
 
 CC		= gcc
 
-CCFLAGS = -Werror -Wall -Wextra #-g3 -fsanitize=thread
+CCFLAGS = -Werror -Wall -Wextra
 
 all:  $(NAME)
 
 $(NAME): $(OBJS)
-			$(CC) $(CCFLAGS) $(OBJS) -o $(NAME)
+			$(CC) $(CCFLAGS) $(OBJS) -o $(NAME) 
 
 %.o: %.c
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 clean:
 		rm -f $(OBJS)
-fclean:
+fclean: clean
 		rm -f $(NAME)
 re: fclean all
+
+thread: CCFLAGS += -fsanitize=thread
+thread: CCFLAGS += -g3
+thread: re
 
 .PHONY: all clean fclean re 

@@ -6,7 +6,7 @@
 /*   By: pserrano <pserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 10:17:16 by pserrano          #+#    #+#             */
-/*   Updated: 2023/09/21 14:50:39 by pserrano         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:22:56 by pserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,14 @@
 
 typedef struct s_info
 {
-	int					num_times_must_eat;
 	int					num_philo;
 	long				time_start;
 	long				time_die;
 	long				time_eat;
 	long				time_sleep;
-	int					num_eaten;
 	int					can_print;
 	int					death;
+	int					num_times_must_eat;
 	int					num_philo_eaten;
 }			t_info;
 
@@ -51,10 +50,11 @@ typedef struct s_philo
 	int					pos;
 	int					r_fork;
 	t_info				*info;
+	pthread_mutex_t		mutex_time_eat;
 	pthread_mutex_t		right_fork;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*death_mutex;
-	pthread_mutex_t		*num_eat;
+	pthread_mutex_t		*eat_mutex;
 	pthread_mutex_t		*print;
 }				t_philo;
 
@@ -64,7 +64,7 @@ typedef struct s_data
 	pthread_t			*threads;
 	t_philo				*philos;
 	pthread_mutex_t		death_mutex;
-	pthread_mutex_t		num_eat; //Cambiar esta por la misma que death
+	pthread_mutex_t		eat_mutex;
 	pthread_mutex_t		print;
 }				t_data;
 
@@ -87,11 +87,8 @@ int				action_time(int time_sleep, t_philo *philo);
 int				is_dead(t_philo *philo);
 //void			eatseg(t_philo *philo, int fork_left, int fork_right);
 
-
 //check_num.c
-int				check_eaten(t_philo *philo);
-int				check_num_eat(t_philo *philo);
-
+void			check_eaten(t_philo *philo);
 
 //print_actions.c
 void			print_current_time(t_philo philo, int action);
